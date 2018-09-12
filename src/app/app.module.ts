@@ -9,10 +9,43 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+
+import { FileSystemReducer } from './store/FileSystem/FileSystem.reducer';
+import { FileSystemEffects } from './store/FileSystem/FileSystem.effects';
+
+import { MainReducer } from './store/Main/Main.reducer';
+import { MainEffects } from './store/Main/Main.effects';
+
+declare module '@ngrx/store' {
+  interface Action {
+    type: string;
+    payload?: any;
+  }
+}
+
+
+declare global {
+  interface Window { require: any; }
+}
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    StoreModule.forRoot({
+      FileSystemState: FileSystemReducer,
+      MainState: MainReducer
+    }),
+    EffectsModule.forRoot([
+      FileSystemEffects,
+      MainEffects
+    ])
+  ],
   providers: [
     StatusBar,
     SplashScreen,
