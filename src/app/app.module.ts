@@ -18,10 +18,11 @@ import { FileSystemEffects } from './store/FileSystem/FileSystem.effects';
 import { MainReducer } from './store/Main/Main.reducer';
 import { MainEffects } from './store/Main/Main.effects';
 
+import { ActionChain } from '../app/model/ActionChain.class';
 declare module '@ngrx/store' {
   interface Action {
     type: string;
-    payload?: any;
+    chain?: ActionChain;
   }
 }
 

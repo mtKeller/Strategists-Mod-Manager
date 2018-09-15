@@ -8,6 +8,7 @@ import '../../helpers/rxjs-operators';
 import * as FileSystemActions from './FileSystem.actions';
 
 const fs = window.require('mz/fs');
+const { ipcRenderer } = window.require('electron');
 
 @Injectable()
   export class FileSystemEffects {
@@ -17,35 +18,49 @@ const fs = window.require('mz/fs');
         FileSystemReadFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.READ_FILE)
             .map(action => {
-                console.log(action.type);
-                fs.readFile(action.payload.data)
-                    .then(data => {
-                        if (action.payload.nextAction) {
-                            this.store.dispatch(new action.payload.nextAction(data));
-                        } else {
-                            this.store.dispatch(new FileSystemActions.ReadFileSuccess(data.toString()));
-                        }
-                    });
+                ipcRenderer.send('READ_FILE', action.chain.payload);
+                ipcRenderer.once('FILE_READ', (event, args) => {
+                    if (args === false) {
+                        this.store.dispatch(action.chain.failed(args));
+                    } else {
+                        this.store.dispatch(action.chain.success(args));
+                    }
+                });
                 return new FileSystemActions.FileSystemSuccess;
             })
-            .catch(err => {
+            .catch((err, caught) => {
                 this.store.dispatch(new FileSystemActions.FileSystemFailure(err));
-                return null;
+                return caught;
             });
     @Effect()
-        FileSystemRenameFile$: Observable<any> = this.actions$
-            .ofType(FileSystemActions.READ_FILE)
+        FileSystemReadFileSuccess$ = this.actions$
+            .ofType(FileSystemActions.READ_FILE_SUCCESS)
             .map(action => {
-                console.log(action.type);
-                fs.readFile(action.payload)
-                    .then(data => {
-                        this.store.dispatch(new FileSystemActions.ReadFileSuccess(data.toString()));
-                        console.log('File System Success', data.toString());
-                    });
+                this.store.dispatch(action.chain.success());
                 return new FileSystemActions.FileSystemSuccess;
-            })
-            .catch(err => {
-                this.store.dispatch(new FileSystemActions.FileSystemFailure(err));
-                return null;
+            });
+    @Effect()
+        FileSystemWriteFile$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.WRITE_FILE)
+            .map(action => {
+                ipcRenderer.send('WRITE_FILE', action.chain.payload);
+                ipcRenderer.once('WROTE_FILE', (event, args) => {
+                    if (args === false) {
+                        this.store.dispatch(action.chain.failed(args));
+                    } else {
+                        this.store.dispatch(action.chain.success(args));
+                    }
+                });
+                return new FileSystemActions.FileSystemSuccess;
+            });
+    @Effect()
+        FileSystemGetDirectories$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.GET_DIRECTORIES)
+            .map(action => {
+                ipcRenderer.send('READ_DIR', action.chain.payload);
+                ipcRenderer.once('DIR_READ', (err, args) => {
+                    this.store.dispatch(action.chain.success(args));
+                });
+                return new FileSystemActions.FileSystemSuccess();
             });
 }

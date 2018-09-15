@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+import {ActionChain} from '../../model/ActionChain.class';
+
 export const INIT_APP = '[MAIN] INIT_APP';
 
 export class InitApp implements Action {
@@ -32,7 +34,38 @@ export class SaveStateSuccess implements Action {
 
 export const LOAD_STATE = '[MAIN] LOAD_STATE';
 
+export class LoadState implements Action {
+    readonly type = LOAD_STATE;
+    constructor(public chain: ActionChain = null) { }
+}
+
 export const LOAD_STATE_SUCCESS = '[MAIN] LOAD_STATE_SUCCESS';
+
+export class LoadStateSuccess implements Action {
+    readonly type = LOAD_STATE_SUCCESS;
+    constructor(public chain: ActionChain = null) { }
+}
+
+export const GET_MHW_DIRECTORY_PATH = '[MAIN] GET_MHW_DIRECTORY_PATH';
+
+export class GetMhwDirectoryPath implements Action {
+    readonly type = GET_MHW_DIRECTORY_PATH;
+    constructor(public chain: ActionChain = null) { }
+}
+
+export const GET_MHW_DIRECTORY_PATH_SUCCESS = '[MAIN] GET_MHW_DIRECTORY_PATH_SUCCESS';
+
+export class GetMhwDirectoryPathSuccess implements Action {
+    readonly type = GET_MHW_DIRECTORY_PATH_SUCCESS;
+    constructor(public chain: ActionChain = null) { }
+}
+
+export const GET_MHW_DIRECTORY_PATH_FAILED = '[MAIN] GET_MHW_DIRECTORY_PATH_FAILED';
+
+export class GetMhwDirectoryPathFailed implements Action {
+    readonly type = GET_MHW_DIRECTORY_PATH;
+    constructor(public chain: ActionChain = null) { }
+}
 
 export const MAIN_SUCCESS = '[MAIN] MAIN_SUCCESS';
 
@@ -42,14 +75,10 @@ export class MainSuccess implements Action {
 
 export const MAIN_FAILED = '[MAIN] MAIN_FAILED';
 
-export interface MainError {
-    failedAction: string;
-    errorContents: any;
-}
-
 export class MainFailed implements Action {
     readonly type = MAIN_FAILED;
-    constructor(public payload: MainError = null) { }
+    constructor(public chain: ActionChain = null) { }
 }
 
-export type All = InitApp | InitAppSuccess | CloseWindow | SaveState | MainSuccess | MainFailed;
+export type All = InitApp | InitAppSuccess | CloseWindow | SaveState | MainSuccess | MainFailed |
+    GetMhwDirectoryPath | GetMhwDirectoryPathSuccess | GetMhwDirectoryPathFailed;
