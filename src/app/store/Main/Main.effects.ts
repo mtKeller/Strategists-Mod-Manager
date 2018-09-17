@@ -34,10 +34,22 @@ const { ipcRenderer } = window.require('electron');
             .ofType(MainActions.INIT_APP)
             .map(action => {
                 console.log('Testing action chain');
+                // TIER 8
+                const ActionNodeInitDirWatch: ActionNode = {
+                    initAction: new MainActions.InitDirWatch(),
+                    successAction: null,
+                    failedAction: null
+                };
+                // TIER 7
+                const ActionNodeInitSetCurrentDirs: ActionNode = {
+                    initAction: new MainActions.SetMhwMappedDir(),
+                    successAction: ActionNodeInitDirWatch,
+                    failedAction: null
+                };
                 // TIER 6
                 const ActionNodeGetDir: ActionNode = {
                     initAction: new FileSystemActions.GetDirectories(),
-                    successAction: null,
+                    successAction: ActionNodeInitSetCurrentDirs,
                     failedAction: null
                 };
                 // TIER 5
@@ -137,6 +149,60 @@ const { ipcRenderer } = window.require('electron');
                 return action.chain.success(action.chain.payload + '/nativePC/');
             });
     @Effect()
+        MainDirWatchInit$: Observable<any> = this.actions$
+            .ofType(MainActions.INIT_DIR_WATCH)
+            .map(action => {
+                ipcRenderer.send('INIT_DIR_WATCH', null);
+                ipcRenderer.on('DIR_CHANGED', (err, args) => {
+                    // if (args === 'nativePC') {
+                    //     console.log('CHANGE TO NATIVEPC');
+                    // } else if (args === 'modFolder') {
+                    //     console.log('CHANGE TO MODFOLDER');
+                    // }
+                    const ActionNodeRemapSuccess: ActionNode = {
+                        initAction: new FileSystemActions.GetDirectoriesSuccess(),
+                        successAction: null,
+                        failedAction: null
+                    };
+                    const ActionNodeRemap: ActionNode = {
+                        initAction: new FileSystemActions.GetDirectories(),
+                        successAction: ActionNodeRemapSuccess,
+                        failedAction: null
+                    };
+                    const ActionNodeEmit: ActionNode = {
+                        initAction: new MainActions.DirWatchEmit(),
+                        successAction: ActionNodeRemap,
+                        failedAction: null
+                    };
+                    const ActionChainParamsRemap: ActionChainParams = {
+                        payload: this.mainState.mhwDirectory,
+                        actionNode: ActionNodeEmit,
+                        store: this.store
+                    };
+                    const ActionChainRemapDirs: ActionChain = new ActionChain(ActionChainParamsRemap);
+                    ActionChainRemapDirs.init();
+                });
+                return new MainActions.MainSuccess();
+            });
+    @Effect()
+        MainDirWatchEmit$: Observable<any> = this.actions$
+            .ofType(MainActions.DIR_WATCH_EMIT)
+            .debounceTime(500)
+            .map(action => {
+                console.log('changes_counted');
+                return action.chain.success();
+            });
+    @Effect()
+    @Effect()
+        MainSetMhwMappedDir$: Observable<any> = this.actions$
+            .ofType(MainActions.SET_MHW_MAPPED_DIR)
+            .map(action => {
+                if (action.chain.payload === false) {
+                    return action.chain.failed();
+                } else {
+                    return action.chain.success();
+                }
+            });
         MainFailed$: Observable<any> = this.actions$
             .ofType(MainActions.MAIN_FAILED)
             .map(action => {

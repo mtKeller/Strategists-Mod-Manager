@@ -2,6 +2,7 @@ import {app, BrowserWindow, ipcMain, dialog} from 'electron';
 import * as fs from 'mz/fs';
 import * as callbackFs from 'fs';
 const path = require('path');
+const chokidar = require('chokidar');
 
 let win;
 
@@ -58,11 +59,11 @@ const findDir = function(event) {
     dialog.showOpenDialog({
         properties: ['openDirectory']
         }, (data) => {
-        console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
-        if (data === undefined) {
+        if (data === undefined || data === null) {
             win.close();
             app.exit();
         } else if (data[0].indexOf('Monster Hunter World') > -1) {
+            console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
             mhwDIR = data[0].slice(0, data[0]
                 .indexOf('Monster Hunter World') + 20);
             event.sender.send('GOT_MHW_DIR_PATH', mhwDIR);
@@ -73,8 +74,20 @@ const findDir = function(event) {
 };
 
 ipcMain.on('GET_MHW_DIR_PATH', (event, args) => {
-    console.log("HIT");
+    console.log('HIT');
     findDir(event);
+});
+
+ipcMain.on('INIT_DIR_WATCH', (event, args) => {
+    console.log('INIT_DIR_WATCH');
+    const watcher = chokidar.watch(mhwDIR + '/nativePC/', {persistent: true, interval: 100})
+    watcher.on('all', (eve, p) => {
+        // console.log(event, p);
+        event.sender.send('DIR_CHANGED', 'nativePC');
+    });
+    watcher.on('error', (err) => {
+        console.log('watcher error', err);
+    });
 });
 
 function flatten(lists) {

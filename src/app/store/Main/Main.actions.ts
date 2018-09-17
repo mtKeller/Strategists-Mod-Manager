@@ -67,6 +67,27 @@ export class GetMhwDirectoryPathFailed implements Action {
     constructor(public chain: ActionChain = null) { }
 }
 
+export const SET_MHW_MAPPED_DIR = '[MAIN] SET_MHW_MAPPED_DIR';
+
+export class SetMhwMappedDir implements Action {
+    readonly type = SET_MHW_MAPPED_DIR;
+    constructor(public chain: ActionChain = null) { }
+}
+
+export const INIT_DIR_WATCH = '[MAIN] INIT_DIR_WATCH';
+
+export class InitDirWatch implements Action {
+    readonly type = INIT_DIR_WATCH;
+    constructor(public chain: ActionChain = null) { }
+}
+
+export const DIR_WATCH_EMIT = '[MAIN] DIR_WATCH_EMIT';
+
+export class DirWatchEmit implements Action {
+    readonly type = DIR_WATCH_EMIT;
+    constructor(public chain: ActionChain = null) { }
+}
+
 export const MAIN_SUCCESS = '[MAIN] MAIN_SUCCESS';
 
 export class MainSuccess implements Action {
@@ -81,4 +102,5 @@ export class MainFailed implements Action {
 }
 
 export type All = InitApp | InitAppSuccess | CloseWindow | SaveState | MainSuccess | MainFailed |
-    GetMhwDirectoryPath | GetMhwDirectoryPathSuccess | GetMhwDirectoryPathFailed;
+    GetMhwDirectoryPath | GetMhwDirectoryPathSuccess | GetMhwDirectoryPathFailed | InitDirWatch |
+    SetMhwMappedDir | DirWatchEmit;

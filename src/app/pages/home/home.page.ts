@@ -10,7 +10,16 @@ import { ActionChain, ActionChainParams } from '../../model/ActionChain.class';
   styleUrls: ['home.page.scss']
 })
 export class HomePage {
-  constructor(private store: Store<any>) { }
+  mhwDirectoryPath: any = 'Maybe something';
+  mhwDirectoryMap: any;
+  constructor(private store: Store<any>) {
+    this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
+      this.mhwDirectoryPath = val;
+    });
+    this.store.select(state => state.MainState.mhwDirectoryMap).subscribe(val => {
+      this.mhwDirectoryMap = val;
+    });
+  }
   clickMe() {
     // const actionParams: ActionChainParams = {
     //   payload: 'package.json',

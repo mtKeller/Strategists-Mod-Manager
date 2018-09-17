@@ -57,6 +57,7 @@ const { ipcRenderer } = window.require('electron');
         FileSystemGetDirectories$: Observable<any> = this.actions$
             .ofType(FileSystemActions.GET_DIRECTORIES)
             .map(action => {
+                console.log('HIT');
                 ipcRenderer.send('READ_DIR', action.chain.payload);
                 ipcRenderer.once('DIR_READ', (err, args) => {
                     this.store.dispatch(action.chain.success(args));

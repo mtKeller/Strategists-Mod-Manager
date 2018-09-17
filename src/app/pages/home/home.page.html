@@ -6,6 +6,14 @@
 
 <ion-content padding>
   The hunt is on!
-  
+  <br>
+  <p>
+    {{this.mhwDirectoryPath}}
+  </p>
+  <ul>
+    <li *ngFor="let paths of this.mhwDirectoryMap">
+      {{paths.substring(paths.indexOf('Monster Hunter World', paths.length))}}
+    </li>
+  </ul>
   <button (click)="this.clickMe()">Click me</button>
 </ion-content>

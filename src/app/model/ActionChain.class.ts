@@ -57,7 +57,7 @@ export class ActionChain {
             this.actionList.push('Failed: ' + this.lastAction.type);
             return new EndOfActionChain(this);
         }
-        this.actionList.push('Failed: ' + this.lastAction.type);
+        this.actionList.push('Success: ' + this.lastAction.type);
         this.lastAction = nextNode;
         nextNode.chain = this;
         return nextNode;

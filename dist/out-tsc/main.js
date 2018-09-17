@@ -4,6 +4,7 @@ var electron_1 = require("electron");
 var fs = require("mz/fs");
 var callbackFs = require("fs");
 var path = require('path');
+var chokidar = require('chokidar');
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({
@@ -54,12 +55,12 @@ var findDir = function (event) {
     electron_1.dialog.showOpenDialog({
         properties: ['openDirectory']
     }, function (data) {
-        console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
-        if (data === undefined) {
+        if (data === undefined || data === null) {
             win.close();
             electron_1.app.exit();
         }
         else if (data[0].indexOf('Monster Hunter World') > -1) {
+            console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
             mhwDIR = data[0].slice(0, data[0]
                 .indexOf('Monster Hunter World') + 20);
             event.sender.send('GOT_MHW_DIR_PATH', mhwDIR);
@@ -70,8 +71,19 @@ var findDir = function (event) {
     });
 };
 electron_1.ipcMain.on('GET_MHW_DIR_PATH', function (event, args) {
-    console.log("HIT");
+    console.log('HIT');
     findDir(event);
+});
+electron_1.ipcMain.on('INIT_DIR_WATCH', function (event, args) {
+    console.log('INIT_DIR_WATCH');
+    var watcher = chokidar.watch(mhwDIR + '/nativePC/', { persistent: true, interval: 100 });
+    watcher.on('all', function (eve, p) {
+        // console.log(event, p);
+        event.sender.send('DIR_CHANGED', 'nativePC');
+    });
+    watcher.on('error', function (err) {
+        console.log('watcher error', err);
+    });
 });
 function flatten(lists) {
     return lists.reduce(function (a, b) { return a.concat(b); }, []);
@@ -82,7 +94,6 @@ function getDirectories(srcpath) {
         .filter(function (p) { return fs.statSync(p).isDirectory(); })
         .filter(function (name) {
         if (name.indexOf('chunk') <= -1) {
-            console.log(name);
             return true;
         }
         return false;

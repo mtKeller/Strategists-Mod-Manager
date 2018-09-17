@@ -46,10 +46,18 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
             };
         }
         case MainActions.GET_MHW_DIRECTORY_PATH_SUCCESS: {
+            console.log('SHOULD HIT A FEW TIMES', action.chain.payload);
             return {
                 ...state,
                 loading: true,
-                mhwDirectory: action.chain.payload
+                mhwDirectoryPath: action.chain.payload
+            };
+        }
+        case MainActions.SET_MHW_MAPPED_DIR: {
+            return {
+                ...state,
+                loading: false,
+                mhwDirectoryMap: action.chain.payload
             };
         }
         default: {
