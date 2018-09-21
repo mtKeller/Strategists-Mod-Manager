@@ -18,12 +18,13 @@ const { ipcRenderer } = window.require('electron');
         FileSystemReadFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.READ_FILE)
             .map(action => {
-                ipcRenderer.send('READ_FILE', action.chain.payload);
+                ipcRenderer.send('READ_FILE', action.tree.payload);
                 ipcRenderer.once('FILE_READ', (event, args) => {
+                    console.log('CHECK ARGS: ', args);
                     if (args === false) {
-                        this.store.dispatch(action.chain.failed(args));
+                        this.store.dispatch(action.tree.failed(args));
                     } else {
-                        this.store.dispatch(action.chain.success(args));
+                        this.store.dispatch(action.tree.success(args));
                     }
                 });
                 return new FileSystemActions.FileSystemSuccess;
@@ -36,19 +37,48 @@ const { ipcRenderer } = window.require('electron');
         FileSystemReadFileSuccess$ = this.actions$
             .ofType(FileSystemActions.READ_FILE_SUCCESS)
             .map(action => {
-                this.store.dispatch(action.chain.success());
+                this.store.dispatch(action.tree.success());
                 return new FileSystemActions.FileSystemSuccess;
             });
     @Effect()
         FileSystemWriteFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.WRITE_FILE)
             .map(action => {
-                ipcRenderer.send('WRITE_FILE', action.chain.payload);
+                ipcRenderer.send('WRITE_FILE', action.tree.payload);
                 ipcRenderer.once('WROTE_FILE', (event, args) => {
+                    console.log('Check in on args: ', args);
                     if (args === false) {
-                        this.store.dispatch(action.chain.failed(args));
+                        this.store.dispatch(action.tree.failed(args));
                     } else {
-                        this.store.dispatch(action.chain.success(args));
+                        this.store.dispatch(action.tree.success(args));
+                    }
+                });
+                return new FileSystemActions.FileSystemSuccess;
+            });
+    @Effect()
+        FileSystemZipDIR$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.ZIP_DIR)
+            .map(action => {
+                ipcRenderer.send('ZIP_DIR', action.tree.payload);
+                ipcRenderer.once('ZIPPED_DIR', (event, args) => {
+                    if (args === false) {
+                        this.store.dispatch(action.tree.failed(args));
+                    } else {
+                        this.store.dispatch(action.tree.success(args));
+                    }
+                });
+                return new FileSystemActions.FileSystemSuccess;
+            });
+    @Effect()
+        FileSystemZipFiles$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.ZIP_DIR)
+            .map(action => {
+                ipcRenderer.send('ZIP_FILES', action.tree.payload);
+                ipcRenderer.once('ZIPPED_FILES', (event, args) => {
+                    if (args === false) {
+                        this.store.dispatch(action.tree.failed(args));
+                    } else {
+                        this.store.dispatch(action.tree.success(args));
                     }
                 });
                 return new FileSystemActions.FileSystemSuccess;
@@ -58,9 +88,21 @@ const { ipcRenderer } = window.require('electron');
             .ofType(FileSystemActions.GET_DIRECTORIES)
             .map(action => {
                 console.log('HIT');
-                ipcRenderer.send('READ_DIR', action.chain.payload);
+                console.log(action.tree.payload);
+                ipcRenderer.send('READ_DIR', action.tree.payload);
                 ipcRenderer.once('DIR_READ', (err, args) => {
-                    this.store.dispatch(action.chain.success(args));
+                    console.log('ONCE');
+                    this.store.dispatch(action.tree.success(args));
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
+        FileSystemExecProcess$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.EXEC_PROCESS)
+            .map(action => {
+                ipcRenderer.send('EXEC_PROCESS', action.tree.payload);
+                ipcRenderer.once('EXECUTED_PROCESS', (err, args) => {
+                    console.log('EXECUTED_PROCESS: ', args);
                 });
                 return new FileSystemActions.FileSystemSuccess();
             });

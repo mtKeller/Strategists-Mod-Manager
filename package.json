@@ -31,9 +31,13 @@
     "@ngrx/effects": "^6.1.0",
     "@ngrx/router-store": "^6.1.0",
     "@ngrx/store": "^6.1.0",
+    "archiver": "^3.0.0",
     "chokidar": "^2.0.4",
     "core-js": "^2.5.3",
+    "electron-download-manager": "^2.2.0",
     "mz": "^2.7.0",
+    "node-zip": "^1.1.1",
+    "request": "^2.88.0",
     "rxjs": "^6.3.2",
     "rxjs-compat": "^6.3.2",
     "zone.js": "^0.8.26"

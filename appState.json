@@ -1,3 +1,22 @@
 {
-    "test": "test"
+  "DownloadManagerState": {
+    "currentFiles": [],
+    "ready": false
+  },
+  "FileSystemState": {
+    "data": [],
+    "fileSystemLoading": false,
+    "targetPath": []
+  },
+  "MainState": {
+    "loading": true,
+    "mhwDirectoryMap": [],
+    "mhwDirectoryPath": null,
+    "storedState": null
+  },
+  "ModManagerState": {
+    "loading": false,
+    "modList": [],
+    "paths": []
+  }
 }

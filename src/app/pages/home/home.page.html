@@ -15,5 +15,13 @@
       {{paths.substring(paths.indexOf('Monster Hunter World', paths.length))}}
     </li>
   </ul>
-  <button (click)="this.clickMe()">Click me</button>
+  <button (click)="this.play()">PLAY MHW</button>
+  <button (click)='this.launchWideScreenFix()'>Add tool shortcut</button>
+  <button (click)='this.testClick()'>TEST</button>
+  <ul>
+    <li *ngFor="let item of this.downloadManagerItems">
+      {{item.fileName}} {{item.progress}}
+      <button *ngIf="item.complete">Complete</button>
+    </li>
+  </ul>
 </ion-content>

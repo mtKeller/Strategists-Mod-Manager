@@ -8,29 +8,29 @@ export function FileSystemReducer(state = InitializeFileSystemState(), action: A
             return {
                 ...state,
                 fileSystemLoading: true,
-                targetPath: action.chain.payload
+                targetPath: action.tree.payload
             };
         }
         case FileSystemActions.READ_FILE_SUCCESS: {
             return {
                 ...state,
                 fileSystemLoading: false,
-                data: action.chain.payload
+                data: action.tree.payload
             };
         }
         case FileSystemActions.WRITE_FILE: {
-            if (action.chain.payload.data && action.chain.payload.path) {
+            if (action.tree.payload.data && action.tree.payload.path) {
                 return {
                     ...state,
                     fileSystemLoading: true,
-                    targetPath: action.chain.payload.path,
-                    data: action.chain.payload.data
+                    targetPath: action.tree.payload.path,
+                    data: action.tree.payload.data
                 };
             } else {
                 return {
                     ...state,
                     fileSystemLoading: true,
-                    targetPath: action.chain.payload
+                    targetPath: action.tree.payload
                 };
             }
         }
@@ -45,7 +45,7 @@ export function FileSystemReducer(state = InitializeFileSystemState(), action: A
         case FileSystemActions.GET_DIRECTORIES: {
             return {
                 ...state,
-                targetPath: action.chain.payload
+                targetPath: action.tree.payload
             };
         }
         case FileSystemActions.FILE_SYSTEM_FAILURE: {

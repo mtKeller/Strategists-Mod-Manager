@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as MainActions from '../../store/Main/Main.actions';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
-import { ActionChain, ActionChainParams } from '../../model/ActionChain.class';
+import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree.class';
 
 @Component({
   selector: 'app-home',
@@ -11,22 +11,54 @@ import { ActionChain, ActionChainParams } from '../../model/ActionChain.class';
 })
 export class HomePage {
   mhwDirectoryPath: any = 'Maybe something';
-  mhwDirectoryMap: any;
-  constructor(private store: Store<any>) {
+  mhwDirectoryMap: any = [];
+  downloadManagerItems: any = null;
+  constructor(private store: Store<any>, private cdr: ChangeDetectorRef) {
     this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
       this.mhwDirectoryPath = val;
+      this.cdr.detectChanges();
     });
     this.store.select(state => state.MainState.mhwDirectoryMap).subscribe(val => {
       this.mhwDirectoryMap = val;
+      this.cdr.detectChanges();
+    });
+    this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
+      this.downloadManagerItems = val;
+      this.cdr.detectChanges();
     });
   }
-  clickMe() {
-    // const actionParams: ActionChainParams = {
-    //   payload: 'package.json',
-    //   success: new FileSystemActions.ReadFileSuccess,
-    //   failed: new FileSystemActions.FileSystemFailure
+  play() {
+    // const ActionNodeZipFile: ActionNode = {
+    //   initAction: new FileSystemActions.ZipDir(),
+    //   successAction: null,
+    //   failedAction: null
     // };
-    // this.store.dispatch(new FileSystemActions.ReadFile(new ActionChain(actionParams)));
-    console.log('Click did slick.');
+    // const actionChainParams: ActionChainParams = {
+    //   payload: ['', ''],
+    //   actionNode: ActionNodeZipFile,
+    //   store: this.store,
+    // };
+    // const zipChain: ActionChain = new ActionChain(actionChainParams);
+    // zipChain.init();
+    // this.store.dispatch(new MainActions.SaveState());
+    this.store.dispatch(new MainActions.Play());
+  }
+  launchWideScreenFix() {
+    const ExecWideScreenFix: ActionNode = {
+      initAction: new FileSystemActions.ExecProcess(),
+      successNode: null,
+      failureNode: null
+    };
+    const actionChainParams: ActionTreeParams = {
+      payload: 'C:\\Users\\Micah\\Downloads\\Lazy_Aspect_Fix_For_The_Patch_That_Finally_Fixed_Something.exe',
+      actionNode: ExecWideScreenFix,
+      store: this.store,
+    };
+    const execChain: ActionTree = new ActionTree(actionChainParams);
+    execChain.init();
+  }
+  testClick() {
+    this.store.dispatch(new MainActions.OpenModNexus);
+    console.log('Slick did click');
   }
 }

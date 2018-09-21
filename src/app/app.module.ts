@@ -18,11 +18,18 @@ import { FileSystemEffects } from './store/FileSystem/FileSystem.effects';
 import { MainReducer } from './store/Main/Main.reducer';
 import { MainEffects } from './store/Main/Main.effects';
 
-import { ActionChain } from '../app/model/ActionChain.class';
+import { ModManagerReducer } from './store/ModManager/ModManager.reducer';
+import { ModManagerEffects } from './store/ModManager/ModManager.effects';
+
+import { DownloadManagerReducer } from './store/DownloadManager/DownloadManager.reducer';
+import { DownloadManagerEffects } from './store/DownloadManager/DownloadManager.effects';
+
+import { ActionTree } from './model/ActionTree.class';
 declare module '@ngrx/store' {
   interface Action {
     type: string;
-    chain?: ActionChain;
+    tree?: ActionTree;
+    payload?: any;
   }
 }
 
@@ -40,11 +47,15 @@ declare global {
     AppRoutingModule,
     StoreModule.forRoot({
       FileSystemState: FileSystemReducer,
-      MainState: MainReducer
+      MainState: MainReducer,
+      ModManagerState: ModManagerReducer,
+      DownloadManagerState: DownloadManagerReducer
     }),
     EffectsModule.forRoot([
       FileSystemEffects,
-      MainEffects
+      MainEffects,
+      ModManagerEffects,
+      DownloadManagerEffects
     ])
   ],
   providers: [

@@ -33,11 +33,17 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
             };
         }
         case MainActions.LOAD_STATE_SUCCESS: {
-            return {
+            console.log(action.tree.payload);
+            const storedState = JSON.parse(action.tree.payload);
+            const newState = {
                 ...state,
                 loading: false,
-                storedState: JSON.parse(action.chain.payload)
+                storedState: storedState,
+                mhwDirectoryPath: storedState.MainState.mhwDirectoryPath,
+                mhwDirectoryMap: storedState.MainState.mhwDirectoryMap
             };
+            console.log('WHATISTHIS', newState, storedState.MainState.mhwDirectoryPath);
+            return newState;
         }
         case MainActions.GET_MHW_DIRECTORY_PATH: {
             return {
@@ -46,18 +52,18 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
             };
         }
         case MainActions.GET_MHW_DIRECTORY_PATH_SUCCESS: {
-            console.log('SHOULD HIT A FEW TIMES', action.chain.payload);
+            console.log('SHOULD HIT A FEW TIMES', action.tree.payload);
             return {
                 ...state,
                 loading: true,
-                mhwDirectoryPath: action.chain.payload
+                mhwDirectoryPath: action.tree.payload
             };
         }
         case MainActions.SET_MHW_MAPPED_DIR: {
             return {
                 ...state,
                 loading: false,
-                mhwDirectoryMap: action.chain.payload
+                mhwDirectoryMap: action.tree.payload
             };
         }
         default: {
