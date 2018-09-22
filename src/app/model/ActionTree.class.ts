@@ -58,7 +58,7 @@ export class ActionTree {
         if (this.currentNode.successNode !== null) {
             nextNode = this.currentNode.successNode.initAction;
             this.currentNode = this.currentNode.successNode;
-            if (this.currentNode.payload !== null || this.currentNode.payload !== undefined) {
+            if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
                 this.payload = this.currentNode.payload;
             }
         } else {
@@ -75,10 +75,10 @@ export class ActionTree {
             this.payload = payload;
         }
         let nextNode: Action;
-        if (this.currentNode.failureNode !== null || this.currentNode.payload !== undefined) {
+        if (this.currentNode.failureNode !== null ) {
             nextNode = this.currentNode.failureNode.initAction;
             this.currentNode = this.currentNode.failureNode;
-            if (this.currentNode.payload) {
+            if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
                 this.payload = this.currentNode.payload;
             }
         } else {

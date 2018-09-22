@@ -34,7 +34,7 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
         }
         case MainActions.LOAD_STATE_SUCCESS: {
             console.log(action.tree.payload);
-            const storedState = JSON.parse(action.tree.payload);
+            const storedState = action.tree.payload;
             const newState = {
                 ...state,
                 loading: false,

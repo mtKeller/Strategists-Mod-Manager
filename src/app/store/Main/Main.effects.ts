@@ -39,22 +39,34 @@ const { ipcRenderer } = window.require('electron');
         MainInitApp$: Observable<any> = this.actions$
             .ofType(MainActions.INIT_APP)
             .map(action => {
-                // TIER 9
-                const ActionNodeInitMods: ActionNode = {
+                  // TIER 12
+                  const ActionNodeInitModManager: ActionNode = {
                     initAction: new MainActions.InitModManager(),
                     successNode: null,
                     failureNode: null
                 };
-                // TIER 8
+                  // TIER 11
                 const ActionNodeInitDirWatch: ActionNode = {
                     initAction: new MainActions.InitDirWatch(),
-                    successNode: ActionNodeInitMods,
+                    successNode: ActionNodeInitModManager,
+                    failureNode: null
+                };
+                // TIER 10
+                const ActionNodeSaveStateSuccess: ActionNode = {
+                    initAction: new MainActions.SaveStateSuccess(),
+                    successNode: ActionNodeInitDirWatch,
+                    failureNode: null
+                };
+                // TIER 9
+                const ActionNodeSaveState: ActionNode = {
+                    initAction: new MainActions.SaveState(),
+                    successNode: ActionNodeSaveStateSuccess,
                     failureNode: null
                 };
                 // TIER 7
                 const ActionNodeInitSetCurrentDirs: ActionNode = {
                     initAction: new MainActions.SetMhwMappedDir(),
-                    successNode: ActionNodeInitDirWatch,
+                    successNode: ActionNodeSaveState,
                     failureNode: null
                 };
                 // TIER 6
@@ -161,7 +173,8 @@ const { ipcRenderer } = window.require('electron');
         MainLoadStateSuccess$: Observable<any> = this.actions$
             .ofType(MainActions.LOAD_STATE_SUCCESS)
             .map(action => {
-                console.log(this.mainState.mhwDirectoryPath === null, this.mainState.mhwDirectoryPath, action.tree.payload);
+                console.log(this.mainState.mhwDirectoryPath === null, this.mainState.mhwDirectoryPath, action.tree.payload,
+                    action.tree.currentNode);
                 if (this.mainState.mhwDirectoryPath === null) {
                     this.store.dispatch(action.tree.failed());
                 } else {
@@ -175,10 +188,17 @@ const { ipcRenderer } = window.require('electron');
             .ofType(MainActions.SAVE_STATE)
             .map(action => {
                 ipcRenderer.send('SAVE_STATE', ['appState.json', this.appState] );
-                ipcRenderer.once('SAVE_STATE', (err, args) => {
+                ipcRenderer.once('SAVED_STATE', (err, args) => {
                     console.log('SAVED_STATE: ', args);
+                    this.store.dispatch(action.tree.success());
                 });
                 return new MainActions.MainSuccess();
+            });
+    @Effect()
+        MainSaveStateSuccess$: Observable<any> = this.actions$
+            .ofType(MainActions.SAVE_STATE_SUCCESS)
+            .map(action => {
+                return action.tree.success();
             });
     @Effect()
         MainGetMhwDirectoryPath$: Observable<any> = this.actions$
@@ -195,7 +215,7 @@ const { ipcRenderer } = window.require('electron');
         MainGetMhwDirectoryPathSuccess$: Observable<any> = this.actions$
             .ofType(MainActions.GET_MHW_DIRECTORY_PATH_SUCCESS)
             .map(action => {
-                return action.tree.success(action.tree.payload + '/nativePC/');
+                return action.tree.success(action.tree.payload + '\\nativePC\\');
             });
     @Effect()
         MainDirWatchInit$: Observable<any> = this.actions$
@@ -208,9 +228,19 @@ const { ipcRenderer } = window.require('electron');
                     // } else if (args === 'modFolder') {
                     //     console.log('CHANGE TO MODFOLDER');
                     // }
+                    const ActionNodeSaveStateSuccess: ActionNode = {
+                        initAction: new MainActions.SaveStateSuccess(),
+                        successNode: null,
+                        failureNode: null
+                    };
+                    const ActionNodeSaveState: ActionNode = {
+                        initAction: new MainActions.SaveState(),
+                        successNode: ActionNodeSaveStateSuccess,
+                        failureNode: null
+                    };
                     const ActionNodeRemapSuccess: ActionNode = {
                         initAction: new MainActions.SetMhwMappedDir(),
-                        successNode: null,
+                        successNode: ActionNodeSaveStateSuccess,
                         failureNode: null
                     };
                     const ActionNodeRemap: ActionNode = {
@@ -248,7 +278,7 @@ const { ipcRenderer } = window.require('electron');
                     failureNode: null
                 };
                 const ActionNodeCreateModDirectory: ActionNode = {
-                    initAction: new FileSystemActions.WriteFile(),
+                    initAction: new FileSystemActions.CreateModdingDirectories(),
                     successNode: ActionNodeCreateModDirectorySuccess,
                     failureNode: null
                 };
@@ -259,12 +289,13 @@ const { ipcRenderer } = window.require('electron');
                 };
                 const ActionChainParam: ActionTreeParams = {
                     actionNode: ActionNodeVerifyModDirectory,
-                    payload: this.mainState.mhwDirectoryPath + '\\mods\\',
+                    payload: this.mainState.mhwDirectoryPath + '\\modFolder\\',
                     store: this.store
                 };
                 const ActionChainInitModManager: ActionTree = new ActionTree(ActionChainParam);
+                console.log('MANAGER LOOP', ActionChainInitModManager);
                 ActionChainInitModManager.init();
-                return new MainActions.MainSuccess();
+                return action.tree.success();
             });
     @Effect()
         MainDirWatchEmit$: Observable<any> = this.actions$

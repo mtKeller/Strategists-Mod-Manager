@@ -6,6 +6,7 @@ const chokidar = require('chokidar');
 const archiver = require('archiver');
 const { execFile  } = require('child_process');
 const request = require('request');
+const mkdirp = require('mkdirp');
 
 let mhwDIR = '';
 let win;
@@ -36,14 +37,15 @@ ipcMain.on('READ_FILE', (event, args) => {
     console.log(args);
     fs.readFile(args)
         .then((data) => {
+            const parsedData = JSON.parse(data.toString('utf8'));
             if (args === 'appState.json') {
-                const tempStore = (JSON.parse(data.toString('utf8')).MainState.mhwDirectoryPath || false);
+                const tempStore = (parsedData.MainState.mhwDirectoryPath || false);
                 if (tempStore) {
                     mhwDIR = tempStore;
                 }
             }
-            console.log('check', data);
-            event.sender.send('FILE_READ', data);
+            console.log('check', parsedData, mhwDIR);
+            event.sender.send('FILE_READ', parsedData);
         })
         .catch(err => {
             console.log('ERROR', err);
@@ -51,19 +53,21 @@ ipcMain.on('READ_FILE', (event, args) => {
         });
 });
 
+ipcMain.on('MAKE_PATH', (event, args) => {
+    mkdirp(mhwDIR + args);
+});
+
 ipcMain.on('WRITE_FILE', (event, args) => {
     console.log('WRITE FILE: ', args);
-    if (args[0].indexOf('.json') > -1) {
-        callbackFs.writeFile(args[0], JSON.parse(args[1].toString('utf8')), (err) => {
-            console.log('WRITING_FILE', args);
-            if (err) {
-                console.log('ERROR', err);
-                event.sender.send('WROTE_FILE', true);
-            } else {
-                event.sender.send('WROTE_FILE', false);
-            }
-        });
-    }
+    callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), (err) => {
+        console.log('WRITING_FILE', args);
+        if (err) {
+            console.log('ERROR', err);
+            event.sender.send('WROTE_FILE', false);
+        } else {
+            event.sender.send('WROTE_FILE', true);
+        }
+    });
 });
 
 ipcMain.on('SAVE_STATE', (event, args) => {
@@ -104,7 +108,7 @@ ipcMain.on('GET_MHW_DIR_PATH', (event, args) => {
 
 ipcMain.on('INIT_DIR_WATCH', (event, args) => {
     // console.log('INIT_DIR_WATCH', args);
-    const watcher = chokidar.watch(args + '/nativePC/', {persistent: true, interval: 100});
+    const watcher = chokidar.watch(args + '\\nativePC\\', {persistent: true, interval: 100});
     watcher.on('all', (eve, p) => {
         // console.log(event, p);
         event.sender.send('DIR_CHANGED', 'nativePC');
@@ -136,9 +140,42 @@ function getDirectoriesRecursive(srcpath) {
     return [srcpath, ...flatten(getDirectories(srcpath).map(getDirectoriesRecursive))];
 }
 
+let nativePcExists = false;
+let modFolderExists = false;
+
 ipcMain.on('READ_DIR', (event, args) => {
-    const newMap = getDirectoriesRecursive(mhwDIR);
+    let newMap = getDirectoriesRecursive(mhwDIR);
+    if (!nativePcExists) {
+        for (let i = 0; i < newMap.length; i++) {
+            if (newMap[i].indexOf('nativePC') > -1) {
+                nativePcExists = true;
+            }
+            if (newMap[i].indexOf('modFolder') > -1) {
+                modFolderExists = true;
+            }
+        }
+        if (!nativePcExists || !modFolderExists) {
+            mkdirp(mhwDIR + '\\nativePC\\', (err) => {
+                mkdirp(mhwDIR + '\\modFolder\\temp\\', (error) => {
+                    newMap = getDirectoriesRecursive(mhwDIR);
+                    event.sender.send('DIR_READ', newMap);
+                });
+            });
+        }
+    } else {
+        event.sender.send('DIR_READ', newMap);
+    }
     event.sender.send('DIR_READ', newMap);
+});
+
+
+ipcMain.on('CREATE_MOD_DIRS', (event, args) => {
+    console.log('CREATING MODDING DIRS');
+    mkdirp(mhwDIR + '\\nativePC\\', (err) => {
+        mkdirp(mhwDIR + '\\modFolder\\temp\\', (error) => {
+            event.sender.send('CREATED_MOD_DIRS', true);
+        });
+    });
 });
 
 const MOD_FOLDER = __dirname.split('\\dist\\out-tsc\\')[0] + '/' + 'mods';
@@ -342,7 +379,7 @@ ipcMain.on('OPEN_MOD_NEXUS', (event, args) => {
             //     console.log(`Download failed: ${state}`);
             // }
             // });
-            downloadFile(item.getURL(), mhwDIR + '\\mods\\' + item.getFilename(), item.getFilename());
+            downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
             item.cancel();
         });
     };

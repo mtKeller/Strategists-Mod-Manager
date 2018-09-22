@@ -12,20 +12,35 @@ import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree
 export class HomePage {
   mhwDirectoryPath: any = 'Maybe something';
   mhwDirectoryMap: any = [];
+  mhwDirectoryMapped: boolean;
   downloadManagerItems: any = null;
+  downloading = false;
   constructor(private store: Store<any>, private cdr: ChangeDetectorRef) {
     this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
       this.mhwDirectoryPath = val;
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     });
     this.store.select(state => state.MainState.mhwDirectoryMap).subscribe(val => {
+      if (val === []) {
+        this.mhwDirectoryMapped = false;
+      } else {
+        this.mhwDirectoryMapped = true;
+        // this.cdr.detectChanges();
+      }
       this.mhwDirectoryMap = val;
-      this.cdr.detectChanges();
     });
     this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
       this.downloadManagerItems = val;
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     });
+    this.mhwDirectoryMapped = false;
+  }
+  getMhwDirPath() {
+    if (this.mhwDirectoryPath === null) {
+      return 'No game path set.';
+    } else {
+      return this.mhwDirectoryPath;
+    }
   }
   play() {
     // const ActionNodeZipFile: ActionNode = {

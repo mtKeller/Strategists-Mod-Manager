@@ -8,6 +8,7 @@ var chokidar = require('chokidar');
 var archiver = require('archiver');
 var execFile = require('child_process').execFile;
 var request = require('request');
+var mkdirp = require('mkdirp');
 var mhwDIR = '';
 var win;
 function createWindow() {
@@ -33,34 +34,36 @@ electron_1.ipcMain.on('READ_FILE', function (event, args) {
     console.log(args);
     fs.readFile(args)
         .then(function (data) {
+        var parsedData = JSON.parse(data.toString('utf8'));
         if (args === 'appState.json') {
-            var tempStore = (JSON.parse(data.toString('utf8')).MainState.mhwDirectoryPath || false);
+            var tempStore = (parsedData.MainState.mhwDirectoryPath || false);
             if (tempStore) {
                 mhwDIR = tempStore;
             }
         }
-        console.log('check', data);
-        event.sender.send('FILE_READ', data);
+        console.log('check', parsedData, mhwDIR);
+        event.sender.send('FILE_READ', parsedData);
     })
         .catch(function (err) {
         console.log('ERROR', err);
         event.sender.send('FILE_READ', false);
     });
 });
+electron_1.ipcMain.on('MAKE_PATH', function (event, args) {
+    mkdirp(mhwDIR + args);
+});
 electron_1.ipcMain.on('WRITE_FILE', function (event, args) {
     console.log('WRITE FILE: ', args);
-    if (args[0].indexOf('.json') > -1) {
-        callbackFs.writeFile(args[0], JSON.parse(args[1].toString('utf8')), function (err) {
-            console.log('WRITING_FILE', args);
-            if (err) {
-                console.log('ERROR', err);
-                event.sender.send('WROTE_FILE', true);
-            }
-            else {
-                event.sender.send('WROTE_FILE', false);
-            }
-        });
-    }
+    callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), function (err) {
+        console.log('WRITING_FILE', args);
+        if (err) {
+            console.log('ERROR', err);
+            event.sender.send('WROTE_FILE', false);
+        }
+        else {
+            event.sender.send('WROTE_FILE', true);
+        }
+    });
 });
 electron_1.ipcMain.on('SAVE_STATE', function (event, args) {
     callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), function (err) {
@@ -100,7 +103,7 @@ electron_1.ipcMain.on('GET_MHW_DIR_PATH', function (event, args) {
 });
 electron_1.ipcMain.on('INIT_DIR_WATCH', function (event, args) {
     // console.log('INIT_DIR_WATCH', args);
-    var watcher = chokidar.watch(args + '/nativePC/', { persistent: true, interval: 100 });
+    var watcher = chokidar.watch(args + '\\nativePC\\', { persistent: true, interval: 100 });
     watcher.on('all', function (eve, p) {
         // console.log(event, p);
         event.sender.send('DIR_CHANGED', 'nativePC');
@@ -128,9 +131,40 @@ function getDirectories(srcpath) {
 function getDirectoriesRecursive(srcpath) {
     return [srcpath].concat(flatten(getDirectories(srcpath).map(getDirectoriesRecursive)));
 }
+var nativePcExists = false;
+var modFolderExists = false;
 electron_1.ipcMain.on('READ_DIR', function (event, args) {
     var newMap = getDirectoriesRecursive(mhwDIR);
+    if (!nativePcExists) {
+        for (var i = 0; i < newMap.length; i++) {
+            if (newMap[i].indexOf('nativePC') > -1) {
+                nativePcExists = true;
+            }
+            if (newMap[i].indexOf('modFolder') > -1) {
+                modFolderExists = true;
+            }
+        }
+        if (!nativePcExists || !modFolderExists) {
+            mkdirp(mhwDIR + '\\nativePC\\', function (err) {
+                mkdirp(mhwDIR + '\\modFolder\\temp\\', function (error) {
+                    newMap = getDirectoriesRecursive(mhwDIR);
+                    event.sender.send('DIR_READ', newMap);
+                });
+            });
+        }
+    }
+    else {
+        event.sender.send('DIR_READ', newMap);
+    }
     event.sender.send('DIR_READ', newMap);
+});
+electron_1.ipcMain.on('CREATE_MOD_DIRS', function (event, args) {
+    console.log('CREATING MODDING DIRS');
+    mkdirp(mhwDIR + '\\nativePC\\', function (err) {
+        mkdirp(mhwDIR + '\\modFolder\\temp\\', function (error) {
+            event.sender.send('CREATED_MOD_DIRS', true);
+        });
+    });
 });
 var MOD_FOLDER = __dirname.split('\\dist\\out-tsc\\')[0] + '/' + 'mods';
 electron_1.ipcMain.on('ZIP_DIR', function (event, args) {
@@ -316,7 +350,7 @@ electron_1.ipcMain.on('OPEN_MOD_NEXUS', function (event, args) {
             //     console.log(`Download failed: ${state}`);
             // }
             // });
-            downloadFile(item.getURL(), mhwDIR + '\\mods\\' + item.getFilename(), item.getFilename());
+            downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
             item.cancel();
         });
     };

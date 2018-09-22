@@ -8,9 +8,9 @@
   The hunt is on!
   <br>
   <p>
-    {{this.mhwDirectoryPath}}
+    {{this.getMhwDirPath()}}
   </p>
-  <ul>
+  <ul *ngIf="this.mhwDirectoryMapped">
     <li *ngFor="let paths of this.mhwDirectoryMap">
       {{paths.substring(paths.indexOf('Monster Hunter World', paths.length))}}
     </li>
@@ -18,7 +18,7 @@
   <button (click)="this.play()">PLAY MHW</button>
   <button (click)='this.launchWideScreenFix()'>Add tool shortcut</button>
   <button (click)='this.testClick()'>TEST</button>
-  <ul>
+  <ul *ngIf="this.downloadManagerItems !== null">
     <li *ngFor="let item of this.downloadManagerItems">
       {{item.fileName}} {{item.progress}}
       <button *ngIf="item.complete">Complete</button>

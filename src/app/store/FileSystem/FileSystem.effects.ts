@@ -56,6 +56,12 @@ const { ipcRenderer } = window.require('electron');
                 return new FileSystemActions.FileSystemSuccess;
             });
     @Effect()
+        FileSystemWriteFileSuccess$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.WRITE_FILE_SUCCESS)
+            .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
         FileSystemZipDIR$: Observable<any> = this.actions$
             .ofType(FileSystemActions.ZIP_DIR)
             .map(action => {
@@ -103,6 +109,16 @@ const { ipcRenderer } = window.require('electron');
                 ipcRenderer.send('EXEC_PROCESS', action.tree.payload);
                 ipcRenderer.once('EXECUTED_PROCESS', (err, args) => {
                     console.log('EXECUTED_PROCESS: ', args);
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
+        FileSystemCreateModdingDirectories$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.CREATE_MODDING_DIRECTORIES)
+            .map(action => {
+                ipcRenderer.send('CREATE_MOD_DIRS', null);
+                ipcRenderer.once('CREATED_MOD_DIRS', (err, args) => {
+                    this.store.dispatch(action.tree.success());
                 });
                 return new FileSystemActions.FileSystemSuccess();
             });
