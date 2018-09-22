@@ -16,24 +16,26 @@ export class HomePage {
   downloadManagerItems: any = null;
   downloading = false;
   constructor(private store: Store<any>, private cdr: ChangeDetectorRef) {
+    this.mhwDirectoryMapped = false;
+  }
+  ngOnInit(): void {
     this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
       this.mhwDirectoryPath = val;
-      // this.cdr.detectChanges();
+      this.cdr.detectChanges();
     });
     this.store.select(state => state.MainState.mhwDirectoryMap).subscribe(val => {
       if (val === []) {
         this.mhwDirectoryMapped = false;
       } else {
         this.mhwDirectoryMapped = true;
-        // this.cdr.detectChanges();
+        this.cdr.detectChanges();
       }
       this.mhwDirectoryMap = val;
     });
     this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
       this.downloadManagerItems = val;
-      // this.cdr.detectChanges();
+      this.cdr.detectChanges();
     });
-    this.mhwDirectoryMapped = false;
   }
   getMhwDirPath() {
     if (this.mhwDirectoryPath === null) {
