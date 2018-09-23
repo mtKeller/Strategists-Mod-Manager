@@ -12,7 +12,7 @@ export function initIPC(win) {
     ipcMain.on('READ_FILE', (event, args) => {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
-            if (action.payload[0]) {
+            if (action.payload[0] === false) {
                 event.sender.send('FILE_READ', false);
             } else {
                 if (action.payload[1]) {
@@ -101,7 +101,7 @@ export function initIPC(win) {
             payload: [mhwDIR + '\\nativePC\\', 'nativePC']
         });
 
-        const watchDirModFolder = fork('watchDir.js');
+        const watchDirModFolder = fork('./dist/out-tsc/watchDir.js');
         watchDirNativePc.on('message', (action) => {
             event.sender.send('DIR_CHANGED', action.payload);
         });

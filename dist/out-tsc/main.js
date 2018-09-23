@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
-var ipc_1 = require("./ipc");
+var ipc_1 = require("./electronSrc/ipc");
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({

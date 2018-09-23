@@ -99,7 +99,7 @@ function initIPC(win) {
         watchDirNativePc.send({
             payload: [mhwDIR + '\\nativePC\\', 'nativePC']
         });
-        var watchDirModFolder = fork('watchDir.js');
+        var watchDirModFolder = fork('./dist/out-tsc/watchDir.js');
         watchDirNativePc.on('message', function (action) {
             event.sender.send('DIR_CHANGED', action.payload);
         });

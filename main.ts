@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-import { initIPC } from './ipc';
+import { initIPC } from './electronSrc/ipc';
 
 let win;
 
