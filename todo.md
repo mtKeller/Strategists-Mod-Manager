@@ -1,5 +1,14 @@
-WORK ON DIR WATCH
-CREATE A ACTION_CHAIN THAT TRIGGERS EVERY EMIT ON NATIVEPC
+
+<!-- 
+Work on if file exists write, to save flow. Mod folder, NativePC, appState.json
+Break off into seperate -->
+
+Then unpacking zip, rar into mods/temp/ to process handle mod load order.
+Unzip -> Map -> Check paths -> Take ownership -> Overwrite -> Delete Temp
+Figure out a means to do this dynamically for load order
+
+<!-- WORK ON DIR WATCH -->
+<!-- CREATE A ACTION_CHAIN THAT TRIGGERS EVERY EMIT ON NATIVEPC -->
 CREATE MOD SCHEME BY FINDING BEST END PATH FOR THAT CATEGORY THEN FILTERING PATHS
     MONSTERS
     QUESTS
