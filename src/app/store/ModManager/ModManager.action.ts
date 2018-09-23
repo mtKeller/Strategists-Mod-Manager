@@ -2,7 +2,21 @@ import { Action } from '@ngrx/store';
 
 import { ActionTree } from '../../model/ActionTree.class';
 
-export const VERIFY_MODS = '[Mod Manager] VERIFY_MODS';
+export const SET_NATIVE_PC_MAP = '[ModManager] SET_NATIVE_PC_MAP';
+
+export class SetNativePcMap implements Action {
+    readonly type = SET_MOD_FOLDER_MAP;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const SET_MOD_FOLDER_MAP = '[ModManager] SET_MOD_FOLDER_MAP';
+
+export class SetModFolderMap implements Action {
+    readonly type = SET_MOD_FOLDER_MAP;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const VERIFY_MODS = '[ModManager] VERIFY_MODS';
 
 export class VerifyMods implements Action {
     readonly type = VERIFY_MODS;
@@ -23,4 +37,4 @@ export class UnpackMod implements Action {
     constructor(public chain: ActionTree = null) { }
 }
 
-export type All = VerifyMods | PackMod | UnpackMod;
+export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap;

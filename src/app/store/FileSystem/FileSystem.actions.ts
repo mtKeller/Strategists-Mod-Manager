@@ -70,10 +70,24 @@ export class ExecProcess implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
-export const CREATE_MODDING_DIRECTORIES = '[FileSysten] CREATE_MODDING_DIRECTORIES';
+export const CREATE_MODDING_DIRECTORIES = '[FileSystem] CREATE_MODDING_DIRECTORIES';
 
 export class CreateModdingDirectories implements Action {
     readonly type = CREATE_MODDING_DIRECTORIES;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const GET_NATIVE_PC_MAP = '[FileSystem] GET_NATIVE_PC_MAP';
+
+export class GetNativePcMap implements Action {
+    readonly type = GET_NATIVE_PC_MAP;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const GET_MOD_FOLDER_MAP = '[FileSystem] GET_MOD_FOLDER_MAP';
+
+export class GetModFolderMap implements Action {
+    readonly type = GET_MOD_FOLDER_MAP;
     constructor(public tree: ActionTree = null) { }
 }
 
@@ -94,4 +108,4 @@ export type All =
     ReadFile | ReadFileSuccess | GetDirectories | GetDirectoriesSuccess |
     RenameFile | RenameFileSuccess | WriteFile | WriteFileSuccess |
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
-    CreateModdingDirectories;
+    CreateModdingDirectories | GetNativePcMap | GetModFolderMap;

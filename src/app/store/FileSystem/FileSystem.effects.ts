@@ -122,4 +122,24 @@ const { ipcRenderer } = window.require('electron');
                 });
                 return new FileSystemActions.FileSystemSuccess();
             });
+    @Effect()
+        FileSystemGetNativePcMap$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.GET_NATIVE_PC_MAP)
+            .map(action => {
+                ipcRenderer.send('GET_NATIVE_PC_MAP', null);
+                ipcRenderer.once('GOT_NATIVE_PC_MAP', (err, args) => {
+                    this.store.dispatch(action.tree.success(args));
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
+        FileSystemGetModFolderMap$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.GET_NATIVE_PC_MAP)
+            .map(action => {
+                ipcRenderer.send('GET_MOD_FOLDER_MAP', null);
+                ipcRenderer.once('GOT_MOD_FOLDER_MAP', (err, args) => {
+                    this.store.dispatch(action.tree.success(args));
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
 }

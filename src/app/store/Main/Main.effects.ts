@@ -9,6 +9,8 @@ import '../../helpers/rxjs-operators';
 import * as MainActions from './Main.actions';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
+import * as ModManagerActions from '../ModManager/ModManager.action';
+
 import { ActionTree,
          ActionNode,
          ActionTreeParams,
@@ -238,9 +240,29 @@ const { ipcRenderer } = window.require('electron');
                         successNode: ActionNodeSaveStateSuccess,
                         failureNode: null
                     };
+                    const ActionNodeSetModFolderMap: ActionNode = {
+                        initAction: new ModManagerActions.SetModFolderMap(),
+                        successNode: ActionNodeSaveState,
+                        failureNode: null
+                    };
+                    const ActionNodeGetModFolderMap: ActionNode = {
+                        initAction: new FileSystemActions.GetNativePcMap(),
+                        successNode: ActionNodeSetModFolderMap,
+                        failureNode: null
+                    };
+                    const ActionNodeSetNativePcMap: ActionNode = {
+                        initAction: new ModManagerActions.SetNativePcMap(),
+                        successNode: ActionNodeGetModFolderMap,
+                        failureNode: null
+                    };
+                    const ActionNodeGetNativePcMap: ActionNode = {
+                        initAction: new FileSystemActions.GetNativePcMap(),
+                        successNode: ActionNodeSetNativePcMap,
+                        failureNode: null
+                    };
                     const ActionNodeRemapSuccess: ActionNode = {
                         initAction: new MainActions.SetMhwMappedDir(),
-                        successNode: ActionNodeSaveStateSuccess,
+                        successNode: ActionNodeGetNativePcMap,
                         failureNode: null
                     };
                     const ActionNodeRemap: ActionNode = {

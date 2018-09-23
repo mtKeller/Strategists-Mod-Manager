@@ -10,13 +10,17 @@ export interface Mod {
 export interface ModManagerState {
     loading: boolean;
     modList: Array<Mod>;
-    paths: Array<any>;
+    nativePcMap: Array<any>;
+    modFolderMap: Array<any>;
+    ownedPathDict: Object;
 }
 
 export function InitializeModManagerState() {
     return{
         loading: false,
         modList: [],
-        paths: []
+        nativePcMap: [],
+        modFolderMap: [],
+        ownedPathDict: {}
     };
 }

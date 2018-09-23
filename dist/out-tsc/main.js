@@ -1,14 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
-var fs = require("mz/fs");
-var callbackFs = require("fs");
 var path = require('path');
 var chokidar = require('chokidar');
 var archiver = require('archiver');
-var execFile = require('child_process').execFile;
+var _a = require('child_process'), execFile = _a.execFile, fork = _a.fork;
 var request = require('request');
 var mkdirp = require('mkdirp');
+var glob = require('glob');
 var mhwDIR = '';
 var win;
 function createWindow() {
@@ -31,50 +30,61 @@ electron_1.ipcMain.on('CLOSE_WINDOW', function (event, args) {
     event.sender.send('HIT', 'ME');
 });
 electron_1.ipcMain.on('READ_FILE', function (event, args) {
-    console.log(args);
-    fs.readFile(args)
-        .then(function (data) {
-        var parsedData = JSON.parse(data.toString('utf8'));
-        if (args === 'appState.json') {
-            var tempStore = (parsedData.MainState.mhwDirectoryPath || false);
-            if (tempStore) {
-                mhwDIR = tempStore;
-            }
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        if (action.payload[0]) {
+            event.sender.send('FILE_READ', false);
         }
-        console.log('check', parsedData, mhwDIR);
-        event.sender.send('FILE_READ', parsedData);
-    })
-        .catch(function (err) {
-        console.log('ERROR', err);
-        event.sender.send('FILE_READ', false);
+        else {
+            if (action.payload[1]) {
+                mhwDIR = action.payload[1];
+            }
+            event.sender.send('FILE_READ', action.payload[0]);
+        }
+    });
+    fileSystem.send({
+        type: 'READ_FILE',
+        payload: args
     });
 });
 electron_1.ipcMain.on('MAKE_PATH', function (event, args) {
-    mkdirp(mhwDIR + args);
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        event.sender.send('MADE_PATH', action.payload);
+    });
+    fileSystem.send({
+        type: 'MAKE_PATH',
+        payload: mhwDIR + args
+    });
 });
 electron_1.ipcMain.on('WRITE_FILE', function (event, args) {
-    console.log('WRITE FILE: ', args);
-    callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), function (err) {
-        console.log('WRITING_FILE', args);
-        if (err) {
-            console.log('ERROR', err);
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        if (!action.payload) {
             event.sender.send('WROTE_FILE', false);
         }
         else {
             event.sender.send('WROTE_FILE', true);
         }
     });
+    fileSystem.send({
+        type: 'WRITE_FILE',
+        payload: args
+    });
 });
 electron_1.ipcMain.on('SAVE_STATE', function (event, args) {
-    callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), function (err) {
-        // console.log('WRITING_FILE', args);
-        if (err) {
-            console.log('ERROR', err);
-            event.sender.send('SAVED_STATE', true);
-        }
-        else {
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        if (!action.payload) {
             event.sender.send('SAVED_STATE', false);
         }
+        else {
+            event.sender.send('SAVED_STATE', true);
+        }
+    });
+    fileSystem.send({
+        type: 'SAVE_STATE',
+        payload: args
     });
 });
 var findDir = function (event) {
@@ -102,172 +112,85 @@ electron_1.ipcMain.on('GET_MHW_DIR_PATH', function (event, args) {
     findDir(event);
 });
 electron_1.ipcMain.on('INIT_DIR_WATCH', function (event, args) {
-    // console.log('INIT_DIR_WATCH', args);
-    var watcher = chokidar.watch(args + '\\nativePC\\', { persistent: true, interval: 100 });
-    watcher.on('all', function (eve, p) {
-        // console.log(event, p);
-        event.sender.send('DIR_CHANGED', 'nativePC');
+    var watchDirNativePc = fork('./dist/out-tsc/watchDir.js');
+    watchDirNativePc.on('message', function (action) {
+        event.sender.send('DIR_CHANGED', action.payload);
     });
-    watcher.on('error', function (err) {
-        console.log('watcher error', err);
-        event.sender.send('DIR_CHANGED', 'nativePC');
+    watchDirNativePc.send({
+        payload: [mhwDIR + '\\nativePC\\', 'nativePC']
+    });
+    var watchDirModFolder = fork('watchDir.js');
+    watchDirNativePc.on('message', function (action) {
+        event.sender.send('DIR_CHANGED', action.payload);
+    });
+    watchDirNativePc.send({
+        payload: [mhwDIR + '\\modFolder\\', 'modFolder']
     });
 });
-function flatten(lists) {
-    return lists.reduce(function (a, b) { return a.concat(b); }, []);
-}
-function getDirectories(srcpath) {
-    console.log(srcpath);
-    return fs.readdirSync(srcpath)
-        .map(function (file) { return path.join(srcpath, file); })
-        .filter(function (p) { return fs.statSync(p).isDirectory(); })
-        .filter(function (name) {
-        if (name.indexOf('chunk') <= -1) {
-            return true;
-        }
-        return false;
-    });
-}
-function getDirectoriesRecursive(srcpath) {
-    return [srcpath].concat(flatten(getDirectories(srcpath).map(getDirectoriesRecursive)));
-}
 var nativePcExists = false;
 var modFolderExists = false;
 electron_1.ipcMain.on('READ_DIR', function (event, args) {
-    var newMap = getDirectoriesRecursive(mhwDIR);
-    if (!nativePcExists) {
-        for (var i = 0; i < newMap.length; i++) {
-            if (newMap[i].indexOf('nativePC') > -1) {
-                nativePcExists = true;
-            }
-            if (newMap[i].indexOf('modFolder') > -1) {
-                modFolderExists = true;
-            }
-        }
-        if (!nativePcExists || !modFolderExists) {
-            mkdirp(mhwDIR + '\\nativePC\\', function (err) {
-                mkdirp(mhwDIR + '\\modFolder\\temp\\', function (error) {
-                    newMap = getDirectoriesRecursive(mhwDIR);
-                    event.sender.send('DIR_READ', newMap);
-                });
-            });
-        }
-    }
-    else {
-        event.sender.send('DIR_READ', newMap);
-    }
-    event.sender.send('DIR_READ', newMap);
-});
-electron_1.ipcMain.on('CREATE_MOD_DIRS', function (event, args) {
-    console.log('CREATING MODDING DIRS');
-    mkdirp(mhwDIR + '\\nativePC\\', function (err) {
-        mkdirp(mhwDIR + '\\modFolder\\temp\\', function (error) {
-            event.sender.send('CREATED_MOD_DIRS', true);
-        });
+    console.log('CHECK: ', mhwDIR);
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        nativePcExists = action.payload[1];
+        modFolderExists = action.payload[2];
+        event.sender.send('DIR_READ', action.payload[0]);
+    });
+    fileSystem.send({
+        type: 'READ_DIR',
+        payload: [mhwDIR, nativePcExists, modFolderExists]
     });
 });
-var MOD_FOLDER = __dirname.split('\\dist\\out-tsc\\')[0] + '/' + 'mods';
+electron_1.ipcMain.on('GET_NATIVE_PC_MAP', function (event, args) {
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+    });
+    fileSystem.send({
+        type: 'GET_NATIVE_PC_MAP',
+        payload: mhwDIR
+    });
+});
+electron_1.ipcMain.on('GET_MOD_FOLDER_MAP', function (event, args) {
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+    });
+    fileSystem.send({
+        type: 'GET_MOD_FOLDER_MAP',
+        payload: mhwDIR
+    });
+});
+electron_1.ipcMain.on('CREATE_MOD_DIRS', function (event, args) {
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        event.sender.send('CREATED_MOD_DIRS', action.payload);
+    });
+    fileSystem.send({
+        type: 'CREATE_MOD_DIRS',
+        payload: mhwDIR
+    });
+});
 electron_1.ipcMain.on('ZIP_DIR', function (event, args) {
-    try {
-        var fileName = args[0];
-        var dirPath = args[1];
-        var output = fs.createWriteStream(MOD_FOLDER + '/' + fileName + '.zip');
-        var archive_1 = archiver('zip', {
-            zlib: { level: 1 } // Sets the compression level.
-        });
-        output.on('close', function () {
-            console.log(archive_1.pointer() + ' total bytes');
-            console.log('archiver has been finalized and the output file descriptor has closed.');
-            event.sender.send('ZIPPED_DIR', true);
-        });
-        output.on('end', function () {
-            console.log('Data has been drained');
-        });
-        archive_1.on('warning', function (err) {
-            if (err.code === 'ENOENT') {
-                // log warning
-            }
-            else {
-                // throw error
-                throw err;
-            }
-        });
-        archive_1.on('error', function (err) {
-            event.sender.send('ZIPPED_FILE', true);
-            throw err;
-        });
-        archive_1.pipe(output);
-        var startDir = '';
-        if (typeof dirPath === 'string') {
-            var dirPathSplit = dirPath.split('/');
-            if (dirPathSplit[dirPathSplit.length - 1] === '') {
-                startDir = dirPathSplit[dirPathSplit.length - 2];
-            }
-            else {
-                startDir = dirPathSplit[dirPathSplit.length - 1];
-            }
-            archive_1.directory(dirPath, startDir);
-            archive_1.finalize();
-        }
-        else {
-            for (var i = 0; i < dirPath.length; i++) {
-                var modPathSplit = dirPath[i].split('/');
-                if (modPathSplit[modPathSplit.length - 1] === '') {
-                    startDir = modPathSplit[dirPath.length - 2];
-                }
-                else {
-                    startDir = modPathSplit[dirPath.length - 1];
-                }
-                archive_1.directory(dirPath, startDir);
-                archive_1.finalize();
-            }
-        }
-    }
-    catch (err) {
-        event.sender.send('MOD_ZIPPED', false);
-        throw err;
-    }
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        event.sender.send('ZIPPED_DIR', action.payload);
+    });
+    fileSystem.send({
+        type: 'ZIP_DIR',
+        payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
+    });
 });
 electron_1.ipcMain.on('ZIP_FILES', function (event, args) {
-    try {
-        var fileName = args[0];
-        var filePaths = args[1];
-        var output = fs.createWriteStream(MOD_FOLDER + '/' + fileName + '.zip');
-        var archive_2 = archiver('zip', {
-            zlib: { level: 1 } // Sets the compression level.
-        });
-        output.on('close', function () {
-            console.log(archive_2.pointer() + ' total bytes');
-            console.log('archiver has been finalized and the output file descriptor has closed.');
-            event.sender.send('ZIPPED_FILES', true);
-        });
-        output.on('end', function () {
-            console.log('Data has been drained');
-        });
-        archive_2.on('warning', function (err) {
-            if (err.code === 'ENOENT') {
-                // log warning
-            }
-            else {
-                // throw error
-                throw err;
-            }
-        });
-        archive_2.on('error', function (err) {
-            event.sender.send('ZIPPED_FILES', true);
-            throw err;
-        });
-        archive_2.pipe(output);
-        for (var i = 0; i < filePaths; i++) {
-            var file = filePaths[i];
-            archive_2.append(fs.createReadStream(file), { name: file.split('Monster Hunter World\\')[1] });
-        }
-        archive_2.finalize();
-    }
-    catch (err) {
-        event.sender.send('ZIPPED_FILES', false);
-        throw err;
-    }
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        event.sender.send('ZIPPED_FILES', action.payload);
+    });
+    fileSystem.send({
+        type: 'ZIP_FILES',
+        payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
+    });
 });
 electron_1.ipcMain.on('EXEC_PROCESS', function (event, args) {
     console.log('Attempting to execute: ', args);
@@ -276,34 +199,31 @@ electron_1.ipcMain.on('EXEC_PROCESS', function (event, args) {
         console.log(data.toString());
     });
 });
-function showProgress(received, total) {
-    var percentage = (received * 100) / total;
-    return percentage;
-}
 function downloadFile(file_url, targetPath, fileName) {
-    // Save variable to know progress
-    var received_bytes = 0;
-    var total_bytes = 0;
-    var req = request({
-        method: 'GET',
-        uri: file_url
+    var fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', function (action) {
+        switch (action.type) {
+            case 'DOWNLOAD_MANAGER_START': {
+                win.focus();
+                win.webContents.send('DOWNLOAD_MANAGER_START', fileName);
+                break;
+            }
+            case 'DOWNLOAD_MANAGER_UPDATE': {
+                win.webContents.send('DOWNLOAD_MANAGER_UPDATE', [action.payload[0], action.payload[1]]);
+                break;
+            }
+            case 'DOWNLOAD_MANAGER_END': {
+                win.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
+                break;
+            }
+            default: {
+                console.log('SHIT');
+            }
+        }
     });
-    var out = fs.createWriteStream(targetPath);
-    req.pipe(out);
-    req.on('response', function (data) {
-        // Change the total bytes value to get progress later.
-        total_bytes = parseInt(data.headers['content-length'], null);
-        win.focus();
-        win.webContents.send('DOWNLOAD_MANAGER_START', fileName);
-    });
-    req.on('data', function (chunk) {
-        // Update the received bytes
-        received_bytes += chunk.length;
-        win.webContents.send('DOWNLOAD_MANAGER_UPDATE', [fileName, showProgress(received_bytes, total_bytes)]);
-    });
-    req.on('end', function () {
-        console.log('File successfully downloaded');
-        win.webContents.send('DOWNLOAD_MANAGER_END', fileName);
+    fileSystem.send({
+        type: 'DOWNLOAD_FILE',
+        payload: [file_url, targetPath, fileName]
     });
 }
 var childWindow;

@@ -1,12 +1,17 @@
 {
   "DownloadManagerState": {
-    "currentFiles": [],
-    "ready": false
+    "currentFiles": [
+      {
+        "complete": true,
+        "fileName": "Black and White Jagras Hacker-225-1-0.rar",
+        "progress": 100
+      }
+    ],
+    "ready": true
   },
   "FileSystemState": {
     "data": null,
-    "fileSystemLoading": false,
-    "targetPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC\\"
+    "fileSystemLoading": false
   },
   "MainState": {
     "loading": false,
@@ -30,7 +35,15 @@
   },
   "ModManagerState": {
     "loading": false,
+    "modFolderMap": [
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Black and White Jagras Hacker-225-1-0.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/DataWorkaround-46-1-04.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Diablos bow-223-1-01.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Golden Daora's Brigia and Barroth Blaster III Swap-222-v1-0.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
+    ],
     "modList": [],
-    "paths": []
+    "nativePcMap": [],
+    "ownedPathDict": {}
   }
 }

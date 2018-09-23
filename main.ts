@@ -4,9 +4,10 @@ import * as callbackFs from 'fs';
 const path = require('path');
 const chokidar = require('chokidar');
 const archiver = require('archiver');
-const { execFile  } = require('child_process');
+const { execFile, fork  } = require('child_process');
 const request = require('request');
 const mkdirp = require('mkdirp');
+const glob = require('glob');
 
 let mhwDIR = '';
 let win;
@@ -34,51 +35,61 @@ ipcMain.on('CLOSE_WINDOW', (event, args) => {
 });
 
 ipcMain.on('READ_FILE', (event, args) => {
-    console.log(args);
-    fs.readFile(args)
-        .then((data) => {
-            const parsedData = JSON.parse(data.toString('utf8'));
-            if (args === 'appState.json') {
-                const tempStore = (parsedData.MainState.mhwDirectoryPath || false);
-                if (tempStore) {
-                    mhwDIR = tempStore;
-                }
-            }
-            console.log('check', parsedData, mhwDIR);
-            event.sender.send('FILE_READ', parsedData);
-        })
-        .catch(err => {
-            console.log('ERROR', err);
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        if (action.payload[0]) {
             event.sender.send('FILE_READ', false);
-        });
+        } else {
+            if (action.payload[1]) {
+                mhwDIR = action.payload[1];
+            }
+            event.sender.send('FILE_READ', action.payload[0]);
+        }
+    });
+    fileSystem.send({
+        type: 'READ_FILE',
+        payload: args
+    });
 });
 
 ipcMain.on('MAKE_PATH', (event, args) => {
-    mkdirp(mhwDIR + args);
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        event.sender.send('MADE_PATH', action.payload);
+    });
+    fileSystem.send({
+        type: 'MAKE_PATH',
+        payload: mhwDIR + args
+    });
 });
 
 ipcMain.on('WRITE_FILE', (event, args) => {
-    console.log('WRITE FILE: ', args);
-    callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), (err) => {
-        console.log('WRITING_FILE', args);
-        if (err) {
-            console.log('ERROR', err);
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        if (!action.payload) {
             event.sender.send('WROTE_FILE', false);
         } else {
             event.sender.send('WROTE_FILE', true);
         }
     });
+    fileSystem.send({
+        type: 'WRITE_FILE',
+        payload: args
+    });
 });
 
 ipcMain.on('SAVE_STATE', (event, args) => {
-    callbackFs.writeFile(args[0], JSON.stringify(args[1], null, 2), (err) => {
-        // console.log('WRITING_FILE', args);
-        if (err) {
-            console.log('ERROR', err);
-            event.sender.send('SAVED_STATE', true);
-        } else {
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        if (!action.payload) {
             event.sender.send('SAVED_STATE', false);
+        } else {
+            event.sender.send('SAVED_STATE', true);
         }
+    });
+    fileSystem.send({
+        type: 'SAVE_STATE',
+        payload: args
     });
 });
 
@@ -107,184 +118,93 @@ ipcMain.on('GET_MHW_DIR_PATH', (event, args) => {
 });
 
 ipcMain.on('INIT_DIR_WATCH', (event, args) => {
-    // console.log('INIT_DIR_WATCH', args);
-    const watcher = chokidar.watch(args + '\\nativePC\\', {persistent: true, interval: 100});
-    watcher.on('all', (eve, p) => {
-        // console.log(event, p);
-        event.sender.send('DIR_CHANGED', 'nativePC');
+    const watchDirNativePc = fork('./dist/out-tsc/watchDir.js');
+    watchDirNativePc.on('message', (action) => {
+        event.sender.send('DIR_CHANGED', action.payload);
     });
-    watcher.on('error', (err) => {
-        console.log('watcher error', err);
-        event.sender.send('DIR_CHANGED', 'nativePC');
+    watchDirNativePc.send({
+        payload: [mhwDIR + '\\nativePC\\', 'nativePC']
+    });
+
+    const watchDirModFolder = fork('watchDir.js');
+    watchDirNativePc.on('message', (action) => {
+        event.sender.send('DIR_CHANGED', action.payload);
+    });
+    watchDirNativePc.send({
+        payload: [mhwDIR + '\\modFolder\\', 'modFolder']
     });
 });
-
-function flatten(lists) {
-    return lists.reduce((a, b) => a.concat(b), []);
-}
-
-function getDirectories(srcpath) {
-    console.log(srcpath);
-    return fs.readdirSync(srcpath)
-        .map(file => path.join(srcpath, file))
-        .filter(p => fs.statSync(p).isDirectory())
-        .filter(name => {
-            if (name.indexOf('chunk') <= -1) {
-                return true;
-            }
-            return false;
-    });
-}
-
-function getDirectoriesRecursive(srcpath) {
-    return [srcpath, ...flatten(getDirectories(srcpath).map(getDirectoriesRecursive))];
-}
 
 let nativePcExists = false;
 let modFolderExists = false;
 
 ipcMain.on('READ_DIR', (event, args) => {
-    let newMap = getDirectoriesRecursive(mhwDIR);
-    if (!nativePcExists) {
-        for (let i = 0; i < newMap.length; i++) {
-            if (newMap[i].indexOf('nativePC') > -1) {
-                nativePcExists = true;
-            }
-            if (newMap[i].indexOf('modFolder') > -1) {
-                modFolderExists = true;
-            }
-        }
-        if (!nativePcExists || !modFolderExists) {
-            mkdirp(mhwDIR + '\\nativePC\\', (err) => {
-                mkdirp(mhwDIR + '\\modFolder\\temp\\', (error) => {
-                    newMap = getDirectoriesRecursive(mhwDIR);
-                    event.sender.send('DIR_READ', newMap);
-                });
-            });
-        }
-    } else {
-        event.sender.send('DIR_READ', newMap);
-    }
-    event.sender.send('DIR_READ', newMap);
-});
-
-
-ipcMain.on('CREATE_MOD_DIRS', (event, args) => {
-    console.log('CREATING MODDING DIRS');
-    mkdirp(mhwDIR + '\\nativePC\\', (err) => {
-        mkdirp(mhwDIR + '\\modFolder\\temp\\', (error) => {
-            event.sender.send('CREATED_MOD_DIRS', true);
-        });
+    console.log('CHECK: ', mhwDIR);
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        nativePcExists = action.payload[1];
+        modFolderExists = action.payload[2];
+        event.sender.send('DIR_READ', action.payload[0]);
+    });
+    fileSystem.send({
+        type: 'READ_DIR',
+        payload: [mhwDIR, nativePcExists, modFolderExists]
     });
 });
 
-const MOD_FOLDER = __dirname.split('\\dist\\out-tsc\\')[0] + '/' + 'mods';
+ipcMain.on('GET_NATIVE_PC_MAP', (event, args) => {
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+    });
+    fileSystem.send({
+        type: 'GET_NATIVE_PC_MAP',
+        payload: mhwDIR
+    });
+});
+
+ipcMain.on('GET_MOD_FOLDER_MAP', (event, args) => {
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+    });
+    fileSystem.send({
+        type: 'GET_MOD_FOLDER_MAP',
+        payload: mhwDIR
+    });
+});
+
+ipcMain.on('CREATE_MOD_DIRS', (event, args) => {
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        event.sender.send('CREATED_MOD_DIRS', action.payload);
+    });
+    fileSystem.send({
+        type: 'CREATE_MOD_DIRS',
+        payload: mhwDIR
+    });
+});
 
 ipcMain.on('ZIP_DIR', (event, args) => {
-    try {
-        const fileName = args[0];
-        const dirPath = args[1];
-        const output = fs.createWriteStream(MOD_FOLDER + '/' + fileName + '.zip');
-        const archive = archiver('zip', {
-            zlib: { level: 1 } // Sets the compression level.
-        });
-
-        output.on('close', function() {
-            console.log(archive.pointer() + ' total bytes');
-            console.log('archiver has been finalized and the output file descriptor has closed.');
-            event.sender.send('ZIPPED_DIR', true);
-        });
-        output.on('end', function() {
-            console.log('Data has been drained');
-        });
-
-        archive.on('warning', function(err) {
-        if (err.code === 'ENOENT') {
-            // log warning
-        } else {
-            // throw error
-            throw err;
-        }
-        });
-
-        archive.on('error', function(err) {
-            event.sender.send('ZIPPED_FILE', true);
-            throw err;
-        });
-
-        archive.pipe(output);
-
-        let startDir = '';
-        if (typeof dirPath === 'string') {
-            const dirPathSplit = dirPath.split('/');
-            if (dirPathSplit[dirPathSplit.length - 1] === '') {
-                startDir = dirPathSplit[dirPathSplit.length - 2];
-            } else {
-                startDir = dirPathSplit[dirPathSplit.length - 1];
-            }
-            archive.directory(dirPath, startDir);
-            archive.finalize();
-        } else {
-            for (let i = 0; i < dirPath.length; i++) {
-                const modPathSplit = dirPath[i].split('/');
-                if (modPathSplit[modPathSplit.length - 1] === '') {
-                    startDir = modPathSplit[dirPath.length - 2];
-                } else {
-                    startDir = modPathSplit[dirPath.length - 1];
-                }
-                archive.directory(dirPath, startDir);
-                archive.finalize();
-            }
-        }
-    } catch (err) {
-        event.sender.send('MOD_ZIPPED', false);
-        throw err;
-    }
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        event.sender.send('ZIPPED_DIR', action.payload);
+    });
+    fileSystem.send({
+        type: 'ZIP_DIR',
+        payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
+    });
 });
 
 ipcMain.on('ZIP_FILES', (event, args) => {
-    try {
-        const fileName = args[0];
-        const filePaths = args[1];
-        const output = fs.createWriteStream(MOD_FOLDER + '/' + fileName + '.zip');
-        const archive = archiver('zip', {
-            zlib: { level: 1 } // Sets the compression level.
-        });
-
-        output.on('close', function() {
-            console.log(archive.pointer() + ' total bytes');
-            console.log('archiver has been finalized and the output file descriptor has closed.');
-            event.sender.send('ZIPPED_FILES', true);
-        });
-        output.on('end', function() {
-            console.log('Data has been drained');
-        });
-
-        archive.on('warning', function(err) {
-        if (err.code === 'ENOENT') {
-            // log warning
-        } else {
-            // throw error
-            throw err;
-        }
-        });
-
-        archive.on('error', function(err) {
-            event.sender.send('ZIPPED_FILES', true);
-            throw err;
-        });
-
-        archive.pipe(output);
-
-        for (let i = 0; i < filePaths; i++) {
-            const file = filePaths[i];
-            archive.append(fs.createReadStream(file), { name: file.split('Monster Hunter World\\')[1] });
-        }
-        archive.finalize();
-    } catch (err) {
-        event.sender.send('ZIPPED_FILES', false);
-        throw err;
-    }
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        event.sender.send('ZIPPED_FILES', action.payload);
+    });
+    fileSystem.send({
+        type: 'ZIP_FILES',
+        payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
+    });
 });
 
 ipcMain.on('EXEC_PROCESS', (event, args) => {
@@ -295,41 +215,31 @@ ipcMain.on('EXEC_PROCESS', (event, args) => {
     });
 });
 
-function showProgress(received, total) {
-    const percentage = (received * 100) / total;
-    return percentage;
-}
-
 function downloadFile(file_url , targetPath, fileName) {
-    // Save variable to know progress
-    let received_bytes = 0;
-    let total_bytes = 0;
-
-    const req = request({
-        method: 'GET',
-        uri: file_url
+    const fileSystem = fork('./dist/out-tsc/fileSystem.js');
+    fileSystem.on('message', (action) => {
+        switch (action.type) {
+            case 'DOWNLOAD_MANAGER_START' : {
+                win.focus();
+                win.webContents.send('DOWNLOAD_MANAGER_START', fileName);
+                break;
+            }
+            case 'DOWNLOAD_MANAGER_UPDATE' : {
+                win.webContents.send('DOWNLOAD_MANAGER_UPDATE', [action.payload[0], action.payload[1]]);
+                break;
+            }
+            case 'DOWNLOAD_MANAGER_END' : {
+                win.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
+                break;
+            }
+            default: {
+                console.log('SHIT');
+            }
+        }
     });
-
-    const out = fs.createWriteStream(targetPath);
-    req.pipe(out);
-
-    req.on('response', function ( data ) {
-        // Change the total bytes value to get progress later.
-        total_bytes = parseInt(data.headers['content-length'], null);
-        win.focus();
-        win.webContents.send('DOWNLOAD_MANAGER_START', fileName);
-    });
-
-    req.on('data', function(chunk) {
-        // Update the received bytes
-        received_bytes += chunk.length;
-
-        win.webContents.send('DOWNLOAD_MANAGER_UPDATE', [fileName, showProgress(received_bytes, total_bytes)]) ;
-    });
-
-    req.on('end', function() {
-        console.log('File successfully downloaded');
-        win.webContents.send('DOWNLOAD_MANAGER_END', fileName);
+    fileSystem.send({
+        type: 'DOWNLOAD_FILE',
+        payload: [file_url, targetPath, fileName]
     });
 }
 
@@ -386,4 +296,3 @@ ipcMain.on('OPEN_MOD_NEXUS', (event, args) => {
 
     createChildWindow();
 });
-

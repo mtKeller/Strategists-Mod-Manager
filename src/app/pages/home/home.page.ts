@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as MainActions from '../../store/Main/Main.actions';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
@@ -9,7 +9,7 @@ import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss']
 })
-export class HomePage {
+export class HomePage implements OnInit {
   mhwDirectoryPath: any = 'Maybe something';
   mhwDirectoryMap: any = [];
   mhwDirectoryMapped: boolean;
@@ -66,13 +66,13 @@ export class HomePage {
       successNode: null,
       failureNode: null
     };
-    const actionChainParams: ActionTreeParams = {
+    const actionTreeParams: ActionTreeParams = {
       payload: 'C:\\Users\\Micah\\Downloads\\Lazy_Aspect_Fix_For_The_Patch_That_Finally_Fixed_Something.exe',
       actionNode: ExecWideScreenFix,
       store: this.store,
     };
-    const execChain: ActionTree = new ActionTree(actionChainParams);
-    execChain.init();
+    const execTree: ActionTree = new ActionTree(actionTreeParams);
+    execTree.init();
   }
   testClick() {
     this.store.dispatch(new MainActions.OpenModNexus);

@@ -7,8 +7,21 @@ import { ActionTree,
     ActionNode,
     ActionTreeParams
 } from '../../model/ActionTree.class';
+import * as ModManagerActions from './ModManager.action';
 
 @Injectable()
   export class ModManagerEffects {
     constructor(private actions$: Actions, private store: Store<any> ) {    }
+    @Effect()
+        ModManagerSetNativePcMap$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.SET_NATIVE_PC_MAP)
+            .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
+        ModManagerSetModFolderMap$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.SET_MOD_FOLDER_MAP)
+            .map(action => {
+                return action.tree.success();
+            });
 }
