@@ -21,7 +21,9 @@ process.on('message', (action) => {
             break;
         }
         case 'SAVE_STATE' : {
-            writeFile(action.payload);
+            const payload = action.payload;
+            payload[1].FileSystemState.data = null;
+            writeFile(payload);
             break;
         }
         case 'READ_DIR' : {
@@ -90,7 +92,7 @@ function makePath(payload) {
 }
 
 function writeFile(payload) {
-    console.log('WRITE FILE: ', payload);
+    // console.log('WRITE FILE: ', payload);
     callbackFs.writeFile(payload[0], JSON.stringify(payload[1], null, 2), (err) => {
         console.log('WRITING_FILE', payload);
         if (err) {

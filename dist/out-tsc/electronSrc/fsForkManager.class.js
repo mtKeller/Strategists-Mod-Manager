@@ -5,42 +5,68 @@ var ForkFileSystemManager = /** @class */ (function () {
         this.fork = fork;
         this.fileSystemForks = [
             {
-                fork: this.fork('./dist/out-tsc/fileSystem.js'),
+                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: false
             },
             {
-                fork: this.fork('./dist/out-tsc/fileSystem.js'),
+                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: false
             }
         ];
     }
     ForkFileSystemManager.prototype.io = function (action, cb) {
-        var _this = this;
         var sent = false;
-        var _loop_1 = function (i) {
-            if (!this_1.fileSystemForks[i].blocked) {
-                this_1.fileSystemForks[i].fork.send(action);
-                this_1.fileSystemForks[i].fork.on('message', function (adjective) {
-                    _this.fileSystemForks[i].blocked = false;
-                    cb(adjective);
-                });
-                this_1.fileSystemForks[i].blocked = true;
-                sent = true;
-            }
-        };
-        var this_1 = this;
         for (var i = 0; i < this.fileSystemForks.length; i++) {
-            _loop_1(i);
+            if (!this.fileSystemForks[i].blocked) {
+                this.send(this.fileSystemForks[i].fork, action);
+                this.on(this.fileSystemForks[i], cb);
+                this.fileSystemForks[i].blocked = true;
+                sent = true;
+                break;
+            }
         }
         if (!sent) {
             var newFS = {
-                fork: this.fork('./dist/out-tsc/fileSystem.js'),
+                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: true
             };
-            newFS.fork.send(action);
-            newFS.fork.on('message', cb);
+            this.send(newFS.fork, action);
+            this.on(newFS, cb);
             this.fileSystemForks.push(newFS);
         }
+    };
+    ForkFileSystemManager.prototype.send = function (forked, action) {
+        forked.send(action);
+    };
+    ForkFileSystemManager.prototype.on = function (forkState, cb) {
+        var _this = this;
+        forkState.fork.on('message', function (adjective) {
+            forkState.blocked = false;
+            _this.reduce();
+            cb(adjective);
+        });
+    };
+    ForkFileSystemManager.prototype.reduce = function () {
+        var statusArray = [];
+        for (var i = 0; i < this.fileSystemForks.length; i++) {
+            statusArray.push(this.fileSystemForks[i].blocked);
+        }
+        var open = 0;
+        var newForkArray = [];
+        for (var i = 0; i < statusArray.length; i++) {
+            if (!statusArray[i]) {
+                open++;
+                newForkArray.push(this.fileSystemForks[i]);
+            }
+            else {
+                newForkArray.push(this.fileSystemForks[i]);
+            }
+            if (open > 2 && !statusArray[i]) {
+                this.fileSystemForks[i].fork.kill('SIGINT');
+            }
+        }
+        this.fileSystemForks = newForkArray;
+        console.log(statusArray, this.fileSystemForks);
     };
     return ForkFileSystemManager;
 }());

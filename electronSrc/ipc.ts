@@ -96,7 +96,7 @@ export function initIPC(win) {
     });
 
     ipcMain.on('INIT_DIR_WATCH', (event, args) => {
-        const watchDirNativePc = fork('./dist/out-tsc/watchDir.js');
+        const watchDirNativePc = fork('./dist/out-tsc/electronSrc/watchDir.js');
         watchDirNativePc.on('message', (action) => {
             event.sender.send('DIR_CHANGED', action.payload);
         });
@@ -104,7 +104,7 @@ export function initIPC(win) {
             payload: [mhwDIR + '\\nativePC\\', 'nativePC']
         });
 
-        const watchDirModFolder = fork('./dist/out-tsc/watchDir.js');
+        const watchDirModFolder = fork('./dist/out-tsc/electronSrc/watchDir.js');
         watchDirNativePc.on('message', (action) => {
             event.sender.send('DIR_CHANGED', action.payload);
         });

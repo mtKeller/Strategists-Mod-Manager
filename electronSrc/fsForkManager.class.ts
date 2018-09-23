@@ -15,11 +15,11 @@ export class ForkFileSystemManager {
         this.fork = fork;
         this.fileSystemForks = [
             {
-                fork: this.fork('./dist/out-tsc/fileSystem.js'),
+                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: false
             },
             {
-                fork: this.fork('./dist/out-tsc/fileSystem.js'),
+                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: false
             }
         ];
@@ -28,23 +28,52 @@ export class ForkFileSystemManager {
         let sent = false;
         for (let i = 0; i < this.fileSystemForks.length; i++) {
             if (!this.fileSystemForks[i].blocked) {
-                this.fileSystemForks[i].fork.send(action);
-                this.fileSystemForks[i].fork.on('message', (adjective) => {
-                    this.fileSystemForks[i].blocked = false;
-                    cb(adjective);
-                });
+                this.send(this.fileSystemForks[i].fork, action);
+                this.on(this.fileSystemForks[i], cb);
                 this.fileSystemForks[i].blocked = true;
                 sent = true;
+                break;
             }
         }
         if (!sent) {
             const newFS = {
-                fork: this.fork('./dist/out-tsc/fileSystem.js'),
+                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: true
             };
-            newFS.fork.send(action);
-            newFS.fork.on('message', cb);
+            this.send(newFS.fork, action);
+            this.on(newFS, cb);
             this.fileSystemForks.push(newFS);
         }
+    }
+    send(forked, action) {
+        forked.send(action);
+    }
+    on(forkState, cb) {
+        forkState.fork.on('message', (adjective) => {
+            forkState.blocked = false;
+            this.reduce();
+            cb(adjective);
+        });
+    }
+    reduce() {
+        const statusArray = [];
+        for (let i = 0; i < this.fileSystemForks.length; i++) {
+            statusArray.push(this.fileSystemForks[i].blocked);
+        }
+        let open = 0;
+        const newForkArray = [];
+        for (let i = 0; i < statusArray.length; i++) {
+            if (!statusArray[i]) {
+                open++;
+                newForkArray.push(this.fileSystemForks[i]);
+            } else {
+                newForkArray.push(this.fileSystemForks[i]);
+            }
+            if (open > 2 && !statusArray[i]) {
+                this.fileSystemForks[i].fork.kill('SIGINT');
+            }
+        }
+        this.fileSystemForks = newForkArray;
+        console.log(statusArray, this.fileSystemForks);
     }
 }

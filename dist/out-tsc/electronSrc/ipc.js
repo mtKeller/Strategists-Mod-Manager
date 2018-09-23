@@ -86,14 +86,14 @@ function initIPC(win) {
         findDir(event);
     });
     electron_1.ipcMain.on('INIT_DIR_WATCH', function (event, args) {
-        var watchDirNativePc = fork('./dist/out-tsc/watchDir.js');
+        var watchDirNativePc = fork('./dist/out-tsc/electronSrc/watchDir.js');
         watchDirNativePc.on('message', function (action) {
             event.sender.send('DIR_CHANGED', action.payload);
         });
         watchDirNativePc.send({
             payload: [mhwDIR + '\\nativePC\\', 'nativePC']
         });
-        var watchDirModFolder = fork('./dist/out-tsc/watchDir.js');
+        var watchDirModFolder = fork('./dist/out-tsc/electronSrc/watchDir.js');
         watchDirNativePc.on('message', function (action) {
             event.sender.send('DIR_CHANGED', action.payload);
         });
