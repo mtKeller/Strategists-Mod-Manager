@@ -1,17 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
+var fsForkManager_class_1 = require("./fsForkManager.class");
 var _a = require('child_process'), execFile = _a.execFile, fork = _a.fork;
 function initIPC(win) {
     var mhwDIR = '';
+    var fileSystemManager = new fsForkManager_class_1.ForkFileSystemManager(fork);
     electron_1.ipcMain.on('CLOSE_WINDOW', function (event, args) {
         win.close();
         electron_1.app.exit();
         event.sender.send('HIT', 'ME');
     });
     electron_1.ipcMain.on('READ_FILE', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
+        fileSystemManager.io({
+            type: 'READ_FILE',
+            payload: args
+        }, function (action) {
             if (action.payload[0] === false) {
                 event.sender.send('FILE_READ', false);
             }
@@ -21,54 +25,40 @@ function initIPC(win) {
                 }
                 event.sender.send('FILE_READ', action.payload[0]);
             }
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
-            type: 'READ_FILE',
-            payload: args
         });
     });
     electron_1.ipcMain.on('MAKE_PATH', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
-            event.sender.send('MADE_PATH', action.payload);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
+        fileSystemManager.io({
             type: 'MAKE_PATH',
             payload: mhwDIR + args
+        }, function (action) {
+            event.sender.send('MADE_PATH', action.payload);
         });
     });
     electron_1.ipcMain.on('WRITE_FILE', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
+        fileSystemManager.io({
+            type: 'WRITE_FILE',
+            payload: args
+        }, function (action) {
             if (!action.payload) {
                 event.sender.send('WROTE_FILE', false);
             }
             else {
                 event.sender.send('WROTE_FILE', true);
             }
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
-            type: 'WRITE_FILE',
-            payload: args
         });
     });
     electron_1.ipcMain.on('SAVE_STATE', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
+        fileSystemManager.io({
+            type: 'SAVE_STATE',
+            payload: args
+        }, function (action) {
             if (!action.payload) {
                 event.sender.send('SAVED_STATE', false);
             }
             else {
                 event.sender.send('SAVED_STATE', true);
             }
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
-            type: 'SAVE_STATE',
-            payload: args
         });
     });
     var findDir = function (event) {
@@ -114,72 +104,53 @@ function initIPC(win) {
     var nativePcExists = false;
     var modFolderExists = false;
     electron_1.ipcMain.on('READ_DIR', function (event, args) {
-        console.log('CHECK: ', mhwDIR);
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
+        fileSystemManager.io({
+            type: 'READ_DIR',
+            payload: [mhwDIR, nativePcExists, modFolderExists]
+        }, function (action) {
             nativePcExists = action.payload[1];
             modFolderExists = action.payload[2];
             event.sender.send('DIR_READ', action.payload[0]);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
-            type: 'READ_DIR',
-            payload: [mhwDIR, nativePcExists, modFolderExists]
         });
     });
     electron_1.ipcMain.on('GET_NATIVE_PC_MAP', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
-            event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
+        fileSystemManager.io({
             type: 'GET_NATIVE_PC_MAP',
             payload: mhwDIR
+        }, function (action) {
+            event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
         });
     });
     electron_1.ipcMain.on('GET_MOD_FOLDER_MAP', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
-            event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
+        fileSystemManager.io({
             type: 'GET_MOD_FOLDER_MAP',
             payload: mhwDIR
+        }, function (action) {
+            event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
         });
     });
     electron_1.ipcMain.on('CREATE_MOD_DIRS', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
-            event.sender.send('CREATED_MOD_DIRS', action.payload);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
+        fileSystemManager.io({
             type: 'CREATE_MOD_DIRS',
             payload: mhwDIR
+        }, function (action) {
+            event.sender.send('CREATED_MOD_DIRS', action.payload);
         });
     });
     electron_1.ipcMain.on('ZIP_DIR', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
-            event.sender.send('ZIPPED_DIR', action.payload);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
+        fileSystemManager.io({
             type: 'ZIP_DIR',
             payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
+        }, function (action) {
+            event.sender.send('ZIPPED_DIR', action.payload);
         });
     });
     electron_1.ipcMain.on('ZIP_FILES', function (event, args) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
-            event.sender.send('ZIPPED_FILES', action.payload);
-            fileSystem.kill('SIGINT');
-        });
-        fileSystem.send({
+        fileSystemManager.io({
             type: 'ZIP_FILES',
             payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
+        }, function (action) {
+            event.sender.send('ZIPPED_FILES', action.payload);
         });
     });
     electron_1.ipcMain.on('EXEC_PROCESS', function (event, args) {
@@ -190,8 +161,10 @@ function initIPC(win) {
         });
     });
     function downloadFile(file_url, targetPath, fileName) {
-        var fileSystem = fork('./dist/out-tsc/fileSystem.js');
-        fileSystem.on('message', function (action) {
+        fileSystemManager.io({
+            type: 'DOWNLOAD_FILE',
+            payload: [file_url, targetPath, fileName]
+        }, function (action) {
             switch (action.type) {
                 case 'DOWNLOAD_MANAGER_START': {
                     win.focus();
@@ -204,17 +177,12 @@ function initIPC(win) {
                 }
                 case 'DOWNLOAD_MANAGER_END': {
                     win.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
-                    fileSystem.kill('SIGINT');
                     break;
                 }
                 default: {
                     console.log('SHIT');
                 }
             }
-        });
-        fileSystem.send({
-            type: 'DOWNLOAD_FILE',
-            payload: [file_url, targetPath, fileName]
         });
     }
     var childWindow;
