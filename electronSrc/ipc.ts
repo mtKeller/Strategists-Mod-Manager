@@ -20,6 +20,7 @@ export function initIPC(win) {
                 }
                 event.sender.send('FILE_READ', action.payload[0]);
             }
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'READ_FILE',
@@ -31,6 +32,7 @@ export function initIPC(win) {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
             event.sender.send('MADE_PATH', action.payload);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'MAKE_PATH',
@@ -46,6 +48,7 @@ export function initIPC(win) {
             } else {
                 event.sender.send('WROTE_FILE', true);
             }
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'WRITE_FILE',
@@ -61,6 +64,7 @@ export function initIPC(win) {
             } else {
                 event.sender.send('SAVED_STATE', true);
             }
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'SAVE_STATE',
@@ -120,6 +124,7 @@ export function initIPC(win) {
             nativePcExists = action.payload[1];
             modFolderExists = action.payload[2];
             event.sender.send('DIR_READ', action.payload[0]);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'READ_DIR',
@@ -131,6 +136,7 @@ export function initIPC(win) {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
             event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'GET_NATIVE_PC_MAP',
@@ -142,6 +148,7 @@ export function initIPC(win) {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
             event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'GET_MOD_FOLDER_MAP',
@@ -153,6 +160,7 @@ export function initIPC(win) {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
             event.sender.send('CREATED_MOD_DIRS', action.payload);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'CREATE_MOD_DIRS',
@@ -164,6 +172,7 @@ export function initIPC(win) {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
             event.sender.send('ZIPPED_DIR', action.payload);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'ZIP_DIR',
@@ -175,6 +184,7 @@ export function initIPC(win) {
         const fileSystem = fork('./dist/out-tsc/fileSystem.js');
         fileSystem.on('message', (action) => {
             event.sender.send('ZIPPED_FILES', action.payload);
+            fileSystem.kill('SIGINT');
         });
         fileSystem.send({
             type: 'ZIP_FILES',
@@ -205,6 +215,7 @@ export function initIPC(win) {
                 }
                 case 'DOWNLOAD_MANAGER_END' : {
                     win.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
+                    fileSystem.kill('SIGINT');
                     break;
                 }
                 default: {

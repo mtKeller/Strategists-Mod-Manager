@@ -110,7 +110,93 @@
                   "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Version"
                 ],
                 "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
-                "storedState": null
+                "storedState": {
+                  "DownloadManagerState": {
+                    "currentFiles": [],
+                    "ready": true
+                  },
+                  "FileSystemState": {
+                    "data": null,
+                    "fileSystemLoading": false,
+                    "targetPath": null
+                  },
+                  "MainState": {
+                    "loading": false,
+                    "mhwDirectoryMap": [
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Logs",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Shaders",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Textures",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders\\Shaders",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders\\Textures",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\tss",
+                      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Version"
+                    ],
+                    "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
+                    "storedState": {
+                      "DownloadManagerState": {
+                        "currentFiles": [],
+                        "ready": true
+                      },
+                      "FileSystemState": {
+                        "data": null,
+                        "fileSystemLoading": false,
+                        "targetPath": null
+                      },
+                      "MainState": {
+                        "loading": false,
+                        "mhwDirectoryMap": [
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Logs",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Shaders",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Textures",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders\\Shaders",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders\\Textures",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\tss",
+                          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Version"
+                        ],
+                        "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
+                        "storedState": null
+                      },
+                      "ModManagerState": {
+                        "loading": false,
+                        "modFolderMap": [
+                          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Black and White Jagras Hacker-225-1-0.rar",
+                          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/DataWorkaround-46-1-04.rar",
+                          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Diablos bow-223-1-01.rar",
+                          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Golden Daora's Brigia and Barroth Blaster III Swap-222-v1-0.rar",
+                          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
+                        ],
+                        "modList": [],
+                        "nativePcMap": [],
+                        "ownedPathDict": {}
+                      }
+                    }
+                  },
+                  "ModManagerState": {
+                    "loading": false,
+                    "modFolderMap": [
+                      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Black and White Jagras Hacker-225-1-0.rar",
+                      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/DataWorkaround-46-1-04.rar",
+                      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Diablos bow-223-1-01.rar",
+                      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Golden Daora's Brigia and Barroth Blaster III Swap-222-v1-0.rar",
+                      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
+                    ],
+                    "modList": [],
+                    "nativePcMap": [],
+                    "ownedPathDict": {}
+                  }
+                }
               },
               "ModManagerState": {
                 "loading": false,
