@@ -1,13 +1,5 @@
 import {app, BrowserWindow, ipcMain, dialog, EventEmitter} from 'electron';
-import * as fs from 'mz/fs';
-import * as callbackFs from 'fs';
-const path = require('path');
-const chokidar = require('chokidar');
-const archiver = require('archiver');
 const { execFile, fork  } = require('child_process');
-const request = require('request');
-const mkdirp = require('mkdirp');
-const glob = require('glob');
 
 let mhwDIR = '';
 let win;
@@ -270,25 +262,6 @@ ipcMain.on('OPEN_MOD_NEXUS', (event, args) => {
             childWindow = null;
         });
         childWindow.webContents.session.on('will-download', (even, item, webContents) => {
-            // item.setSavePath('./mods/');
-            // item.on('updated', (eve, state) => {
-            //     if (state === 'interrupted') {
-            //       console.log('Download is interrupted but can be resumed');
-            //     } else if (state === 'progressing') {
-            //       if (item.isPaused()) {
-            //         console.log('Download is paused');
-            //       } else {
-            //         console.log(`Received bytes: ${item.getReceivedBytes()}`);
-            //       }
-            //     }
-            // });
-            // item.once('done', (eve, state) => {
-            // if (state === 'completed') {
-            //     console.log('Download successfully');
-            // } else {
-            //     console.log(`Download failed: ${state}`);
-            // }
-            // });
             downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
             item.cancel();
         });

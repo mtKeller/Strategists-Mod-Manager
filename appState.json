@@ -1,17 +1,12 @@
 {
   "DownloadManagerState": {
-    "currentFiles": [
-      {
-        "complete": true,
-        "fileName": "Black and White Jagras Hacker-225-1-0.rar",
-        "progress": 100
-      }
-    ],
+    "currentFiles": [],
     "ready": true
   },
   "FileSystemState": {
     "data": null,
-    "fileSystemLoading": false
+    "fileSystemLoading": false,
+    "targetPath": null
   },
   "MainState": {
     "loading": false,

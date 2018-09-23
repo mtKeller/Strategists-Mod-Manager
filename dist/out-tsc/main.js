@@ -1,13 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
-var path = require('path');
-var chokidar = require('chokidar');
-var archiver = require('archiver');
 var _a = require('child_process'), execFile = _a.execFile, fork = _a.fork;
-var request = require('request');
-var mkdirp = require('mkdirp');
-var glob = require('glob');
 var mhwDIR = '';
 var win;
 function createWindow() {
