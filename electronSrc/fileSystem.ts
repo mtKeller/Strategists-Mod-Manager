@@ -5,6 +5,7 @@ const archiver = require('archiver');
 const request = require('request');
 const mkdirp = require('mkdirp');
 const glob = require('glob');
+const extract = require('extract-zip');
 
 process.on('message', (action) => {
     switch (action.type) {
@@ -48,6 +49,10 @@ process.on('message', (action) => {
         }
         case 'ZIP_FILES' : {
             zipFiles(action.payload);
+            break;
+        }
+        case 'UNZIP_FILE' : {
+            unzipFile(action.payload);
             break;
         }
         case 'DOWNLOAD_FILE' : {
@@ -295,6 +300,21 @@ function zipFiles(payload) {
         });
         throw err;
     }
+}
+
+function unzipFile(payload) {
+    const targetDir = payload[1] + '\\modFolder\\temp\\' + payload[2].split('.')[0] + '\\';
+    extract(payload[0], { dir: targetDir }, (err) => {
+        if (err) {
+            process.send({
+                payload: false
+            });
+        } else {
+            process.send({
+                payload: targetDir
+            });
+        }
+    });
 }
 
 function showProgress(received, total) {

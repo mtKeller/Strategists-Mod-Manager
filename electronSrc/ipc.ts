@@ -184,6 +184,17 @@ export function initIPC(win) {
         );
     });
 
+    ipcMain.on('UNZIP_FILE', (event, args) => {
+        fileSystemManager.io({
+                type: 'UNZIP_FILE',
+                payload: [args[0], mhwDIR, args[1]]
+            },
+            (action) => {
+                event.sender.send('UNZIPPED_FILE', action.payload);
+            }
+        );
+    });
+
     ipcMain.on('EXEC_PROCESS', (event, args) => {
         console.log('Attempting to execute: ', args);
         execFile(args, null, function(err, data) {

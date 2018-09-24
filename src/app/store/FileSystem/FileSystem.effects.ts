@@ -90,6 +90,21 @@ const { ipcRenderer } = window.require('electron');
                 return new FileSystemActions.FileSystemSuccess;
             });
     @Effect()
+        FileSystemUnzipFile$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.UNZIP_FILE)
+            .map(action => {
+                // payload is path to file[0] and name of file[1]
+                ipcRenderer.send('UNZIP_FILE', action.payload);
+                ipcRenderer.once('UNZIPPED_FILE', (event, args) => {
+                    if (args === false) {
+                        this.store.dispatch(action.tree.failed());
+                    } else {
+                        this.store.dispatch(action.tree.success(args));
+                    }
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
         FileSystemGetDirectories$: Observable<any> = this.actions$
             .ofType(FileSystemActions.GET_DIRECTORIES)
             .map(action => {

@@ -91,6 +91,13 @@ export class GetModFolderMap implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const UNZIP_FILE = 'FileSystem UNZIP_FILE';
+
+export class UnzipFile implements Action {
+    readonly type = UNZIP_FILE;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const FILE_SYSTEM_SUCCESS = '[FileSystem] FILE_SYSTEM_SUCCESS';
 
 export class FileSystemSuccess implements Action {
@@ -108,4 +115,4 @@ export type All =
     ReadFile | ReadFileSuccess | GetDirectories | GetDirectoriesSuccess |
     RenameFile | RenameFileSuccess | WriteFile | WriteFileSuccess |
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
-    CreateModdingDirectories | GetNativePcMap | GetModFolderMap;
+    CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile;
