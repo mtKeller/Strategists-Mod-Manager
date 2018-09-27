@@ -26,6 +26,12 @@ export class OpenModNexus implements Action {
     readonly type = OPEN_MOD_NEXUS;
 }
 
+export const OPEN_MHW_DIRECTORY = '[MAIN] OPEN_MHW_DIRECTORY';
+
+export class OpenMhwDirectory implements Action {
+    readonly type = OPEN_MHW_DIRECTORY;
+}
+
 export const CLOSE_WINDOW = '[MAIN] CLOSE_WINDOW';
 
 export class CloseWindow implements Action {
@@ -122,4 +128,4 @@ export class MainFailed implements Action {
 
 export type All = InitApp | InitAppSuccess | CloseWindow | SaveState | MainSuccess | MainFailed |
     GetMhwDirectoryPath | GetMhwDirectoryPathSuccess | GetMhwDirectoryPathFailed | InitDirWatch |
-    SetMhwMappedDir | DirWatchEmit | Play | OpenModNexus | InitModManager;
+    SetMhwMappedDir | DirWatchEmit | Play | OpenModNexus | InitModManager | OpenMhwDirectory;

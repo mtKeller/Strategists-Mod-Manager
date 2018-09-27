@@ -11,7 +11,9 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
             };
         }
         case DownloadManagerActions.ADD_DOWNLOAD_ITEM: {
-            let newState;
+            let newState = {
+                ...state
+            };
             if (state.currentFiles.length < 1) {
                 newState = {
                     ...state,
@@ -30,14 +32,16 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                         exists = true;
                     }
                 }
-                if (exists) {
+                if (!exists) {
+                    const newEntry = state.currentFiles;
+                    newEntry.push({
+                        fileName: action.payload,
+                        progress: 0.0,
+                        complete: false
+                    });
                     newState = {
                         ...state,
-                        currentFiles: state.currentFiles.push({
-                            fileName: action.payload,
-                            progress: 0.0,
-                            complete: false
-                        })
+                        currentFiles: newEntry
                     };
                 }
             }
@@ -57,7 +61,7 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                     } else {
                         newArray.push({
                             fileName: state.currentFiles[i].fileName,
-                            progress: state.currentFiles[i].progress,
+                            progress: 100,
                             complete: true
                         });
                     }

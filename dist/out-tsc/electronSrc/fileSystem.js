@@ -7,6 +7,7 @@ var archiver = require('archiver');
 var request = require('request');
 var mkdirp = require('mkdirp');
 var glob = require('glob');
+var extract = require('extract-zip');
 process.on('message', function (action) {
     switch (action.type) {
         case 'READ_FILE': {
@@ -51,6 +52,10 @@ process.on('message', function (action) {
             zipFiles(action.payload);
             break;
         }
+        case 'UNZIP_FILE': {
+            unzipFile(action.payload);
+            break;
+        }
         case 'DOWNLOAD_FILE': {
             downloadFile(action.payload);
             break;
@@ -74,7 +79,7 @@ function readFile(payload) {
                 mhwDIR = false;
             }
         }
-        console.log('check', parsedData, mhwDIR);
+        // console.log('check', parsedData, mhwDIR);
         process.send({
             payload: [parsedData, mhwDIR]
         });
@@ -93,7 +98,7 @@ function makePath(payload) {
 function writeFile(payload) {
     // console.log('WRITE FILE: ', payload);
     callbackFs.writeFile(payload[0], JSON.stringify(payload[1], null, 2), function (err) {
-        console.log('WRITING_FILE', payload);
+        // console.log('WRITING_FILE', payload);
         if (err) {
             console.log('ERROR', err);
             process.send({ payload: false });
@@ -107,7 +112,7 @@ function flatten(lists) {
     return lists.reduce(function (a, b) { return a.concat(b); }, []);
 }
 function getDirectories(srcpath) {
-    console.log(srcpath);
+    // console.log(srcpath);
     return fs.readdirSync(srcpath)
         .map(function (file) { return path.join(srcpath, file); })
         .filter(function (p) { return fs.statSync(p).isDirectory(); })
@@ -285,6 +290,21 @@ function zipFiles(payload) {
         throw err;
     }
 }
+function unzipFile(payload) {
+    var targetDir = payload[1] + '\\modFolder\\temp\\' + payload[2].split('.')[0] + '\\';
+    extract(payload[0], { dir: targetDir }, function (err) {
+        if (err) {
+            process.send({
+                payload: false
+            });
+        }
+        else {
+            process.send({
+                payload: targetDir
+            });
+        }
+    });
+}
 function showProgress(received, total) {
     var percentage = (received * 100) / total;
     return percentage;
@@ -296,6 +316,10 @@ function downloadFile(payload) {
     var fileName = payload[2];
     var received_bytes = 0;
     var total_bytes = 0;
+    var sentUpdate = false;
+    var updateInterval = setInterval(function () {
+        sentUpdate = false;
+    }, 333);
     var req = request({
         method: 'GET',
         uri: file_url
@@ -313,12 +337,16 @@ function downloadFile(payload) {
     req.on('data', function (chunk) {
         // Update the received bytes
         received_bytes += chunk.length;
-        process.send({
-            type: 'DOWNLOAD_MANAGER_UPDATE',
-            payload: [fileName, showProgress(received_bytes, total_bytes)]
-        });
+        if (!sentUpdate) {
+            sentUpdate = true;
+            process.send({
+                type: 'DOWNLOAD_MANAGER_UPDATE',
+                payload: [fileName, showProgress(received_bytes, total_bytes)]
+            });
+        }
     });
     req.on('end', function () {
+        clearInterval(updateInterval);
         process.send({
             type: 'DOWNLOAD_MANAGER_END',
             payload: fileName

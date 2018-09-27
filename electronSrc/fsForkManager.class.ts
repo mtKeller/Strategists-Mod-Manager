@@ -51,9 +51,14 @@ export class ForkFileSystemManager {
     on(forkState, cb) {
         forkState.fork.on('message', (adjective) => {
             forkState.blocked = false;
-            this.reduce();
+            // this.reduce();
             cb(adjective);
         });
+    }
+    kill() {
+        for (let i = 0; i < this.fileSystemForks.length; i++) {
+            this.fileSystemForks[i].fork.kill('SIGINT');
+        }
     }
     reduce() {
         const statusArray = [];
@@ -74,6 +79,6 @@ export class ForkFileSystemManager {
             }
         }
         this.fileSystemForks = newForkArray;
-        console.log(statusArray, this.fileSystemForks);
+        // console.log(statusArray, this.fileSystemForks);
     }
 }

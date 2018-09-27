@@ -3,13 +3,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var fsForkManager_class_1 = require("./fsForkManager.class");
 var _a = require('child_process'), execFile = _a.execFile, fork = _a.fork;
-function initIPC(win) {
+function initIPC(win, ele) {
+    var electron = ele;
+    var window = win;
     var mhwDIR = '';
     var fileSystemManager = new fsForkManager_class_1.ForkFileSystemManager(fork);
+    electron.on('before-quit', function () {
+        fileSystemManager.kill();
+    });
     electron_1.ipcMain.on('CLOSE_WINDOW', function (event, args) {
-        win.close();
+        window.close();
         electron_1.app.exit();
         event.sender.send('HIT', 'ME');
+    });
+    electron_1.ipcMain.setMaxListeners(50);
+    electron_1.ipcMain.on('OPEN_DIRECTORY', function (event, args) {
+        var success = electron_1.shell.openItem(args);
+        if (success) {
+            event.sender.send('OPENED_DIRECTORY', true);
+        }
+        else {
+            event.sender.send('OPENED_DIRECTORY', false);
+        }
     });
     electron_1.ipcMain.on('READ_FILE', function (event, args) {
         fileSystemManager.io({
@@ -20,8 +35,10 @@ function initIPC(win) {
                 event.sender.send('FILE_READ', false);
             }
             else {
-                if (action.payload[1]) {
-                    mhwDIR = action.payload[1];
+                if (typeof action.payload[1] !== 'boolean' && action.payload[1] !== undefined) {
+                    if (mhwDIR === '') {
+                        mhwDIR = action.payload[1];
+                    }
                 }
                 event.sender.send('FILE_READ', action.payload[0]);
             }
@@ -67,13 +84,14 @@ function initIPC(win) {
             properties: ['openDirectory']
         }, function (data) {
             if (data === undefined || data === null) {
-                win.close();
+                window.close();
                 electron_1.app.exit();
             }
             else if (data[0].indexOf('Monster Hunter World') > -1) {
                 console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
                 mhwDIR = data[0].slice(0, data[0]
                     .indexOf('Monster Hunter World') + 20);
+                console.log('CHECK THIS MF: ', mhwDIR);
                 event.sender.send('GOT_MHW_DIR_PATH', mhwDIR);
             }
             else {
@@ -153,6 +171,14 @@ function initIPC(win) {
             event.sender.send('ZIPPED_FILES', action.payload);
         });
     });
+    electron_1.ipcMain.on('UNZIP_FILE', function (event, args) {
+        fileSystemManager.io({
+            type: 'UNZIP_FILE',
+            payload: [args[0], mhwDIR, args[1]]
+        }, function (action) {
+            event.sender.send('UNZIPPED_FILE', action.payload);
+        });
+    });
     electron_1.ipcMain.on('EXEC_PROCESS', function (event, args) {
         console.log('Attempting to execute: ', args);
         execFile(args, null, function (err, data) {
@@ -167,27 +193,24 @@ function initIPC(win) {
         }, function (action) {
             switch (action.type) {
                 case 'DOWNLOAD_MANAGER_START': {
-                    win.focus();
-                    win.webContents.send('DOWNLOAD_MANAGER_START', fileName);
+                    window.focus();
+                    window.webContents.send('DOWNLOAD_MANAGER_START', fileName);
                     break;
                 }
                 case 'DOWNLOAD_MANAGER_UPDATE': {
-                    win.webContents.send('DOWNLOAD_MANAGER_UPDATE', [action.payload[0], action.payload[1]]);
+                    window.webContents.send('DOWNLOAD_MANAGER_UPDATE', [action.payload[0], action.payload[1]]);
                     break;
                 }
                 case 'DOWNLOAD_MANAGER_END': {
-                    win.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
+                    window.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
                     break;
                 }
-                default: {
-                    console.log('SHIT');
-                }
+                default: { }
             }
         });
     }
     var childWindow;
     electron_1.ipcMain.on('OPEN_MOD_NEXUS', function (event, args) {
-        console.log('ATTEMPTING TO OPEN MOD NEXUS WINDOW');
         var createChildWindow = function () {
             console.log('FIND PATH: ', electron_1.app.getAppPath());
             childWindow = new electron_1.BrowserWindow({
@@ -210,6 +233,7 @@ function initIPC(win) {
                 childWindow = null;
             });
             childWindow.webContents.session.on('will-download', function (even, item, webContents) {
+                console.log('CHECK THIS MF: ', typeof mhwDIR);
                 downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
                 item.cancel();
             });

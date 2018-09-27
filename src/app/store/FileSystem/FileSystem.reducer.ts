@@ -15,7 +15,7 @@ export function FileSystemReducer(state = InitializeFileSystemState(), action: A
             return {
                 ...state,
                 fileSystemLoading: false,
-                data: action.tree.payload
+                // data: action.tree.payload
             };
         }
         case FileSystemActions.WRITE_FILE: {
@@ -24,7 +24,7 @@ export function FileSystemReducer(state = InitializeFileSystemState(), action: A
                     ...state,
                     fileSystemLoading: true,
                     targetPath: action.tree.payload.path,
-                    data: action.tree.payload.data
+                    // data: action.tree.payload.data
                 };
             } else {
                 return {

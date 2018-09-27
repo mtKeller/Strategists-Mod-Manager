@@ -78,7 +78,7 @@ function readFile(payload) {
                     mhwDIR = false;
                 }
             }
-            console.log('check', parsedData, mhwDIR);
+            // console.log('check', parsedData, mhwDIR);
             process.send({
                 payload: [parsedData, mhwDIR]
             });
@@ -99,7 +99,7 @@ function makePath(payload) {
 function writeFile(payload) {
     // console.log('WRITE FILE: ', payload);
     callbackFs.writeFile(payload[0], JSON.stringify(payload[1], null, 2), (err) => {
-        console.log('WRITING_FILE', payload);
+        // console.log('WRITING_FILE', payload);
         if (err) {
             console.log('ERROR', err);
             process.send({payload: false});
@@ -114,7 +114,7 @@ function flatten(lists) {
 }
 
 function getDirectories(srcpath) {
-    console.log(srcpath);
+    // console.log(srcpath);
     return fs.readdirSync(srcpath)
         .map(file => path.join(srcpath, file))
         .filter(p => fs.statSync(p).isDirectory())
@@ -329,6 +329,10 @@ function downloadFile(payload) {
     const fileName = payload[2];
     let received_bytes = 0;
     let total_bytes = 0;
+    let sentUpdate = false;
+    const updateInterval = setInterval(() => {
+        sentUpdate = false;
+    }, 500);
 
     const req = request({
         method: 'GET',
@@ -350,13 +354,17 @@ function downloadFile(payload) {
     req.on('data', function(chunk) {
         // Update the received bytes
         received_bytes += chunk.length;
-        process.send({
-            type: 'DOWNLOAD_MANAGER_UPDATE',
-            payload: [fileName, showProgress(received_bytes, total_bytes)]
-        });
+        if (!sentUpdate) {
+            sentUpdate = true;
+            process.send({
+                type: 'DOWNLOAD_MANAGER_UPDATE',
+                payload: [fileName, showProgress(received_bytes, total_bytes)]
+            });
+        }
     });
 
     req.on('end', function() {
+        clearInterval(updateInterval);
         process.send({
             type: 'DOWNLOAD_MANAGER_END',
             payload: fileName

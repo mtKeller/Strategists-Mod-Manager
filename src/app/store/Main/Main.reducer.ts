@@ -4,7 +4,6 @@ import {Action} from '@ngrx/store';
 
 interface Main {
     loading: boolean;
-    storedState: JSON;
     mhwDirectory: string;
     nexusUser: string;
     nexusSecret: string;
@@ -38,11 +37,9 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
             const newState = {
                 ...state,
                 loading: false,
-                storedState: storedState,
                 mhwDirectoryPath: storedState.MainState.mhwDirectoryPath,
                 mhwDirectoryMap: storedState.MainState.mhwDirectoryMap
             };
-            console.log('WHATISTHIS', newState, storedState.MainState.mhwDirectoryPath);
             return newState;
         }
         case MainActions.GET_MHW_DIRECTORY_PATH: {

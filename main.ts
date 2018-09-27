@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import { initIPC } from './electronSrc/ipc';
+require('events').EventEmitter.prototype._maxListeners = 500;
 
 let win;
 
@@ -15,7 +16,7 @@ function createWindow() {
     win.once('ready-to-show', () => {
         win.show();
     });
+    initIPC(win, app);
 }
 
 app.on('ready', createWindow);
-initIPC(win);

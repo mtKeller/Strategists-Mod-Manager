@@ -22,18 +22,21 @@ const { ipcRenderer } = window.require('electron');
 
 @Injectable()
   export class MainEffects {
-    storedState: any = null;
     mainState: any = null;
     appState: any = null;
     constructor(private actions$: Actions, private store: Store<any> ) {
-        this.store.select(state => state.MainState.storedState).subscribe(val => {
-            this.storedState = val;
-        });
         this.store.select(state => state.MainState).subscribe(val => {
             this.mainState = val;
         });
         this.store.select(state => state).subscribe(val => {
             this.appState = val;
+        });
+        this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
+           for (let i = 0; i < val.length; i++) {
+            if (val[0].complete) {
+                console.log('READY TO PROCESS', val.fileName);
+            }
+           }
         });
     }
 
@@ -158,6 +161,20 @@ const { ipcRenderer } = window.require('electron');
                 return new MainActions.MainSuccess();
             });
     @Effect()
+        MainOpenMhwDirectory$: Observable<any> = this.actions$
+            .ofType(MainActions.OPEN_MHW_DIRECTORY)
+            .map(action => {
+                ipcRenderer.send('OPEN_DIRECTORY', this.mainState.mhwDirectoryPath);
+                ipcRenderer.once('OPENED_DIRECTORY', (err, args) => {
+                    if (args) {
+                        this.store.dispatch(action.tree.success());
+                    } else {
+                        this.store.dispatch(action.tree.failed());
+                    }
+                });
+                return new MainActions.MainSuccess();
+            });
+    @Effect()
         MainOpenModNexus$: Observable<any> = this.actions$
             .ofType(MainActions.OPEN_MOD_NEXUS)
             .map(action => {
@@ -188,6 +205,7 @@ const { ipcRenderer } = window.require('electron');
     @Effect()
         MainSaveState$: Observable<any> = this.actions$
             .ofType(MainActions.SAVE_STATE)
+            .debounceTime(1000)
             .map(action => {
                 ipcRenderer.send('SAVE_STATE', ['appState.json', this.appState] );
                 ipcRenderer.once('SAVED_STATE', (err, args) => {

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var ipc_1 = require("./electronSrc/ipc");
+require('events').EventEmitter.prototype._maxListeners = 100;
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({
@@ -15,7 +16,7 @@ function createWindow() {
     win.once('ready-to-show', function () {
         win.show();
     });
+    ipc_1.initIPC(win, electron_1.app);
 }
 electron_1.app.on('ready', createWindow);
-ipc_1.initIPC(win);
 //# sourceMappingURL=main.js.map

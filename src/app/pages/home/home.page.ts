@@ -45,19 +45,6 @@ export class HomePage implements OnInit {
     }
   }
   play() {
-    // const ActionNodeZipFile: ActionNode = {
-    //   initAction: new FileSystemActions.ZipDir(),
-    //   successAction: null,
-    //   failedAction: null
-    // };
-    // const actionChainParams: ActionChainParams = {
-    //   payload: ['', ''],
-    //   actionNode: ActionNodeZipFile,
-    //   store: this.store,
-    // };
-    // const zipChain: ActionChain = new ActionChain(actionChainParams);
-    // zipChain.init();
-    // this.store.dispatch(new MainActions.SaveState());
     this.store.dispatch(new MainActions.Play());
   }
   launchWideScreenFix() {
@@ -73,6 +60,11 @@ export class HomePage implements OnInit {
     };
     const execTree: ActionTree = new ActionTree(actionTreeParams);
     execTree.init();
+  }
+  openMhwDir() {
+    if (this.mhwDirectoryPath !== null) {
+      this.store.dispatch(new MainActions.OpenMhwDirectory());
+    }
   }
   testClick() {
     this.store.dispatch(new MainActions.OpenModNexus);

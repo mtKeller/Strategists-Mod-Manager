@@ -17,6 +17,7 @@
   </ul>
   <button (click)="this.play()">PLAY MHW</button>
   <button (click)='this.launchWideScreenFix()'>Add tool shortcut</button>
+  <button (click)='openMhwDir()'>Open MHW Directory</button>
   <button (click)='this.testClick()'>TEST</button>
   <ul *ngIf="this.downloadManagerItems !== null">
     <li *ngFor="let item of this.downloadManagerItems">

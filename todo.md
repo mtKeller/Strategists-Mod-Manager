@@ -6,6 +6,17 @@ Break off into seperate -->
 Then unpacking zip, rar into mods/temp/ to process handle mod load order.
 Unzip -> Map -> Check paths -> Take ownership -> Overwrite -> Delete Temp
 Figure out a means to do this dynamically for load order
+<!-- WRITE UNZIP -->
+Off load UNZIP to SHARP COMPRESS
+WRITE UNRAR
+WRITE UN7ZIP
+FIND LIST FUNCTION TO AVOID FIRST UNPACK
+
+CREATE TRIGGER TO LIST
+TEST WITH DUMMY PATHS VIA UNZIP
+DOES NOT SUPPORT RAR 7ZIP TILL UPDATE
+THEN ONCE THERE ARE PATHS
+FIGURE OUT 
 
 <!-- WORK ON DIR WATCH -->
 <!-- CREATE A ACTION_CHAIN THAT TRIGGERS EVERY EMIT ON NATIVEPC -->

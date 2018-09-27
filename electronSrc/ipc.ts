@@ -1,15 +1,32 @@
-import {app, BrowserWindow, ipcMain, dialog} from 'electron';
+import {app, BrowserWindow, ipcMain, dialog, shell} from 'electron';
 import {ForkFileSystemManager} from './fsForkManager.class';
 const { execFile, fork } = require('child_process');
 
-export function initIPC(win) {
+export function initIPC(win, ele) {
+    const electron = ele;
+    const window = win;
     let mhwDIR = '';
     const fileSystemManager = new ForkFileSystemManager(fork);
 
+    electron.on('before-quit', () => {
+        fileSystemManager.kill();
+    });
+
     ipcMain.on('CLOSE_WINDOW', (event, args) => {
-        win.close();
+        window.close();
         app.exit();
         event.sender.send('HIT', 'ME');
+    });
+
+    ipcMain.setMaxListeners(50);
+
+    ipcMain.on('OPEN_DIRECTORY', (event, args) => {
+        const success = shell.openItem(args);
+        if (success) {
+            event.sender.send('OPENED_DIRECTORY', true);
+        } else {
+            event.sender.send('OPENED_DIRECTORY', false);
+        }
     });
 
     ipcMain.on('READ_FILE', (event, args) => {
@@ -21,8 +38,10 @@ export function initIPC(win) {
                 if (action.payload[0] === false) {
                     event.sender.send('FILE_READ', false);
                 } else {
-                    if (action.payload[1]) {
-                        mhwDIR = action.payload[1];
+                    if (typeof action.payload[1]  !== 'boolean' && action.payload[1]  !== undefined) {
+                        if (mhwDIR === '') {
+                            mhwDIR = action.payload[1];
+                        }
                     }
                     event.sender.send('FILE_READ', action.payload[0]);
                 }
@@ -77,7 +96,7 @@ export function initIPC(win) {
             properties: ['openDirectory']
             }, (data) => {
             if (data === undefined || data === null) {
-                win.close();
+                window.close();
                 app.exit();
             } else if (data[0].indexOf('Monster Hunter World') > -1) {
                 console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
@@ -211,21 +230,19 @@ export function initIPC(win) {
             (action) => {
                 switch (action.type) {
                     case 'DOWNLOAD_MANAGER_START' : {
-                        win.focus();
-                        win.webContents.send('DOWNLOAD_MANAGER_START', fileName);
+                        window.focus();
+                        window.webContents.send('DOWNLOAD_MANAGER_START', fileName);
                         break;
                     }
                     case 'DOWNLOAD_MANAGER_UPDATE' : {
-                        win.webContents.send('DOWNLOAD_MANAGER_UPDATE', [action.payload[0], action.payload[1]]);
+                        window.webContents.send('DOWNLOAD_MANAGER_UPDATE', [action.payload[0], action.payload[1]]);
                         break;
                     }
                     case 'DOWNLOAD_MANAGER_END' : {
-                        win.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
+                        window.webContents.send('DOWNLOAD_MANAGER_END', action.payload);
                         break;
                     }
-                    default: {
-                        console.log('SHIT');
-                    }
+                    default: { }
                 }
             }
         );
@@ -234,8 +251,6 @@ export function initIPC(win) {
     let childWindow;
 
     ipcMain.on('OPEN_MOD_NEXUS', (event, args) => {
-        console.log('ATTEMPTING TO OPEN MOD NEXUS WINDOW');
-
         const createChildWindow = function() {
             console.log('FIND PATH: ', app.getAppPath());
             childWindow = new BrowserWindow({
@@ -262,8 +277,6 @@ export function initIPC(win) {
                 item.cancel();
             });
         };
-
         createChildWindow();
     });
-
 }

@@ -39,12 +39,16 @@ var ForkFileSystemManager = /** @class */ (function () {
         forked.send(action);
     };
     ForkFileSystemManager.prototype.on = function (forkState, cb) {
-        var _this = this;
         forkState.fork.on('message', function (adjective) {
             forkState.blocked = false;
-            _this.reduce();
+            // this.reduce();
             cb(adjective);
         });
+    };
+    ForkFileSystemManager.prototype.kill = function () {
+        for (var i = 0; i < this.fileSystemForks.length; i++) {
+            this.fileSystemForks[i].fork.kill('SIGINT');
+        }
     };
     ForkFileSystemManager.prototype.reduce = function () {
         var statusArray = [];
@@ -66,7 +70,7 @@ var ForkFileSystemManager = /** @class */ (function () {
             }
         }
         this.fileSystemForks = newForkArray;
-        console.log(statusArray, this.fileSystemForks);
+        // console.log(statusArray, this.fileSystemForks);
     };
     return ForkFileSystemManager;
 }());
