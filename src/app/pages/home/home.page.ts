@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import * as MainActions from '../../store/Main/Main.actions';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
 import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree.class';
+import { RemoveDownloadItem } from '../../store/DownloadManager/DownloadManager.actions';
 
 @Component({
   selector: 'app-home',
@@ -69,5 +70,8 @@ export class HomePage implements OnInit {
   testClick() {
     this.store.dispatch(new MainActions.OpenModNexus);
     console.log('Slick did click');
+  }
+  removeDlItem(fileName) {
+    this.store.dispatch(new RemoveDownloadItem(fileName));
   }
 }

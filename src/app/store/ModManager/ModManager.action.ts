@@ -37,4 +37,11 @@ export class UnpackMod implements Action {
     constructor(public chain: ActionTree = null) { }
 }
 
-export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap;
+export const SET_STATE = '[ModManager] SET_STATE';
+
+export class SetState implements Action {
+    readonly type = SET_STATE;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState;

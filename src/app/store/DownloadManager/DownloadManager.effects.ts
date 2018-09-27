@@ -6,8 +6,9 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 
 import * as DownloadManagerActions from './DownloadManager.actions';
+import { SaveStateTree } from '../Main/Main.tree';
+import { empty } from '../../../../node_modules/rxjs';
 
-const fs = window.require('mz/fs');
 const { ipcRenderer } = window.require('electron');
 
 @Injectable()
@@ -30,6 +31,20 @@ const { ipcRenderer } = window.require('electron');
                     console.log('CHECK UPDATE', args);
                     this.store.dispatch(new DownloadManagerActions.UpdateDownloadItemProgress(args));
                 });
+                return action.tree.success();
+            });
+    @Effect()
+        DownloadManagerRemoveItem$: Observable<any> = this.actions$
+            .ofType(DownloadManagerActions.REMOVE_DOWNLOAD_ITEM)
+            .map(action => {
+                const saveStateTree = SaveStateTree(this.store);
+                saveStateTree.init();
+                return new DownloadManagerActions.DownloadManagerSuccess;
+            });
+    @Effect()
+        DownloadManagerSetState$: Observable<any> = this.actions$
+            .ofType(DownloadManagerActions.SET_STATE)
+            .map(action => {
                 return action.tree.success();
             });
 }

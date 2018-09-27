@@ -197,7 +197,23 @@ const { ipcRenderer } = window.require('electron');
                 if (this.mainState.mhwDirectoryPath === null) {
                     this.store.dispatch(action.tree.failed());
                 } else {
-                    console.log('dispatch', this.mainState.mhwDirectoryPath);
+                    const ActionNodeDownloadManagerSetState: ActionNode = {
+                        initAction: new DownloadManagerActions.SetState(),
+                        successNode: null,
+                        failureNode: null
+                    };
+                    const ActionNodeModManagerSetState: ActionNode = {
+                        initAction: new ModManagerActions.SetState(),
+                        successNode: ActionNodeDownloadManagerSetState,
+                        failureNode: null
+                    };
+                    const ActionTreeParam: ActionTreeParams = {
+                        actionNode: ActionNodeModManagerSetState,
+                        payload: action.tree.payload,
+                        store: this.store
+                    };
+                    const ActionTreeSetState: ActionTree = new ActionTree(ActionTreeParam);
+                    ActionTreeSetState.init();
                     this.store.dispatch(action.tree.success(this.mainState.mhwDirectoryPath));
                 }
                 return new MainActions.MainSuccess;

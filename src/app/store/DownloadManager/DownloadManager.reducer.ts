@@ -119,6 +119,12 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
             }
             return newState;
         }
+        case DownloadManagerActions.SET_STATE : {
+            return {
+                ...state,
+                currentFiles: action.tree.payload.DownloadManagerState.currentFiles
+            };
+        }
         default: {
             return {
                 ...state,

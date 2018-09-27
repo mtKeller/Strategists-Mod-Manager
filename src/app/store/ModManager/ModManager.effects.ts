@@ -14,9 +14,13 @@ import * as ModManagerActions from './ModManager.action';
     modFolderMap: Array<string>;
     constructor(private actions$: Actions, private store: Store<any> ) {
         this.store.select(state => state.ModManagerState.modFolderMap).subscribe(val => {
-            this.modFolderMap = val;
-            console.log('SHOULD DIPSATCH');
-            this.store.dispatch(new ModManagerActions.VerifyMods());
+            if (val) {
+                this.modFolderMap = val;
+                if (val.length > 0) {
+                    console.log('DISPATCH VERIFY MODS');
+                    this.store.dispatch(new ModManagerActions.VerifyMods());
+                }
+            }
         });
     }
     @Effect()
@@ -28,6 +32,12 @@ import * as ModManagerActions from './ModManager.action';
     @Effect()
         ModManagerSetModFolderMap$: Observable<any> = this.actions$
             .ofType(ModManagerActions.SET_MOD_FOLDER_MAP)
+            .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
+        ModManagerSetState$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.SET_STATE)
             .map(action => {
                 return action.tree.success();
             });

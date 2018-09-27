@@ -7,8 +7,8 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         case ModManagerActions.VERIFY_MODS: {
             const zipMods = state.modFolderMap.filter((path) => {
                 console.log(path);
-                if (path.indexOf('.zip') <= -1) {
-                    return false;
+                if (path.indexOf('.zip') > -1) {
+                    return true;
                 }
             });
             console.log('CHECK FILTERED LIST', zipMods);
@@ -30,6 +30,15 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             return {
                 ...state,
                 nativePcMap: action.tree.payload
+            };
+        }
+        case ModManagerActions.SET_STATE: {
+            return {
+                ...state,
+                modList: action.tree.payload.ModManagerState.modList,
+                nativePcMap: action.tree.payload.DownloadManagerState.nativePcMap,
+                modFolderMap: action.tree.payload.DownloadManagerState.modFolderMap,
+                ownedPathDict: action.tree.payload.DownloadManagerState.ownedPathDict
             };
         }
         default: {

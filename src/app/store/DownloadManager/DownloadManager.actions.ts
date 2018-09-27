@@ -36,4 +36,17 @@ export class RemoveDownloadItem implements Action {
     constructor(public payload: any) { }
 }
 
-export type All = InitDownloadManager | AddDownloadItem | UpdateDownloadItemProgress | RemoveDownloadItem | CompleteDownloadItem;
+export const SET_STATE = '[DownloadManager] SET_STATE';
+
+export class SetState implements Action {
+    readonly type = SET_STATE;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const DOWNLOAD_MANAGER_SUCCESS = '[DownloadManger] DOWNLOAD_MANAGER_SUCCESS';
+export class DownloadManagerSuccess implements Action {
+    readonly type = DOWNLOAD_MANAGER_SUCCESS;
+}
+
+export type All = InitDownloadManager | AddDownloadItem | UpdateDownloadItemProgress | RemoveDownloadItem | CompleteDownloadItem |
+    SetState | DownloadManagerSuccess;
