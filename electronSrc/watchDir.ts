@@ -1,16 +1,35 @@
 const chokidar = require('chokidar');
 
+let watchNative = null;
+let watchMod = null;
+
 process.on('message', action => {
-    const watcher = chokidar.watch(action.payload, {persistent: true, interval: 100});
-    watcher.on('all', (eve, p) => {
-        // console.log(event, p);
-        process.send({
-            payload: action.payload[1]
+    console.log('MESSAGE, ', action);
+    if (action.payload[1] === 'nativePC') {
+        watchNative = chokidar.watch(action.payload, {persistent: true, interval: 500});
+        watchNative.on('all', (eve, p) => {
+            console.log(eve, p);
+            process.send({
+                payload: 'nativePC'
+            });
         });
-    });
-    watcher.on('error', (err) => {
-        process.send({
-            payload: action.payload[1]
+        watchNative.on('error', (err) => {
+            process.send({
+                payload: 'nativePC'
+            });
         });
-    });
+    } else if (action.payload[1] === 'modFolder') {
+        watchMod = chokidar.watch(action.payload, {persistent: true, interval: 500});
+        watchMod.on('all', (eve, p) => {
+            console.log(eve, p);
+            process.send({
+                payload: 'modFolder'
+            });
+        });
+        watchMod.on('error', (err) => {
+            process.send({
+                payload: 'modFolder'
+            });
+        });
+    }
 });

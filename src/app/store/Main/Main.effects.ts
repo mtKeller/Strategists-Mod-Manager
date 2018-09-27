@@ -33,8 +33,8 @@ const { ipcRenderer } = window.require('electron');
         });
         this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
            for (let i = 0; i < val.length; i++) {
-            if (val[0].complete) {
-                console.log('READY TO PROCESS', val.fileName);
+            if (val[i].complete) {
+                console.log('READY TO PROCESS', val[i].fileName);
             }
            }
         });
@@ -243,63 +243,62 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.send('INIT_DIR_WATCH', this.mainState.mhwDirectoryPath);
                 ipcRenderer.on('DIR_CHANGED', (err, args) => {
-                    // if (args === 'nativePC') {
-                    //     console.log('CHANGE TO NATIVEPC');
-                    // } else if (args === 'modFolder') {
-                    //     console.log('CHANGE TO MODFOLDER');
-                    // }
-                    const ActionNodeSaveStateSuccess: ActionNode = {
-                        initAction: new MainActions.SaveStateSuccess(),
-                        successNode: null,
-                        failureNode: null
-                    };
-                    const ActionNodeSaveState: ActionNode = {
-                        initAction: new MainActions.SaveState(),
-                        successNode: ActionNodeSaveStateSuccess,
-                        failureNode: null
-                    };
-                    const ActionNodeSetModFolderMap: ActionNode = {
-                        initAction: new ModManagerActions.SetModFolderMap(),
-                        successNode: ActionNodeSaveState,
-                        failureNode: null
-                    };
-                    const ActionNodeGetModFolderMap: ActionNode = {
-                        initAction: new FileSystemActions.GetNativePcMap(),
-                        successNode: ActionNodeSetModFolderMap,
-                        failureNode: null
-                    };
-                    const ActionNodeSetNativePcMap: ActionNode = {
-                        initAction: new ModManagerActions.SetNativePcMap(),
-                        successNode: ActionNodeGetModFolderMap,
-                        failureNode: null
-                    };
-                    const ActionNodeGetNativePcMap: ActionNode = {
-                        initAction: new FileSystemActions.GetNativePcMap(),
-                        successNode: ActionNodeSetNativePcMap,
-                        failureNode: null
-                    };
-                    const ActionNodeRemapSuccess: ActionNode = {
-                        initAction: new MainActions.SetMhwMappedDir(),
-                        successNode: ActionNodeGetNativePcMap,
-                        failureNode: null
-                    };
-                    const ActionNodeRemap: ActionNode = {
-                        initAction: new FileSystemActions.GetDirectories(),
-                        successNode: ActionNodeRemapSuccess,
-                        failureNode: null
-                    };
-                    const ActionNodeEmit: ActionNode = {
-                        initAction: new MainActions.DirWatchEmit(),
-                        successNode: ActionNodeRemap,
-                        failureNode: null
-                    };
-                    const ActionChainParamsRemap: ActionTreeParams = {
-                        payload: this.mainState.mhwDirectory,
-                        actionNode: ActionNodeEmit,
-                        store: this.store
-                    };
-                    const ActionChainRemapDirs: ActionTree = new ActionTree(ActionChainParamsRemap);
-                    ActionChainRemapDirs.init();
+                    if (args === 'nativePC') {
+                        const ActionNodeSaveStateSuccess: ActionNode = {
+                            initAction: new MainActions.SaveStateSuccess(),
+                            successNode: null,
+                            failureNode: null
+                        };
+                        const ActionNodeSaveState: ActionNode = {
+                            initAction: new MainActions.SaveState(),
+                            successNode: ActionNodeSaveStateSuccess,
+                            failureNode: null
+                        };
+                        const ActionNodeSetModFolderMap: ActionNode = {
+                            initAction: new ModManagerActions.SetModFolderMap(),
+                            successNode: ActionNodeSaveState,
+                            failureNode: null
+                        };
+                        const ActionNodeGetModFolderMap: ActionNode = {
+                            initAction: new FileSystemActions.GetNativePcMap(),
+                            successNode: ActionNodeSetModFolderMap,
+                            failureNode: null
+                        };
+                        const ActionNodeSetNativePcMap: ActionNode = {
+                            initAction: new ModManagerActions.SetNativePcMap(),
+                            successNode: ActionNodeGetModFolderMap,
+                            failureNode: null
+                        };
+                        const ActionNodeGetNativePcMap: ActionNode = {
+                            initAction: new FileSystemActions.GetNativePcMap(),
+                            successNode: ActionNodeSetNativePcMap,
+                            failureNode: null
+                        };
+                        const ActionNodeRemapSuccess: ActionNode = {
+                            initAction: new MainActions.SetMhwMappedDir(),
+                            successNode: ActionNodeGetNativePcMap,
+                            failureNode: null
+                        };
+                        const ActionNodeRemap: ActionNode = {
+                            initAction: new FileSystemActions.GetDirectories(),
+                            successNode: ActionNodeRemapSuccess,
+                            failureNode: null
+                        };
+                        const ActionNodeEmit: ActionNode = {
+                            initAction: new MainActions.DirWatchEmit(),
+                            successNode: ActionNodeRemap,
+                            failureNode: null
+                        };
+                        const ActionChainParamsRemap: ActionTreeParams = {
+                            payload: this.mainState.mhwDirectory,
+                            actionNode: ActionNodeEmit,
+                            store: this.store
+                        };
+                        const ActionChainRemapDirs: ActionTree = new ActionTree(ActionChainParamsRemap);
+                        ActionChainRemapDirs.init();
+                    } else if (args === 'modFolder') {
+                        console.log('CHANGE TO MODFOLDER');
+                    }
                 });
                 return action.tree.success();
             });

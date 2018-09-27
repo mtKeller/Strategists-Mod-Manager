@@ -111,8 +111,21 @@ export class FileSystemFailure implements Action {
     constructor(public payload: string = null) { }
 }
 
+export const INIT = '[FileSystem] INIT';
+
+export class Init implements Action {
+    readonly type = INIT;
+}
+
+export const EXIT = '[FileSystem] EXIT';
+
+export class Exit implements Action {
+    readonly type = EXIT;
+}
+
 export type All =
     ReadFile | ReadFileSuccess | GetDirectories | GetDirectoriesSuccess |
     RenameFile | RenameFileSuccess | WriteFile | WriteFileSuccess |
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
-    CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile;
+    CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile |
+    Init | Exit;

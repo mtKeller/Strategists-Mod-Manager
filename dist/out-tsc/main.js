@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var ipc_1 = require("./electronSrc/ipc");
-require('events').EventEmitter.prototype._maxListeners = 100;
+require('events').EventEmitter.prototype._maxListeners = 500;
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({

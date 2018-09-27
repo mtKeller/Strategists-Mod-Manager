@@ -3,20 +3,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var electron_1 = require("electron");
 var fsForkManager_class_1 = require("./fsForkManager.class");
 var _a = require('child_process'), execFile = _a.execFile, fork = _a.fork;
+var fileSystemManager = null;
+var mhwDIR = '';
+var watchFork = null;
+var watchingNative = false;
+var watchingModFolder = false;
 function initIPC(win, ele) {
     var electron = ele;
     var window = win;
-    var mhwDIR = '';
-    var fileSystemManager = new fsForkManager_class_1.ForkFileSystemManager(fork);
-    electron.on('before-quit', function () {
-        fileSystemManager.kill();
+    electron_1.ipcMain.setMaxListeners(50);
+    electron_1.ipcMain.on('INIT', function (event) {
+        console.log('INIT');
+        if (fileSystemManager === null) {
+            fileSystemManager = new fsForkManager_class_1.ForkFileSystemManager(fork);
+        }
+        event.sender.send('INITIALIZED', null);
     });
+    // ipcMain.on('EXIT', () => {
+    //     console.log('EXIT');
+    //     fileSystemManager.kill();
+    //     fileSystemManager = null;
+    // });
     electron_1.ipcMain.on('CLOSE_WINDOW', function (event, args) {
+        console.log('CLOSE_WINDOW');
         window.close();
+        fileSystemManager.kill();
         electron_1.app.exit();
+        process.exit();
         event.sender.send('HIT', 'ME');
     });
-    electron_1.ipcMain.setMaxListeners(50);
     electron_1.ipcMain.on('OPEN_DIRECTORY', function (event, args) {
         var success = electron_1.shell.openItem(args);
         if (success) {
@@ -27,6 +42,7 @@ function initIPC(win, ele) {
         }
     });
     electron_1.ipcMain.on('READ_FILE', function (event, args) {
+        console.log(fileSystemManager);
         fileSystemManager.io({
             type: 'READ_FILE',
             payload: args
@@ -91,7 +107,6 @@ function initIPC(win, ele) {
                 console.log('Index of MHW', data[0].indexOf('Monster Hunter World') > -1);
                 mhwDIR = data[0].slice(0, data[0]
                     .indexOf('Monster Hunter World') + 20);
-                console.log('CHECK THIS MF: ', mhwDIR);
                 event.sender.send('GOT_MHW_DIR_PATH', mhwDIR);
             }
             else {
@@ -104,20 +119,25 @@ function initIPC(win, ele) {
         findDir(event);
     });
     electron_1.ipcMain.on('INIT_DIR_WATCH', function (event, args) {
-        var watchDirNativePc = fork('./dist/out-tsc/electronSrc/watchDir.js');
-        watchDirNativePc.on('message', function (action) {
-            event.sender.send('DIR_CHANGED', action.payload);
-        });
-        watchDirNativePc.send({
-            payload: [mhwDIR + '\\nativePC\\', 'nativePC']
-        });
-        var watchDirModFolder = fork('./dist/out-tsc/electronSrc/watchDir.js');
-        watchDirNativePc.on('message', function (action) {
-            event.sender.send('DIR_CHANGED', action.payload);
-        });
-        watchDirNativePc.send({
-            payload: [mhwDIR + '\\modFolder\\', 'modFolder']
-        });
+        if (watchFork === null) {
+            watchFork = fork('./dist/out-tsc/electronSrc/watchDir.js');
+            watchFork.on('message', function (action) {
+                console.log('DIR_CHANGED', action.payload);
+                event.sender.send('DIR_CHANGED', action.payload);
+            });
+        }
+        if (!watchingNative) {
+            watchFork.send({
+                payload: [mhwDIR + '\\nativePC\\', 'nativePC']
+            });
+            watchingNative = true;
+        }
+        if (!watchingModFolder) {
+            watchFork.send({
+                payload: [mhwDIR + '\\modFolder\\', 'modFolder']
+            });
+            watchingModFolder = true;
+        }
     });
     var nativePcExists = false;
     var modFolderExists = false;
@@ -233,7 +253,6 @@ function initIPC(win, ele) {
                 childWindow = null;
             });
             childWindow.webContents.session.on('will-download', function (even, item, webContents) {
-                console.log('CHECK THIS MF: ', typeof mhwDIR);
                 downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
                 item.cancel();
             });

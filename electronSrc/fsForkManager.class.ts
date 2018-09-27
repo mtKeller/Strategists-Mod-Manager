@@ -18,10 +18,10 @@ export class ForkFileSystemManager {
                 fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
                 blocked: false
             },
-            {
-                fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
-                blocked: false
-            }
+            // {
+            //     fork: this.fork('./dist/out-tsc/electronSrc/fileSystem.js'),
+            //     blocked: false
+            // }
         ];
     }
     io(action: Action, cb) {
@@ -50,14 +50,19 @@ export class ForkFileSystemManager {
     }
     on(forkState, cb) {
         forkState.fork.on('message', (adjective) => {
+            // console.log(adjective);
             forkState.blocked = false;
-            // this.reduce();
             cb(adjective);
+            this.reduce();
         });
     }
     kill() {
         for (let i = 0; i < this.fileSystemForks.length; i++) {
+            this.fileSystemForks[i].fork.send({
+                type : 'EXIT'
+            });
             this.fileSystemForks[i].fork.kill('SIGINT');
+            this.fileSystemForks[i].fork.disconnect();
         }
     }
     reduce() {
@@ -68,17 +73,20 @@ export class ForkFileSystemManager {
         let open = 0;
         const newForkArray = [];
         for (let i = 0; i < statusArray.length; i++) {
-            if (!statusArray[i]) {
+            if (!statusArray[i] && open < 1) {
                 open++;
                 newForkArray.push(this.fileSystemForks[i]);
-            } else {
-                newForkArray.push(this.fileSystemForks[i]);
-            }
-            if (open > 2 && !statusArray[i]) {
+            } else if (open > 1 && !statusArray[i]) {
+                this.fileSystemForks[i].fork.send({
+                    type : 'EXIT'
+                });
                 this.fileSystemForks[i].fork.kill('SIGINT');
+                this.fileSystemForks[i].fork.disconnect();
+            } else if (statusArray[i]) {
+                newForkArray.push(this.fileSystemForks[i]);
             }
         }
         this.fileSystemForks = newForkArray;
-        // console.log(statusArray, this.fileSystemForks);
+        // console.log(statusArray);
     }
 }

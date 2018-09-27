@@ -2,23 +2,41 @@ import {app, BrowserWindow, ipcMain, dialog, shell} from 'electron';
 import {ForkFileSystemManager} from './fsForkManager.class';
 const { execFile, fork } = require('child_process');
 
+let fileSystemManager = null;
+let mhwDIR = '';
+let watchFork = null;
+let watchingNative = false;
+let watchingModFolder = false;
+
 export function initIPC(win, ele) {
     const electron = ele;
     const window = win;
-    let mhwDIR = '';
-    const fileSystemManager = new ForkFileSystemManager(fork);
 
-    electron.on('before-quit', () => {
-        fileSystemManager.kill();
-    });
-
-    ipcMain.on('CLOSE_WINDOW', (event, args) => {
-        window.close();
-        app.exit();
-        event.sender.send('HIT', 'ME');
-    });
 
     ipcMain.setMaxListeners(50);
+
+    ipcMain.on('INIT', (event) => {
+        console.log('INIT');
+        if ( fileSystemManager === null) {
+            fileSystemManager = new ForkFileSystemManager(fork);
+        }
+        event.sender.send('INITIALIZED', null);
+    });
+
+    // ipcMain.on('EXIT', () => {
+    //     console.log('EXIT');
+    //     fileSystemManager.kill();
+    //     fileSystemManager = null;
+    // });
+
+    ipcMain.on('CLOSE_WINDOW', (event, args) => {
+        console.log('CLOSE_WINDOW');
+        window.close();
+        fileSystemManager.kill();
+        app.exit();
+        process.exit();
+        event.sender.send('HIT', 'ME');
+    });
 
     ipcMain.on('OPEN_DIRECTORY', (event, args) => {
         const success = shell.openItem(args);
@@ -30,6 +48,7 @@ export function initIPC(win, ele) {
     });
 
     ipcMain.on('READ_FILE', (event, args) => {
+        console.log(fileSystemManager);
         fileSystemManager.io({
                 type: 'READ_FILE',
                 payload: args
@@ -115,21 +134,25 @@ export function initIPC(win, ele) {
     });
 
     ipcMain.on('INIT_DIR_WATCH', (event, args) => {
-        const watchDirNativePc = fork('./dist/out-tsc/electronSrc/watchDir.js');
-        watchDirNativePc.on('message', (action) => {
-            event.sender.send('DIR_CHANGED', action.payload);
-        });
-        watchDirNativePc.send({
-            payload: [mhwDIR + '\\nativePC\\', 'nativePC']
-        });
-
-        const watchDirModFolder = fork('./dist/out-tsc/electronSrc/watchDir.js');
-        watchDirNativePc.on('message', (action) => {
-            event.sender.send('DIR_CHANGED', action.payload);
-        });
-        watchDirNativePc.send({
-            payload: [mhwDIR + '\\modFolder\\', 'modFolder']
-        });
+        if (watchFork === null) {
+            watchFork = fork('./dist/out-tsc/electronSrc/watchDir.js');
+            watchFork.on('message', (action) => {
+                console.log('DIR_CHANGED', action.payload);
+                event.sender.send('DIR_CHANGED', action.payload);
+            });
+        }
+        if (!watchingNative) {
+            watchFork.send({
+                payload: [mhwDIR + '\\nativePC\\', 'nativePC']
+            });
+            watchingNative = true;
+        }
+        if (!watchingModFolder) {
+            watchFork.send({
+                payload: [mhwDIR + '\\modFolder\\', 'modFolder']
+            });
+            watchingModFolder = true;
+        }
     });
 
     let nativePcExists = false;

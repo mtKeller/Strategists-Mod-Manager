@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Store } from '../../node_modules/@ngrx/store';
 import * as MainActions from './store/Main/Main.actions';
-
+import {Init, Exit} from './store/FileSystem/FileSystem.actions';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -25,8 +25,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.store.dispatch(new MainActions.InitApp);
+      this.store.dispatch(new Init());
     });
   }
-
+  ngOnDestroy() {
+    this.store.dispatch(new Exit());
+  }
 }

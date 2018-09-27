@@ -31,6 +31,7 @@
     "@ngrx/effects": "^6.1.0",
     "@ngrx/router-store": "^6.1.0",
     "@ngrx/store": "^6.1.0",
+    "adm-zip": "^0.4.11",
     "archiver": "^3.0.0",
     "chokidar": "^2.0.4",
     "core-js": "^2.5.3",

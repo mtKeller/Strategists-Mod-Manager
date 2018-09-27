@@ -5,7 +5,7 @@
   },
   "FileSystemState": {
     "data": null,
-    "fileSystemLoading": true
+    "fileSystemLoading": false
   },
   "MainState": {
     "loading": false,
@@ -28,25 +28,7 @@
   },
   "ModManagerState": {
     "loading": false,
-    "modFolderMap": [
-      [
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Logs",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Shaders",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Textures",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders\\Shaders",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\reshade-shaders\\Textures",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\tss",
-        "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Version"
-      ],
-      true,
-      true
-    ],
+    "modFolderMap": [],
     "modList": [],
     "nativePcMap": [],
     "ownedPathDict": {}

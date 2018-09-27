@@ -60,6 +60,10 @@ process.on('message', function (action) {
             downloadFile(action.payload);
             break;
         }
+        case 'EXIT': {
+            process.exit();
+            break;
+        }
         default: {
             process.send({ payload: 'No valid message passed!' });
         }
@@ -319,7 +323,7 @@ function downloadFile(payload) {
     var sentUpdate = false;
     var updateInterval = setInterval(function () {
         sentUpdate = false;
-    }, 333);
+    }, 500);
     var req = request({
         method: 'GET',
         uri: file_url

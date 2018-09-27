@@ -59,6 +59,10 @@ process.on('message', (action) => {
             downloadFile(action.payload);
             break;
         }
+        case 'EXIT' : {
+            process.exit();
+            break;
+        }
         default: {
             process.send({payload: 'No valid message passed!'});
         }

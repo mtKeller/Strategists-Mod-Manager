@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 
 import * as FileSystemActions from './FileSystem.actions';
+import { InitApp } from '../Main/Main.actions';
 
 const fs = window.require('mz/fs');
 const { ipcRenderer } = window.require('electron');
@@ -13,7 +14,23 @@ const { ipcRenderer } = window.require('electron');
 @Injectable()
   export class FileSystemEffects {
     constructor(private actions$: Actions, private store: Store<any> ) { }
-
+    @Effect()
+        FileSystemInit$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.INIT)
+            .map(action => {
+                ipcRenderer.send('INIT', null);
+                ipcRenderer.once('INITIALIZED', (err, args) => {
+                     this.store.dispatch(new InitApp());
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+            @Effect()
+    FileSystemExit$: Observable<any> = this.actions$
+        .ofType(FileSystemActions.EXIT)
+        .map(action => {
+            ipcRenderer.send('EXIT', null);
+            return new FileSystemActions.FileSystemSuccess();
+        });
     @Effect()
         FileSystemReadFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.READ_FILE)
