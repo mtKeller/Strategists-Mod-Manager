@@ -241,8 +241,10 @@ const { ipcRenderer } = window.require('electron');
         MainDirWatchInit$: Observable<any> = this.actions$
             .ofType(MainActions.INIT_DIR_WATCH)
             .map(action => {
+                console.log('DIRS ARE WATCHED');
                 ipcRenderer.send('INIT_DIR_WATCH', this.mainState.mhwDirectoryPath);
                 ipcRenderer.on('DIR_CHANGED', (err, args) => {
+                    console.log('PING');
                     if (args === 'nativePC') {
                         const ActionNodeSaveStateSuccess: ActionNode = {
                             initAction: new MainActions.SaveStateSuccess(),
@@ -254,19 +256,9 @@ const { ipcRenderer } = window.require('electron');
                             successNode: ActionNodeSaveStateSuccess,
                             failureNode: null
                         };
-                        const ActionNodeSetModFolderMap: ActionNode = {
-                            initAction: new ModManagerActions.SetModFolderMap(),
-                            successNode: ActionNodeSaveState,
-                            failureNode: null
-                        };
-                        const ActionNodeGetModFolderMap: ActionNode = {
-                            initAction: new FileSystemActions.GetNativePcMap(),
-                            successNode: ActionNodeSetModFolderMap,
-                            failureNode: null
-                        };
                         const ActionNodeSetNativePcMap: ActionNode = {
                             initAction: new ModManagerActions.SetNativePcMap(),
-                            successNode: ActionNodeGetModFolderMap,
+                            successNode: ActionNodeSaveState,
                             failureNode: null
                         };
                         const ActionNodeGetNativePcMap: ActionNode = {
@@ -297,7 +289,48 @@ const { ipcRenderer } = window.require('electron');
                         const ActionChainRemapDirs: ActionTree = new ActionTree(ActionChainParamsRemap);
                         ActionChainRemapDirs.init();
                     } else if (args === 'modFolder') {
-                        console.log('CHANGE TO MODFOLDER');
+                        const ActionNodeSaveStateSuccess: ActionNode = {
+                            initAction: new MainActions.SaveStateSuccess(),
+                            successNode: null,
+                            failureNode: null
+                        };
+                        const ActionNodeSaveState: ActionNode = {
+                            initAction: new MainActions.SaveState(),
+                            successNode: ActionNodeSaveStateSuccess,
+                            failureNode: null
+                        };
+                        const ActionNodeSetModFolderMap: ActionNode = {
+                            initAction: new ModManagerActions.SetModFolderMap(),
+                            successNode: ActionNodeSaveState,
+                            failureNode: null
+                        };
+                        const ActionNodeGetModFolderMap: ActionNode = {
+                            initAction: new FileSystemActions.GetModFolderMap(),
+                            successNode: ActionNodeSetModFolderMap,
+                            failureNode: null
+                        };
+                        const ActionNodeRemapSuccess: ActionNode = {
+                            initAction: new MainActions.SetMhwMappedDir(),
+                            successNode: ActionNodeGetModFolderMap,
+                            failureNode: null
+                        };
+                        const ActionNodeRemap: ActionNode = {
+                            initAction: new FileSystemActions.GetDirectories(),
+                            successNode: ActionNodeRemapSuccess,
+                            failureNode: null
+                        };
+                        const ActionNodeEmit: ActionNode = {
+                            initAction: new MainActions.DirWatchEmit(),
+                            successNode: ActionNodeRemap,
+                            failureNode: null
+                        };
+                        const ActionChainParamsRemap: ActionTreeParams = {
+                            payload: this.mainState.mhwDirectory,
+                            actionNode: ActionNodeEmit,
+                            store: this.store
+                        };
+                        const ActionChainRemapDirs: ActionTree = new ActionTree(ActionChainParamsRemap);
+                        ActionChainRemapDirs.init();
                     }
                 });
                 return action.tree.success();

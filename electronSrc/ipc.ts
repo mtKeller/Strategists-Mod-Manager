@@ -54,15 +54,21 @@ export function initIPC(win, ele) {
                 payload: args
             },
             (action) => {
-                if (action.payload[0] === false) {
-                    event.sender.send('FILE_READ', false);
-                } else {
-                    if (typeof action.payload[1]  !== 'boolean' && action.payload[1]  !== undefined) {
-                        if (mhwDIR === '') {
-                            mhwDIR = action.payload[1];
+                switch (action.type) {
+                    case 'FILE_READ' : {
+                        if (action.payload[0] === false) {
+                            event.sender.send('FILE_READ', false);
+                        } else {
+                            if (typeof action.payload[1]  !== 'boolean' && action.payload[1]  !== undefined) {
+                                if (mhwDIR === '') {
+                                    mhwDIR = action.payload[1];
+                                }
+                            }
+                            event.sender.send('FILE_READ', action.payload[0]);
                         }
+                        break;
                     }
-                    event.sender.send('FILE_READ', action.payload[0]);
+                    default: { }
                 }
             }
         );
@@ -74,7 +80,13 @@ export function initIPC(win, ele) {
                 payload: mhwDIR + args
             },
             (action) => {
-                event.sender.send('MADE_PATH', action.payload);
+                switch (action.type) {
+                    case 'MADE_PATH' : {
+                        event.sender.send('MADE_PATH', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });
@@ -85,10 +97,16 @@ export function initIPC(win, ele) {
                 payload: args
             },
             (action) => {
-                if (!action.payload) {
-                    event.sender.send('WROTE_FILE', false);
-                } else {
-                    event.sender.send('WROTE_FILE', true);
+                switch (action.type) {
+                    case 'WROTE_FILE' : {
+                        if (!action.payload) {
+                            event.sender.send('WROTE_FILE', false);
+                        } else {
+                            event.sender.send('WROTE_FILE', true);
+                        }
+                        break;
+                    }
+                    default: { }
                 }
             }
         );
@@ -100,10 +118,16 @@ export function initIPC(win, ele) {
                 payload: args
             },
             (action) => {
-                if (!action.payload) {
-                    event.sender.send('SAVED_STATE', false);
-                } else {
-                    event.sender.send('SAVED_STATE', true);
+                switch (action.type) {
+                    case 'SAVED_STATE' : {
+                        if (!action.payload) {
+                            event.sender.send('SAVED_STATE', false);
+                        } else {
+                            event.sender.send('SAVED_STATE', true);
+                        }
+                        break;
+                    }
+                    default: { }
                 }
             }
         );
@@ -164,9 +188,15 @@ export function initIPC(win, ele) {
                 payload: [mhwDIR, nativePcExists, modFolderExists]
             },
             (action) => {
-                nativePcExists = action.payload[1];
-                modFolderExists = action.payload[2];
-                event.sender.send('DIR_READ', action.payload[0]);
+                switch (action.type) {
+                    case 'DIR_READ' : {
+                        nativePcExists = action.payload[1];
+                        modFolderExists = action.payload[2];
+                        event.sender.send('DIR_READ', action.payload[0]);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });
@@ -177,7 +207,13 @@ export function initIPC(win, ele) {
                 payload: mhwDIR
             },
             (action) => {
-                event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+                switch (action.type) {
+                    case 'GOT_NATIVE_PC_MAP' : {
+                        event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });
@@ -188,7 +224,14 @@ export function initIPC(win, ele) {
                 payload: mhwDIR
             },
             (action) => {
-                event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+                switch (action.type) {
+                    case 'GOT_MOD_FOLDER_MAP' : {
+                        console.log('CHECK THIS 2', action.payload);
+                        event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });
@@ -199,7 +242,13 @@ export function initIPC(win, ele) {
                 payload: mhwDIR
             },
             (action) => {
-                event.sender.send('CREATED_MOD_DIRS', action.payload);
+                switch (action.type) {
+                    case 'CREATED_MOD_DIRS' : {
+                        event.sender.send('CREATED_MOD_DIRS', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });
@@ -210,7 +259,13 @@ export function initIPC(win, ele) {
                 payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
             },
             (action) => {
-                event.sender.send('ZIPPED_DIR', action.payload);
+                switch (action.type) {
+                    case 'ZIPPED_DIR' : {
+                        event.sender.send('ZIPPED_DIR', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });
@@ -221,9 +276,30 @@ export function initIPC(win, ele) {
                 payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
             },
             (action) => {
-                event.sender.send('ZIPPED_FILES', action.payload);
+                switch (action.type) {
+                    case 'ZIPPED_FILES' : {
+                        event.sender.send('ZIPPED_FILES', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
+    });
+
+    ipcMain.on('VIEW_ZIPPED_CONTENTS', (event, args) => {
+        fileSystemManager.io({
+            type: 'VIEW_ZIPPED_CONTENTS',
+            payload: args
+        }, (action) => {
+            switch (action.type) {
+                case 'VIEWED_ZIPPED_CONTENTS' : {
+                    event.sender.send('VIEWED_ZIPPED_CONTENTS', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
     });
 
     ipcMain.on('UNZIP_FILE', (event, args) => {
@@ -232,7 +308,13 @@ export function initIPC(win, ele) {
                 payload: [args[0], mhwDIR, args[1]]
             },
             (action) => {
-                event.sender.send('UNZIPPED_FILE', action.payload);
+                switch (action.type) {
+                    case 'UNZIPPED_FILE' : {
+                        event.sender.send('UNZIPPED_FILE', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
             }
         );
     });

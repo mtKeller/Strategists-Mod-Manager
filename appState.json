@@ -13,6 +13,7 @@
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Logs",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\asd",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade",
@@ -27,8 +28,14 @@
     "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World"
   },
   "ModManagerState": {
-    "loading": false,
-    "modFolderMap": [],
+    "loading": true,
+    "modFolderMap": [
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/asd",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/BetterNPC-188-0-7-6.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
+    ],
     "modList": [],
     "nativePcMap": [],
     "ownedPathDict": {}

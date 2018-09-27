@@ -5,6 +5,16 @@ import {Action} from '@ngrx/store';
 export function ModManagerReducer(state = InitializeModManagerState(), action: Action) {
     switch (action.type) {
         case ModManagerActions.VERIFY_MODS: {
+            const zipMods = state.modFolderMap.filter((path) => {
+                console.log(path);
+                if (path.indexOf('.zip') <= -1) {
+                    return false;
+                }
+            });
+            console.log('CHECK FILTERED LIST', zipMods);
+            // for (let i = 0; i < state.modList.length; i++) {
+            //     state.modList[i]
+            // }
             return {
                 ...state,
                 loading: true

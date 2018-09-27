@@ -11,7 +11,14 @@ import * as ModManagerActions from './ModManager.action';
 
 @Injectable()
   export class ModManagerEffects {
-    constructor(private actions$: Actions, private store: Store<any> ) {    }
+    modFolderMap: Array<string>;
+    constructor(private actions$: Actions, private store: Store<any> ) {
+        this.store.select(state => state.ModManagerState.modFolderMap).subscribe(val => {
+            this.modFolderMap = val;
+            console.log('SHOULD DIPSATCH');
+            this.store.dispatch(new ModManagerActions.VerifyMods());
+        });
+    }
     @Effect()
         ModManagerSetNativePcMap$: Observable<any> = this.actions$
             .ofType(ModManagerActions.SET_NATIVE_PC_MAP)

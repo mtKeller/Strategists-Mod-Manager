@@ -63,6 +63,13 @@ export class ZipDir implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const VIEW_ZIPPED_CONTENTS = '[FILE_SYSTEM] VIEW_ZIPPED_CONTENTS';
+
+export class ViewZippedContents implements Action {
+    readonly type = VIEW_ZIPPED_CONTENTS;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const EXEC_PROCESS = '[FileSystem] EXEC_PROCESS';
 
 export class ExecProcess implements Action {
@@ -128,4 +135,4 @@ export type All =
     RenameFile | RenameFileSuccess | WriteFile | WriteFileSuccess |
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
     CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile |
-    Init | Exit;
+    Init | Exit | ViewZippedContents;

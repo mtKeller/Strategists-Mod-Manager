@@ -47,16 +47,22 @@ function initIPC(win, ele) {
             type: 'READ_FILE',
             payload: args
         }, function (action) {
-            if (action.payload[0] === false) {
-                event.sender.send('FILE_READ', false);
-            }
-            else {
-                if (typeof action.payload[1] !== 'boolean' && action.payload[1] !== undefined) {
-                    if (mhwDIR === '') {
-                        mhwDIR = action.payload[1];
+            switch (action.type) {
+                case 'FILE_READ': {
+                    if (action.payload[0] === false) {
+                        event.sender.send('FILE_READ', false);
                     }
+                    else {
+                        if (typeof action.payload[1] !== 'boolean' && action.payload[1] !== undefined) {
+                            if (mhwDIR === '') {
+                                mhwDIR = action.payload[1];
+                            }
+                        }
+                        event.sender.send('FILE_READ', action.payload[0]);
+                    }
+                    break;
                 }
-                event.sender.send('FILE_READ', action.payload[0]);
+                default: { }
             }
         });
     });
@@ -65,7 +71,13 @@ function initIPC(win, ele) {
             type: 'MAKE_PATH',
             payload: mhwDIR + args
         }, function (action) {
-            event.sender.send('MADE_PATH', action.payload);
+            switch (action.type) {
+                case 'MADE_PATH': {
+                    event.sender.send('MADE_PATH', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('WRITE_FILE', function (event, args) {
@@ -73,11 +85,17 @@ function initIPC(win, ele) {
             type: 'WRITE_FILE',
             payload: args
         }, function (action) {
-            if (!action.payload) {
-                event.sender.send('WROTE_FILE', false);
-            }
-            else {
-                event.sender.send('WROTE_FILE', true);
+            switch (action.type) {
+                case 'WROTE_FILE': {
+                    if (!action.payload) {
+                        event.sender.send('WROTE_FILE', false);
+                    }
+                    else {
+                        event.sender.send('WROTE_FILE', true);
+                    }
+                    break;
+                }
+                default: { }
             }
         });
     });
@@ -86,11 +104,17 @@ function initIPC(win, ele) {
             type: 'SAVE_STATE',
             payload: args
         }, function (action) {
-            if (!action.payload) {
-                event.sender.send('SAVED_STATE', false);
-            }
-            else {
-                event.sender.send('SAVED_STATE', true);
+            switch (action.type) {
+                case 'SAVED_STATE': {
+                    if (!action.payload) {
+                        event.sender.send('SAVED_STATE', false);
+                    }
+                    else {
+                        event.sender.send('SAVED_STATE', true);
+                    }
+                    break;
+                }
+                default: { }
             }
         });
     });
@@ -146,9 +170,15 @@ function initIPC(win, ele) {
             type: 'READ_DIR',
             payload: [mhwDIR, nativePcExists, modFolderExists]
         }, function (action) {
-            nativePcExists = action.payload[1];
-            modFolderExists = action.payload[2];
-            event.sender.send('DIR_READ', action.payload[0]);
+            switch (action.type) {
+                case 'DIR_READ': {
+                    nativePcExists = action.payload[1];
+                    modFolderExists = action.payload[2];
+                    event.sender.send('DIR_READ', action.payload[0]);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('GET_NATIVE_PC_MAP', function (event, args) {
@@ -156,7 +186,13 @@ function initIPC(win, ele) {
             type: 'GET_NATIVE_PC_MAP',
             payload: mhwDIR
         }, function (action) {
-            event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+            switch (action.type) {
+                case 'GOT_NATIVE_PC_MAP': {
+                    event.sender.send('GOT_NATIVE_PC_MAP', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('GET_MOD_FOLDER_MAP', function (event, args) {
@@ -164,7 +200,14 @@ function initIPC(win, ele) {
             type: 'GET_MOD_FOLDER_MAP',
             payload: mhwDIR
         }, function (action) {
-            event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+            switch (action.type) {
+                case 'GOT_MOD_FOLDER_MAP': {
+                    console.log('CHECK THIS 2', action.payload);
+                    event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('CREATE_MOD_DIRS', function (event, args) {
@@ -172,7 +215,13 @@ function initIPC(win, ele) {
             type: 'CREATE_MOD_DIRS',
             payload: mhwDIR
         }, function (action) {
-            event.sender.send('CREATED_MOD_DIRS', action.payload);
+            switch (action.type) {
+                case 'CREATED_MOD_DIRS': {
+                    event.sender.send('CREATED_MOD_DIRS', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('ZIP_DIR', function (event, args) {
@@ -180,7 +229,13 @@ function initIPC(win, ele) {
             type: 'ZIP_DIR',
             payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
         }, function (action) {
-            event.sender.send('ZIPPED_DIR', action.payload);
+            switch (action.type) {
+                case 'ZIPPED_DIR': {
+                    event.sender.send('ZIPPED_DIR', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('ZIP_FILES', function (event, args) {
@@ -188,7 +243,27 @@ function initIPC(win, ele) {
             type: 'ZIP_FILES',
             payload: [args[0], args[1], mhwDIR + '\\modFolder\\']
         }, function (action) {
-            event.sender.send('ZIPPED_FILES', action.payload);
+            switch (action.type) {
+                case 'ZIPPED_FILES': {
+                    event.sender.send('ZIPPED_FILES', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
+    electron_1.ipcMain.on('VIEW_ZIPPED_CONTENTS', function (event, args) {
+        fileSystemManager.io({
+            type: 'VIEW_ZIPPED_CONTENTS',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'VIEWED_ZIPPED_CONTENTS': {
+                    event.sender.send('VIEWED_ZIPPED_CONTENTS', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('UNZIP_FILE', function (event, args) {
@@ -196,7 +271,13 @@ function initIPC(win, ele) {
             type: 'UNZIP_FILE',
             payload: [args[0], mhwDIR, args[1]]
         }, function (action) {
-            event.sender.send('UNZIPPED_FILE', action.payload);
+            switch (action.type) {
+                case 'UNZIPPED_FILE': {
+                    event.sender.send('UNZIPPED_FILE', action.payload);
+                    break;
+                }
+                default: { }
+            }
         });
     });
     electron_1.ipcMain.on('EXEC_PROCESS', function (event, args) {

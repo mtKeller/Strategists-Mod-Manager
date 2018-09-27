@@ -25,6 +25,7 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/interval';
 import 'rxjs/add/observable/timer';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/fromEventPattern';
 import 'rxjs/add/operator/takeLast';
 import 'rxjs/add/operator/concatMap';
 import 'rxjs/add/operator/combineLatest';

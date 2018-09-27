@@ -8,6 +8,7 @@ var request = require('request');
 var mkdirp = require('mkdirp');
 var glob = require('glob');
 var extract = require('extract-zip');
+var AdmZip = require('adm-zip');
 process.on('message', function (action) {
     switch (action.type) {
         case 'READ_FILE': {
@@ -25,7 +26,7 @@ process.on('message', function (action) {
         case 'SAVE_STATE': {
             var payload = action.payload;
             payload[1].FileSystemState.data = null;
-            writeFile(payload);
+            saveState(payload);
             break;
         }
         case 'READ_DIR': {
@@ -50,6 +51,10 @@ process.on('message', function (action) {
         }
         case 'ZIP_FILES': {
             zipFiles(action.payload);
+            break;
+        }
+        case 'VIEW_ZIPPED_CONTENTS': {
+            viewZippedContents(action.paylaod);
             break;
         }
         case 'UNZIP_FILE': {
@@ -85,19 +90,24 @@ function readFile(payload) {
         }
         // console.log('check', parsedData, mhwDIR);
         process.send({
+            type: 'FILE_READ',
             payload: [parsedData, mhwDIR]
         });
     })
         .catch(function (err) {
         console.log('ERROR', err);
         process.send({
+            type: 'FILE_READ',
             payload: [false, false]
         });
     });
 }
 function makePath(payload) {
     mkdirp(payload);
-    process.send({ payload: true });
+    process.send({
+        type: 'MADE_PATH',
+        payload: true
+    });
 }
 function writeFile(payload) {
     // console.log('WRITE FILE: ', payload);
@@ -105,10 +115,35 @@ function writeFile(payload) {
         // console.log('WRITING_FILE', payload);
         if (err) {
             console.log('ERROR', err);
-            process.send({ payload: false });
+            process.send({
+                type: 'WROTE_FILE',
+                payload: false
+            });
         }
         else {
-            process.send({ payload: true });
+            process.send({
+                type: 'WROTE_FILE',
+                payload: true
+            });
+        }
+    });
+}
+function saveState(payload) {
+    // console.log('WRITE FILE: ', payload);
+    callbackFs.writeFile(payload[0], JSON.stringify(payload[1], null, 2), function (err) {
+        // console.log('WRITING_FILE', payload);
+        if (err) {
+            console.log('ERROR', err);
+            process.send({
+                type: 'SAVED_STATE',
+                payload: false
+            });
+        }
+        else {
+            process.send({
+                type: 'SAVED_STATE',
+                payload: true
+            });
         }
     });
 }
@@ -148,16 +183,26 @@ function readDir(payload) {
             mkdirp(mhwDIR + '\\nativePC\\', function (err) {
                 mkdirp(mhwDIR + '\\modFolder\\temp\\', function (error) {
                     newMap = getDirectoriesRecursive(mhwDIR);
-                    process.send({ payload: [newMap, nativePcExists, modFolderExists] });
+                    process.send({
+                        type: 'DIR_READ',
+                        payload: [newMap, nativePcExists, modFolderExists]
+                    });
                 });
             });
         }
         else {
-            process.send({ payload: [newMap, nativePcExists, modFolderExists] });
+            process.send({
+                type: 'DIR_READ',
+                payload: [newMap, nativePcExists, modFolderExists]
+            });
         }
     }
     else {
-        process.send({ payload: [newMap, nativePcExists, modFolderExists] });
+        process.send({
+            type: 'DIR_READ',
+            payload: [newMap, nativePcExists, modFolderExists
+            ]
+        });
     }
 }
 function getDirContents(src, cb) {
@@ -166,13 +211,16 @@ function getDirContents(src, cb) {
 function getNativePcMap(payload) {
     getDirContents(payload + '\\nativePC\\', function (er, files) {
         process.send({
+            type: 'GOT_NATIVE_PC_MAP',
             payload: files
         });
     });
 }
 function getModFolderMap(payload) {
     getDirContents(payload + '\\modFolder\\', function (er, files) {
+        console.log('CHECK THIS', files);
         process.send({
+            type: 'GOT_MOD_FOLDER_MAP',
             payload: files
         });
     });
@@ -181,6 +229,7 @@ function createModDirs(payload) {
     mkdirp(payload + '\\nativePC\\', function (err) {
         mkdirp(payload + '\\modFolder\\temp\\', function (error) {
             process.send({
+                type: 'CREATED_MOD_DIRS',
                 payload: true
             });
         });
@@ -198,6 +247,7 @@ function zipDir(payload) {
             console.log(archive_1.pointer() + ' total bytes');
             console.log('archiver has been finalized and the output file descriptor has closed.');
             process.send({
+                type: 'ZIPPED_DIR',
                 payload: true
             });
         });
@@ -245,6 +295,7 @@ function zipDir(payload) {
     }
     catch (err) {
         process.send({
+            type: 'ZIPPED_DIR',
             payload: false
         });
         throw err;
@@ -262,6 +313,7 @@ function zipFiles(payload) {
             console.log(archive_2.pointer() + ' total bytes');
             console.log('archiver has been finalized and the output file descriptor has closed.');
             process.send({
+                type: 'ZIPPED_FILES',
                 payload: true
             });
         });
@@ -289,21 +341,31 @@ function zipFiles(payload) {
     }
     catch (err) {
         process.send({
+            type: 'ZIPPED_FILES',
             payload: false
         });
         throw err;
     }
+}
+function viewZippedContents(payload) {
+    var zip = new AdmZip(payload);
+    process.send({
+        type: 'VIEWED_ZIPPED_CONTENTS',
+        payload: zip.getEntries()
+    });
 }
 function unzipFile(payload) {
     var targetDir = payload[1] + '\\modFolder\\temp\\' + payload[2].split('.')[0] + '\\';
     extract(payload[0], { dir: targetDir }, function (err) {
         if (err) {
             process.send({
+                type: 'UNZIPPED_FILE',
                 payload: false
             });
         }
         else {
             process.send({
+                type: 'UNZIPPED_FILE',
                 payload: targetDir
             });
         }
