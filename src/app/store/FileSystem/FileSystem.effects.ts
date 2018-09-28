@@ -109,9 +109,10 @@ const { ipcRenderer } = window.require('electron');
         FileSystemViewZippedContents$: Observable<any> = this.actions$
             .ofType(FileSystemActions.VIEW_ZIPPED_CONTENTS)
             .map(action => {
+                console.log('TREE HIT', action.tree.payload);
                 ipcRenderer.send('VIEW_ZIPPED_CONTENTS', action.tree.payload);
                 ipcRenderer.once('VIEWED_ZIPPED_CONTENTS', (err, args) => {
-                    console.log(args);
+                    console.log('LIST', args);
                     this.store.dispatch(action.tree.success());
                 });
                 return new FileSystemActions.FileSystemSuccess();

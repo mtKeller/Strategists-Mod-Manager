@@ -12,12 +12,28 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 }
             });
             console.log('CHECK FILTERED LIST', zipMods);
-            // for (let i = 0; i < state.modList.length; i++) {
-            //     state.modList[i]
-            // }
+            let needsProcessing;
+            if (state.modList.length === 0) {
+                needsProcessing = zipMods;
+            }
             return {
                 ...state,
-                loading: true
+                loading: true,
+                needsProcessing: needsProcessing
+            };
+        }
+        case ModManagerActions.ADD_MOD_FROM_PROCESSING : {
+            const MOD = action.payload;
+            const newProcessingList = [];
+            for (let i = 0; i < state.needsProcessing.length; i++) {
+                if (state.needsProcessing[i].indexOf(MOD.name) === -1) {
+                    newProcessingList.push(state.needsProcessing[i]);
+                }
+            }
+            return {
+                ...state,
+                modList: state.modList.push(MOD),
+                needsProcessing: newProcessingList
             };
         }
         case ModManagerActions.SET_MOD_FOLDER_MAP: {
@@ -36,9 +52,9 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             return {
                 ...state,
                 modList: action.tree.payload.ModManagerState.modList,
-                nativePcMap: action.tree.payload.DownloadManagerState.nativePcMap,
-                modFolderMap: action.tree.payload.DownloadManagerState.modFolderMap,
-                ownedPathDict: action.tree.payload.DownloadManagerState.ownedPathDict
+                nativePcMap: action.tree.payload.ModManagerState.nativePcMap,
+                modFolderMap: action.tree.payload.ModManagerState.modFolderMap,
+                ownedPathDict: action.tree.payload.ModManagerState.ownedPathDict
             };
         }
         default: {

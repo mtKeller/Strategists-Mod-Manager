@@ -53,7 +53,7 @@ process.on('message', (action) => {
             break;
         }
         case 'VIEW_ZIPPED_CONTENTS' : {
-            viewZippedContents(action.paylaod);
+            viewZippedContents(action.payload);
             break;
         }
         case 'UNZIP_FILE' : {
@@ -360,9 +360,10 @@ function zipFiles(payload) {
 
 function viewZippedContents(payload) {
     const zip = new AdmZip(payload);
+    const zippedPaths = zip.getEntries().map(item => item.entryName);
     process.send({
         type: 'VIEWED_ZIPPED_CONTENTS',
-        payload: zip.getEntries()
+        payload: zippedPaths
     });
 }
 

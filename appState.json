@@ -5,8 +5,7 @@
   },
   "FileSystemState": {
     "data": null,
-    "fileSystemLoading": true,
-    "targetPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\"
+    "fileSystemLoading": false
   },
   "MainState": {
     "loading": false,
@@ -14,7 +13,7 @@
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\Logs",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder",
-      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\asd",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\asde",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade",
@@ -29,7 +28,20 @@
     "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World"
   },
   "ModManagerState": {
-    "loading": false,
-    "modList": []
+    "loading": true,
+    "modFolderMap": [
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/asde",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/BetterNPC-188-0-7-6.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Black Swordsman Full-245-1.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Ninjutsu Insect Glaive-246-154553.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
+    ],
+    "modList": [],
+    "needsProcessing": [
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip"
+    ]
   }
 }

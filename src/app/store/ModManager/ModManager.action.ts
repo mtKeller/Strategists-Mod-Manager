@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { ActionTree } from '../../model/ActionTree.class';
+import { Mod } from './ModManager.state';
 
 export const SET_NATIVE_PC_MAP = '[ModManager] SET_NATIVE_PC_MAP';
 
@@ -21,6 +22,19 @@ export const VERIFY_MODS = '[ModManager] VERIFY_MODS';
 export class VerifyMods implements Action {
     readonly type = VERIFY_MODS;
     constructor(public chain: ActionTree = null) { }
+}
+
+export const PROCESS_MODS = '[ModManager] PROCESS_MODS';
+
+export class ProcessMods implements Action {
+    readonly type = PROCESS_MODS;
+}
+
+export const ADD_MOD_FROM_PROCESSING = '[ModManager] ADD_MOD_FROM_PROCESSING';
+
+export class AddModFromProcessing implements Action {
+    readonly type = ADD_MOD_FROM_PROCESSING;
+    constructor(public payload: Mod) { }
 }
 
 export const PACK_MOD = '[ModManager] PACK_MOD';
@@ -44,4 +58,11 @@ export class SetState implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
-export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState;
+export const MOD_MANAGER_SUCCESS = '[ModManager] MOD_MANAGER_SUCCESS';
+
+export class ModManagerSuccess implements Action {
+    readonly type = MOD_MANAGER_SUCCESS;
+}
+
+export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
+    ProcessMods | AddModFromProcessing | ModManagerSuccess;

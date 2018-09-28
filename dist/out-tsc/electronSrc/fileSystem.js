@@ -54,7 +54,7 @@ process.on('message', function (action) {
             break;
         }
         case 'VIEW_ZIPPED_CONTENTS': {
-            viewZippedContents(action.paylaod);
+            viewZippedContents(action.payload);
             break;
         }
         case 'UNZIP_FILE': {
@@ -349,9 +349,10 @@ function zipFiles(payload) {
 }
 function viewZippedContents(payload) {
     var zip = new AdmZip(payload);
+    var zippedPaths = zip.getEntries().map(function (item) { return item.entryName; });
     process.send({
         type: 'VIEWED_ZIPPED_CONTENTS',
-        payload: zip.getEntries()
+        payload: zippedPaths
     });
 }
 function unzipFile(payload) {
