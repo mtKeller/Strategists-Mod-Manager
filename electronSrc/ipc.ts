@@ -1,6 +1,8 @@
 import {app, BrowserWindow, ipcMain, dialog, shell} from 'electron';
 import {ForkFileSystemManager} from './fsForkManager.class';
 const { execFile, fork } = require('child_process');
+const path = require('path');
+const url = require('url');
 
 let fileSystemManager = null;
 let mhwDIR = '';
@@ -327,6 +329,17 @@ export function initIPC(win, ele) {
         });
     });
 
+    ipcMain.on('UNRAR_FILE', (event, args) => {
+        const pathToUnrar = __dirname.split('\\dist\\')[0] + '\\UnRAR.exe';
+        console.log('UNRAR_FILE: ', pathToUnrar);
+        execFile(pathToUnrar, ['x', mhwDIR + '\\modFolder\\BetterNPC-188-0-7-6.rar', mhwDIR + '\\modFolder\\temp\\'], function(err, data) {
+            console.log(err);
+            console.log(data.toString());
+        });
+    });
+
+    let modDetails;
+
     function downloadFile(file_url , targetPath, fileName) {
         fileSystemManager.io({
                 type: 'DOWNLOAD_FILE',
@@ -336,7 +349,7 @@ export function initIPC(win, ele) {
                 switch (action.type) {
                     case 'DOWNLOAD_MANAGER_START' : {
                         window.focus();
-                        window.webContents.send('DOWNLOAD_MANAGER_START', fileName);
+                        window.webContents.send('DOWNLOAD_MANAGER_START', [fileName, modDetails]);
                         break;
                     }
                     case 'DOWNLOAD_MANAGER_UPDATE' : {
@@ -367,10 +380,16 @@ export function initIPC(win, ele) {
                 title: 'Mod Nexus: Monster Hunter World',
                 webPreferences : {
                     nativeWindowOpen: true,
-                    nodeIntegration: false
+                    // nodeIntegration: false
                 }
             });
-            childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
+            // childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
+            const pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
+            childWindow.loadURL(url.format({
+                pathname: pathToIndex,
+                protocol: 'file:',
+                slashes: true
+              }));
             childWindow.once('ready-to-show', () => {
                 childWindow.show();
             });
@@ -383,5 +402,16 @@ export function initIPC(win, ele) {
             });
         };
         createChildWindow();
+    });
+
+    ipcMain.on('FOUND_MOD_PAGE', (event, args) => {
+        console.log('HIT FOUND MOD PAGE');
+        childWindow.webContents.send('SCRAPE_MOD_DETAILS', args);
+    });
+
+
+    ipcMain.on('STORE_MOD_DETAILS', (event, args) => {
+        modDetails = args;
+        console.log(args);
     });
 }

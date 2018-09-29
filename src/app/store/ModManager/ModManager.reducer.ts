@@ -36,6 +36,43 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 needsProcessing: newProcessingList
             };
         }
+        case ModManagerActions.ADD_MOD_DETAIL_FROM_DOWNLOAD : {
+            const modDetail = action.payload[1];
+            modDetail['modArchiveName'] = action.payload[0];
+            const modPictures = [];
+            for (let i = 0; i < modDetail.modThumbs.length; i++) {
+                modPictures.push(modDetail.modThumbs[i].replace('/thumbnails/', '/'));
+            }
+            modDetail['modPictures'] = modPictures;
+
+            let newState = {
+                ...state
+            };
+            if (state.downloadedModDetail.length < 1) {
+                newState = {
+                    ...state,
+                    downloadedModDetail: [
+                        modDetail
+                    ]
+                };
+            } else {
+                let exists = false;
+                for (let i = 0; i < state.downloadedModDetail.length; i++) {
+                    if (modDetail.modTitle === state.downloadedModDetail[i].modTitle) {
+                        exists = true;
+                    }
+                }
+                if (!exists) {
+                    const newEntry = state.downloadedModDetail;
+                    newEntry.push(modDetail);
+                    newState = {
+                        ...state,
+                        downloadedModDetail: newEntry
+                    };
+                }
+            }
+            return newState;
+        }
         case ModManagerActions.SET_MOD_FOLDER_MAP: {
             return {
                 ...state,

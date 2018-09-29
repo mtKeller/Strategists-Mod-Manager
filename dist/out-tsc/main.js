@@ -17,6 +17,9 @@ function createWindow() {
         win.show();
     });
     ipc_1.initIPC(win, electron_1.app);
+    win.on('closed', function () {
+        win = null;
+    });
 }
 electron_1.app.on('ready', createWindow);
 //# sourceMappingURL=main.js.map

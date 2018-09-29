@@ -105,6 +105,12 @@ export class UnzipFile implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const UNRAR_FILE = '[FileSystem] UNRAR_FILE';
+
+export class UnrarFile implements Action {
+    readonly type = UNRAR_FILE;
+}
+
 export const FILE_SYSTEM_SUCCESS = '[FileSystem] FILE_SYSTEM_SUCCESS';
 
 export class FileSystemSuccess implements Action {
@@ -135,4 +141,4 @@ export type All =
     RenameFile | RenameFileSuccess | WriteFile | WriteFileSuccess |
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
     CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile |
-    Init | Exit | ViewZippedContents;
+    Init | Exit | ViewZippedContents | UnrarFile;

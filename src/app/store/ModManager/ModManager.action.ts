@@ -37,6 +37,13 @@ export class AddModFromProcessing implements Action {
     constructor(public payload: Mod) { }
 }
 
+export const ADD_MOD_DETAIL_FROM_DOWNLOAD = '[ModManager] ADD_MOD_DETAIL_FROM_DOWNLOAD';
+
+export class AddModDetailFromDownload implements Action {
+    readonly type = ADD_MOD_DETAIL_FROM_DOWNLOAD;
+    constructor(public payload: any) { }
+}
+
 export const PACK_MOD = '[ModManager] PACK_MOD';
 
 export class PackMod implements Action {
@@ -65,4 +72,4 @@ export class ModManagerSuccess implements Action {
 }
 
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
-    ProcessMods | AddModFromProcessing | ModManagerSuccess;
+    ProcessMods | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload;

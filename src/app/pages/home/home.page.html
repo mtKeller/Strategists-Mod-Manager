@@ -19,6 +19,7 @@
   <button (click)='this.launchWideScreenFix()'>Add tool shortcut</button>
   <button (click)='openMhwDir()'>Open MHW Directory</button>
   <button (click)='this.testClick()'>Open Mod Nexus</button>
+  <button (click)='this.testUnrar()'>Test Unrar</button>
   <ul *ngIf="this.downloadManagerItems !== null">
     <li *ngFor="let item of this.downloadManagerItems">
       {{item.fileName}} {{item.progress}}

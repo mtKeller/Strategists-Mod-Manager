@@ -74,4 +74,7 @@ export class HomePage implements OnInit {
   removeDlItem(fileName) {
     this.store.dispatch(new RemoveDownloadItem(fileName));
   }
+  testUnrar() {
+    this.store.dispatch(new FileSystemActions.UnrarFile());
+  }
 }

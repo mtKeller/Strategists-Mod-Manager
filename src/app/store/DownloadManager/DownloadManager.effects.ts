@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 
 import * as DownloadManagerActions from './DownloadManager.actions';
+import { AddModDetailFromDownload } from '../ModManager/ModManager.action';
 import { SaveStateTree } from '../Main/Main.tree';
 import { empty } from '../../../../node_modules/rxjs';
 
@@ -21,6 +22,7 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.on('DOWNLOAD_MANAGER_START', (err, args) => {
                     console.log('CHECK DL', args);
+                    this.store.dispatch(new AddModDetailFromDownload(args));
                     this.store.dispatch(new DownloadManagerActions.AddDownloadItem(args));
                 });
                 ipcRenderer.on('DOWNLOAD_MANAGER_END', (err, args) => {

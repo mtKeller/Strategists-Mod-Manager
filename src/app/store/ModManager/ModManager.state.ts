@@ -15,6 +15,7 @@ export interface ModManagerState {
     modFolderMap: Array<any>;
     ownedPathDict: Object;
     needsProcessing: Array<any>;
+    downloadedModDetail: Array<any>;
 }
 
 export function InitializeModManagerState() {
@@ -24,6 +25,7 @@ export function InitializeModManagerState() {
         nativePcMap: [],
         modFolderMap: [],
         ownedPathDict: {},
-        needsProcessing: []
+        needsProcessing: [],
+        downloadedModDetail: []
     };
 }

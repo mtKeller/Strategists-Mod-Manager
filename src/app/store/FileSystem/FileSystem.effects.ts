@@ -133,6 +133,13 @@ const { ipcRenderer } = window.require('electron');
                 return new FileSystemActions.FileSystemSuccess();
             });
     @Effect()
+        FileSystemUnrarFile$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.UNRAR_FILE)
+            .map(action => {
+                ipcRenderer.send('UNRAR_FILE', null);
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
         FileSystemGetDirectories$: Observable<any> = this.actions$
             .ofType(FileSystemActions.GET_DIRECTORIES)
             .map(action => {

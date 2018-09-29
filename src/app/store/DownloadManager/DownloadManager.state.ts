@@ -2,6 +2,7 @@ export interface DownloadItem {
     fileName: string;
     progress: number;
     complete: boolean;
+    modDetails: object;
 }
 
 export interface DownloadManagerState {

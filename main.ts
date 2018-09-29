@@ -17,6 +17,10 @@ function createWindow() {
         win.show();
     });
     initIPC(win, app);
+
+    win.on('closed', () => {
+        win = null;
+    });
 }
 
 app.on('ready', createWindow);

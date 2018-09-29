@@ -1,6 +1,17 @@
 {
   "DownloadManagerState": {
-    "currentFiles": [],
+    "currentFiles": [
+      {
+        "complete": true,
+        "fileName": "BetterNPC-188-0-7-6.rar",
+        "progress": 100
+      },
+      {
+        "complete": true,
+        "fileName": "Souvenir's Light Pillar-112-1-1.zip",
+        "progress": 100
+      }
+    ],
     "ready": true
   },
   "FileSystemState": {
@@ -15,6 +26,13 @@
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\asde",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC\\event",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC\\event\\etc0110",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC\\stage",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC\\stage\\st302",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC\\stage\\st302\\common",
+      "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\nativePC\\stage\\st302\\common\\set",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\nativePC",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade",
       "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\ReShade\\Shaders",
@@ -28,20 +46,66 @@
     "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World"
   },
   "ModManagerState": {
+    "downloadedModDetail": [
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
+        "authorName": "2hh8899",
+        "modArchiveName": "Souvenir's Light Pillar-112-1-1.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
+        ],
+        "modPublishDate": "03 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
+        ],
+        "modTitle": "Souvenir's Light Pillar",
+        "modUpdateDate": "05 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+      }
+    ],
     "loading": true,
     "modFolderMap": [
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/1eye2earring - Legiana-230-v1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/asde",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/BetterNPC-188-0-7-6.rar",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Black Swordsman Full-245-1.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/BlueThunder saxe-229-1-00.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Chaos Kushala-235-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Charge blade effects replaced-228-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Female Stockings-241-1-0.rar",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Ninjutsu Insect Glaive-246-154553.rar",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Souvenir's Light Pillar-112-1-1.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/syamuos-244-1-0-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/event",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/event/etc0110",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/event/etc0110/etc0110.sdl",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/stage",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/stage/st302",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/stage/st302/common",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/stage/st302/common/set",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/nativePC/stage/st302/common/set/st302_npccom.sobj"
     ],
     "modList": [],
     "needsProcessing": [
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/1eye2earring - Legiana-230-v1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Chaos Kushala-235-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Charge blade effects replaced-228-1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip"
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Souvenir's Light Pillar-112-1-1.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/syamuos-244-1-0-0.zip"
     ]
   }
 }
