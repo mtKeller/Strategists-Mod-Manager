@@ -91,7 +91,8 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 modList: action.tree.payload.ModManagerState.modList,
                 nativePcMap: action.tree.payload.ModManagerState.nativePcMap,
                 modFolderMap: action.tree.payload.ModManagerState.modFolderMap,
-                ownedPathDict: action.tree.payload.ModManagerState.ownedPathDict
+                ownedPathDict: action.tree.payload.ModManagerState.ownedPathDict,
+                downloadedModDetail: action.tree.payload.ModManagerState.downloadedModDetail
             };
         }
         default: {

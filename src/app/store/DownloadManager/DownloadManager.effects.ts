@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 
 import * as DownloadManagerActions from './DownloadManager.actions';
-import { AddModDetailFromDownload } from '../ModManager/ModManager.action';
+import { AddModDetailFromDownload, ProcessMod } from '../ModManager/ModManager.action';
 import { SaveStateTree } from '../Main/Main.tree';
 import { empty } from '../../../../node_modules/rxjs';
 
@@ -28,6 +28,7 @@ const { ipcRenderer } = window.require('electron');
                 ipcRenderer.on('DOWNLOAD_MANAGER_END', (err, args) => {
                     console.log('CHECK END', args);
                     this.store.dispatch(new DownloadManagerActions.CompleteDownloadItem(args));
+                    this.store.dispatch(new ProcessMod(args));
                 });
                 ipcRenderer.on('DOWNLOAD_MANAGER_UPDATE', (err, args) => {
                     console.log('CHECK UPDATE', args);
@@ -47,6 +48,13 @@ const { ipcRenderer } = window.require('electron');
         DownloadManagerSetState$: Observable<any> = this.actions$
             .ofType(DownloadManagerActions.SET_STATE)
             .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
+        DownloadManagerUpdateDownloadItemProcessingProgress$ = this.actions$
+            .ofType(DownloadManagerActions.UPDATE_DOWNLOAD_ITEM_PROCESSING_PROGRESS)
+            .map(action => {
+                // TAKES FILENAME AND PROGRESS UPDATE
                 return action.tree.success();
             });
 }

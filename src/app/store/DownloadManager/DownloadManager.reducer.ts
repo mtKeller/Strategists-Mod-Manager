@@ -22,6 +22,8 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                             fileName: action.payload[0],
                             progress: 0.0,
                             complete: false,
+                            processing: false,
+                            processingProgress: 0
                         }
                     ]
                 };
@@ -38,6 +40,8 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                         fileName: action.payload[0],
                         progress: 0.0,
                         complete: false,
+                        processing: false,
+                        processingProgress: 0
                     });
                     newState = {
                         ...state,
@@ -62,7 +66,9 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                         newArray.push({
                             fileName: state.currentFiles[i].fileName,
                             progress: 100,
-                            complete: true
+                            complete: true,
+                            processing: false,
+                            processingProgress: 0
                         });
                     }
                 }
@@ -108,7 +114,37 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                         newArray.push({
                             fileName: state.currentFiles[i].fileName,
                             progress: action.payload[1],
-                            complete: false
+                            complete: false,
+                            processing: false,
+                            processingProgress: 0
+                        });
+                    }
+                }
+                newState = {
+                    ...state,
+                    currentFiles: newArray
+                };
+            }
+            return newState;
+        }
+        case DownloadManagerActions.UPDATE_DOWNLOAD_ITEM_PROCESSING_PROGRESS: {
+            let newState;
+            if (state.currentFiles.length < 1) {
+                newState = {
+                    ...state,
+                };
+            } else {
+                const newArray = [];
+                for (let i = 0; i < state.currentFiles.length; i++) {
+                    if (action.tree.payload[0] !== state.currentFiles[i].fileName) {
+                        newArray.push(state.currentFiles[i]);
+                    } else {
+                        newArray.push({
+                            fileName: state.currentFiles[i].fileName,
+                            progress: state.currentFiles[i].progress,
+                            complete: state.currentFiles[i].complete,
+                            processing: true,
+                            processingProgress: action.tree.payload[1]
                         });
                     }
                 }

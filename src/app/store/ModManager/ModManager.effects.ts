@@ -15,61 +15,45 @@ import { ViewZippedContents } from '../FileSystem/FileSystem.actions';
   export class ModManagerEffects {
     modFolderMap: Array<string>;
     needsProcessing: Array<string>;
+    downloadManagerCurrentFiles: Array<any>;
+
     constructor(private actions$: Actions, private store: Store<any> ) {
         this.store.select(state => state.ModManagerState.modFolderMap).subscribe(val => {
             if (val) {
                 this.modFolderMap = val;
-                if (val.length > 0) {
-                    console.log('DISPATCH VERIFY MODS');
-                    this.store.dispatch(new ModManagerActions.VerifyMods());
-                }
-            }
-        });
-        this.store.select(state => state.ModManagerState.needsProcessing).subscribe(val => {
-            if (val.length > 0) {
-                this.needsProcessing = val;
-                this.store.dispatch(new ModManagerActions.ProcessMods());
             }
         });
     }
     @Effect()
-        ModManagerProcessMods$: Observable<any> = this.actions$
-            .ofType(ModManagerActions.PROCESS_MODS)
-            .debounceTime(1000)
+        ModManagerProcessMod$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.PROCESS_MOD)
             .map(action => {
-                // const recursiveActionNode = (lastNode) => {
-                // };
-                // for (let i = 0; i < this.needsProcessing.length; i++) {
-
-                // }
-                console.log('HIT LIST');
-                if (this.needsProcessing) {
-                    const ActionNodeViewZippedContents: ActionNode = {
-                        initAction: new ViewZippedContents(),
-                        successNode: null,
-                        failureNode: null
-                    };
-                    const ActionTreeParam: ActionTreeParams = {
-                        actionNode: ActionNodeViewZippedContents,
-                        payload: this.needsProcessing[0],
-                        store: this.store
-                    };
-                    const ActionTreeList: ActionTree = new ActionTree(ActionTreeParam);
-                    ActionTreeList.init();
-                    console.log('Zipped List: ', ActionTreeList);
+                console.log('Process MOD: ', action.payload);
+                if (action.payload.indexOf('.rar') > -1) {
+                    return new ModManagerActions.ProcessRarMod(action.payload);
+                } else if (action.payload.indexOf('.zip') > -1) {
+                    return new ModManagerActions.ProcessZipMod(action.payload);
+                } else if (action.payload.indexOf('.7z') > -1) { // TODO WILL NOT WORK AT THE MOMENT
+                    return new ModManagerActions.Process7ZipMod(action.payload);
+                } else {
+                    return new ModManagerActions.ModManagerSuccess();
                 }
-                return new ModManagerActions.ModManagerSuccess();
             });
     @Effect()
         ModManagerSetNativePcMap$: Observable<any> = this.actions$
             .ofType(ModManagerActions.SET_NATIVE_PC_MAP)
             .map(action => {
+                // Insert Processing of direct installed MODS here
+                // Generates Anon JSON
                 return action.tree.success();
             });
     @Effect()
         ModManagerSetModFolderMap$: Observable<any> = this.actions$
             .ofType(ModManagerActions.SET_MOD_FOLDER_MAP)
             .map(action => {
+                // Insert Processing of dragged over MODS here
+                // Check against downloadedModDetail and Current MODS
+                // Generates Anon JSON
                 return action.tree.success();
             });
     @Effect()

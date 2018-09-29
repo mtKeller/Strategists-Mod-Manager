@@ -24,10 +24,32 @@ export class VerifyMods implements Action {
     constructor(public chain: ActionTree = null) { }
 }
 
-export const PROCESS_MODS = '[ModManager] PROCESS_MODS';
+export const PROCESS_MOD = '[ModManager] PROCESS_MOD';
 
-export class ProcessMods implements Action {
-    readonly type = PROCESS_MODS;
+export class ProcessMod implements Action {
+    readonly type = PROCESS_MOD;
+    constructor(public payload: any = null) { }
+}
+
+export const PROCESS_RAR_MOD = '[ModManager] PROCESS_RAR_MOD';
+
+export class ProcessRarMod implements Action {
+    readonly type = PROCESS_RAR_MOD;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const PROCESS_ZIP_MOD = '[ModManager] PROCESS_ZIP_MOD';
+
+export class ProcessZipMod implements Action {
+    readonly type = PROCESS_RAR_MOD;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const PROCESS_7_ZIP_MOD = '[ModManager] PROCESS_7_ZIP_MOD';
+
+export class Process7ZipMod implements Action {
+    readonly type = PROCESS_RAR_MOD;
+    constructor(public tree: ActionTree = null) { }
 }
 
 export const ADD_MOD_FROM_PROCESSING = '[ModManager] ADD_MOD_FROM_PROCESSING';
@@ -72,4 +94,5 @@ export class ModManagerSuccess implements Action {
 }
 
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
-    ProcessMods | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload;
+    ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
+    Process7ZipMod;

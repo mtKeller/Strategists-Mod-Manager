@@ -333,8 +333,11 @@ export function initIPC(win, ele) {
         const pathToUnrar = __dirname.split('\\dist\\')[0] + '\\UnRAR.exe';
         console.log('UNRAR_FILE: ', pathToUnrar);
         execFile(pathToUnrar, ['x', mhwDIR + '\\modFolder\\BetterNPC-188-0-7-6.rar', mhwDIR + '\\modFolder\\temp\\'], function(err, data) {
-            console.log(err);
-            console.log(data.toString());
+            if (err) {
+                event.sender.send('UNRARED_FILE', false);
+            } else {
+                event.sender.send('UNRARED_FILE', true);
+            }
         });
     });
 
@@ -405,13 +408,13 @@ export function initIPC(win, ele) {
     });
 
     ipcMain.on('FOUND_MOD_PAGE', (event, args) => {
-        console.log('HIT FOUND MOD PAGE');
+        // console.log('HIT FOUND MOD PAGE');
         childWindow.webContents.send('SCRAPE_MOD_DETAILS', args);
     });
 
 
     ipcMain.on('STORE_MOD_DETAILS', (event, args) => {
         modDetails = args;
-        console.log(args);
+        // console.log(args);
     });
 }

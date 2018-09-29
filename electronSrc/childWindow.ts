@@ -17,7 +17,7 @@ views.appendChild(webView);
 const webViewer = document.getElementsByTagName('webview')[0] as WebviewTag;
 
 ipcRenderer.on('SCRAPE_MOD_DETAILS', (event, args) => {
-    console.log('SCRAPE_MOD_DETAILS');
+    // console.log('SCRAPE_MOD_DETAILS');
     webViewer.send('SCRAPE_MOD_DETAILS', args);
 });
 
@@ -97,12 +97,12 @@ function updateNav (event) {
 }
 
 function detectModPage () {
-    console.log('HIT', urlBar.value.indexOf('/mods/'));
+    // console.log('HIT', urlBar.value.indexOf('/mods/'));
     if ( urlBar.value.indexOf('/mods/') > -1) {
-        console.log((urlBar.value.split('/mods/'))[1], (urlBar.value.split('/mods/'))[1].length);
+        // console.log((urlBar.value.split('/mods/'))[1], (urlBar.value.split('/mods/'))[1].length);
         if (urlBar.value.split('/mods/')[1].length > 0 && Number(urlBar.value.split('/mods/')[1].split('/')[0]) === NaN
             || urlBar.value.split('/mods/')[1].indexOf('/') === -1 ) {
-            console.log('HIT', Number(urlBar.value.split('/mods/')[1].split('/')[0]) === NaN);
+            // console.log('HIT', Number(urlBar.value.split('/mods/')[1].split('/')[0]) === NaN);
             ipcRenderer.send('FOUND_MOD_PAGE', urlBar.value);
         }
     }

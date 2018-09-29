@@ -6,7 +6,7 @@ declare global {
 
 const { ipcRenderer } = require('electron');
 
-console.log('SOMETHING HERE');
+// console.log('SOMETHING HERE');
 
 export function scrapeModDetails(modUrl) {
     const pageTitle = document.getElementById('pagetitle') as HTMLElement;
@@ -34,12 +34,12 @@ export function scrapeModDetails(modUrl) {
         modThumbs: modThumbs,
         modUrl: modUrl
     });
-    for (let i = 0; i < fileInfoChildren.length; i++) {
-        console.log(i + ': ' + fileInfoChildren[i]);
-    }
-    for (let i = 0; i < pageTitleChildren.length; i++) {
-        console.log(i + ': ' + pageTitleChildren[i]);
-    }
+    // for (let i = 0; i < fileInfoChildren.length; i++) {
+    //     console.log(i + ': ' + fileInfoChildren[i]);
+    // }
+    // for (let i = 0; i < pageTitleChildren.length; i++) {
+    //     console.log(i + ': ' + pageTitleChildren[i]);
+    // }
 }
 
 ipcRenderer.on('SCRAPE_MOD_DETAILS', (event, args) => {
@@ -49,4 +49,4 @@ ipcRenderer.on('SCRAPE_MOD_DETAILS', (event, args) => {
 
 window['scrapeModDetails'] = scrapeModDetails;
 
-console.log('MADE IT HERE', ipcRenderer);
+// console.log('MADE IT HERE', ipcRenderer);

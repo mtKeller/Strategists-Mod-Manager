@@ -1,4 +1,8 @@
+TO GET FILES FROM MAPPED DIRS LOOK FOR PATH THAT HAS A . THEN LOOP DOWN TILL YOU GET A /
+CREATE PATHS IF THEY DONT EXIST
 
+REMEMBER TO TEST ADM ZIP
+ALSO TO ADD IN PREPARED OR NOT
 <!-- 
 Work on if file exists write, to save flow. Mod folder, NativePC, appState.json
 Break off into seperate -->

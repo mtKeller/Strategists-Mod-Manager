@@ -3,6 +3,8 @@ export interface DownloadItem {
     progress: number;
     complete: boolean;
     modDetails: object;
+    processing: boolean;
+    processingProgress: number;
 }
 
 export interface DownloadManagerState {
