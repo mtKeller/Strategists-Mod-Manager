@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 import * as FileSystemActions from './FileSystem.actions';
 import { InitApp } from '../Main/Main.actions';
+import { Observer } from 'rx';
 
 const fs = window.require('mz/fs');
 const { ipcRenderer } = window.require('electron');
@@ -60,7 +61,13 @@ const { ipcRenderer } = window.require('electron');
         FileSystemWriteFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.WRITE_FILE)
             .map(action => {
-                ipcRenderer.send('WRITE_FILE', action.tree.payload);
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                ipcRenderer.send('WRITE_FILE', payload);
                 ipcRenderer.once('WROTE_FILE', (err, args) => {
                     console.log('Check in on args: ', args);
                     if (args === false) {
@@ -136,7 +143,22 @@ const { ipcRenderer } = window.require('electron');
         FileSystemUnrarFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.UNRAR_FILE)
             .map(action => {
-                ipcRenderer.send('UNRAR_FILE', null);
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                console.log('UNRAR ACTION', action);
+                ipcRenderer.send('UNRAR_FILE', payload);
+                ipcRenderer.once('UNRARED_FILE', (err, args) => {
+                    console.log('UNRARED_FILE', args);
+                    if (args === false) {
+                        this.store.dispatch(action.tree.failed());
+                    } else {
+                        this.store.dispatch(action.tree.success());
+                    }
+                });
                 return new FileSystemActions.FileSystemSuccess();
             });
     @Effect()
@@ -168,6 +190,53 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.send('CREATE_MOD_DIRS', null);
                 ipcRenderer.once('CREATED_MOD_DIRS', (err, args) => {
+                    this.store.dispatch(action.tree.success());
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
+        FileSystemMapDirectoryThenAppendPayload$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.MAP_DIRECTORY_THEN_APPEND_PAYLOAD)
+            .map(action => {
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                ipcRenderer.send('MAP_DIRECTORY_THEN_APPEND_PAYLOAD', payload);
+                ipcRenderer.once('MAPPED_DIRECTORY_NOW_APPEND_PAYLOAD', (err, args) => {
+                    console.log('MAPPED', args);
+                    this.store.dispatch(action.tree.success({
+                        ...action.tree.payload,
+                        modMap: args
+                    }));
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
+        FileSystemMapDirectory$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.MAP_DIRECTORY)
+            .map(action => {
+                ipcRenderer.send('MAP_DIRECTORY', action.tree.payload);
+                ipcRenderer.once('MAPPED_DIRECTORY', (err, args) => {
+                    this.store.dispatch(action.tree.success());
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
+        FileSystemDeleteDirectory$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.DELETE_DIRECTORY)
+            .map(action => {
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                ipcRenderer.send('DELETE_DIRECTORY', payload);
+                ipcRenderer.once('DELETED_DIRECTORY', (err, args) => {
+                    console.log('DELETED_DIRECTORY', args);
                     this.store.dispatch(action.tree.success());
                 });
                 return new FileSystemActions.FileSystemSuccess();

@@ -71,9 +71,6 @@ export class HomePage implements OnInit {
     this.store.dispatch(new MainActions.OpenModNexus);
     console.log('Slick did click');
   }
-  removeDlItem(fileName) {
-    this.store.dispatch(new RemoveDownloadItem(fileName));
-  }
   testUnrar() {
     this.store.dispatch(new FileSystemActions.UnrarFile());
   }

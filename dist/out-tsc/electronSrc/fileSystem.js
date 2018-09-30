@@ -9,6 +9,7 @@ var mkdirp = require('mkdirp');
 var glob = require('glob');
 var extract = require('extract-zip');
 var AdmZip = require('adm-zip');
+var rimraf = require('rimraf');
 process.on('message', function (action) {
     switch (action.type) {
         case 'READ_FILE': {
@@ -31,6 +32,18 @@ process.on('message', function (action) {
         }
         case 'READ_DIR': {
             readDir(action.payload);
+            break;
+        }
+        case 'DELETE_DIRECTORY': {
+            deleteDirectory(action.payload);
+            break;
+        }
+        case 'MAP_DIRECTORY': {
+            mapDirectory(action.payload);
+            break;
+        }
+        case 'MAP_DIRECTORY_THEN_APPEND_PAYLOAD': {
+            mapDirectoryThenAppendPayload(action.payload);
             break;
         }
         case 'GET_NATIVE_PC_MAP': {
@@ -207,6 +220,40 @@ function readDir(payload) {
 }
 function getDirContents(src, cb) {
     glob(src + '/**/*', cb);
+}
+function deleteDirectory(payload) {
+    console.log('ATTEMPTING TO DELETE: ', payload);
+    rimraf(payload, function (err) {
+        console.log('ATTEMPTING TO DELETE CB');
+        if (err) {
+            process.send({
+                type: 'DELETED_DIRECTORY',
+                payload: err
+            });
+        }
+        else {
+            process.send({
+                type: 'DELETED_DIRECTORY',
+                payload: true
+            });
+        }
+    });
+}
+function mapDirectory(payload) {
+    getDirContents(payload, function (er, files) {
+        process.send({
+            type: 'MAPPED_DIRECTORY',
+            payload: files
+        });
+    });
+}
+function mapDirectoryThenAppendPayload(payload) {
+    getDirContents(payload, function (er, files) {
+        process.send({
+            type: 'MAPPED_DIRECTORY_NOW_APPEND_PAYLOAD',
+            payload: files
+        });
+    });
 }
 function getNativePcMap(payload) {
     getDirContents(payload + '\\nativePC\\', function (er, files) {

@@ -183,6 +183,48 @@ function initIPC(win, ele) {
             }
         });
     });
+    electron_1.ipcMain.on('DELETE_DIRECTORY', function (event, args) {
+        fileSystemManager.io({
+            type: 'DELETE_DIRECTORY',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'DELETED_DIRECTORY': {
+                    event.sender.send('DELETED_DIRECTORY', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
+    electron_1.ipcMain.on('MAP_DIRECTORY', function (event, args) {
+        fileSystemManager.io({
+            type: 'MAP_DIRECTORY',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'GOT_NATIVE_PC_MAP': {
+                    event.sender.send('MAPPED_DIRECTORY', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
+    electron_1.ipcMain.on('MAP_DIRECTORY_THEN_APPEND_PAYLOAD', function (event, args) {
+        fileSystemManager.io({
+            type: 'MAP_DIRECTORY_THEN_APPEND_PAYLOAD',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'MAPPED_DIRECTORY_NOW_APPEND_PAYLOAD': {
+                    event.sender.send('MAPPED_DIRECTORY_NOW_APPEND_PAYLOAD', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
     electron_1.ipcMain.on('GET_NATIVE_PC_MAP', function (event, args) {
         fileSystemManager.io({
             type: 'GET_NATIVE_PC_MAP',
@@ -291,8 +333,9 @@ function initIPC(win, ele) {
     });
     electron_1.ipcMain.on('UNRAR_FILE', function (event, args) {
         var pathToUnrar = __dirname.split('\\dist\\')[0] + '\\UnRAR.exe';
-        console.log('UNRAR_FILE: ', pathToUnrar);
-        execFile(pathToUnrar, ['x', mhwDIR + '\\modFolder\\BetterNPC-188-0-7-6.rar', mhwDIR + '\\modFolder\\temp\\'], function (err, data) {
+        console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        execFile(pathToUnrar, ['x', args[0], args[1]], function (err, data) {
+            console.log('MADE IT INSIDE OF CB');
             if (err) {
                 event.sender.send('UNRARED_FILE', false);
             }

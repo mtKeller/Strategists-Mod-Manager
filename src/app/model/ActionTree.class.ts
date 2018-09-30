@@ -17,7 +17,7 @@ export class ActionTreeFailed implements Action {
 export interface ActionNode {
     initAction: Action;
     successNode: ActionNode;
-    failureNode: ActionNode;
+    failureNode?: ActionNode;
     payload?: any;
 }
 
@@ -45,6 +45,9 @@ export class ActionTree {
     init() {
         this.currentNode.initAction.tree = this;
         if (this.currentNode.initAction !== null) {
+            if (this.currentNode.payload) {
+                this.currentNode.initAction.payload = this.currentNode.payload;
+            }
             this.store.dispatch(this.currentNode.initAction);
         } else {
             this.store.dispatch(new EndOfActionChain(this));
@@ -58,9 +61,9 @@ export class ActionTree {
         if (this.currentNode.successNode !== null) {
             nextNode = this.currentNode.successNode.initAction;
             this.currentNode = this.currentNode.successNode;
-            if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
-                this.payload = this.currentNode.payload;
-            }
+            // if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
+            //     this.payload = this.currentNode.payload;
+            // }
         } else {
             this.actionList.push('Success: ' + END_OF_ACTION_TREE_PATH);
             return new EndOfActionChain(this);
@@ -68,6 +71,9 @@ export class ActionTree {
         this.actionList.push('Success: ' + nextNode.type);
         this.lastAction = nextNode;
         nextNode.tree = this;
+        if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
+            nextNode.payload = this.currentNode.payload;
+        }
         return nextNode;
     }
     failed(payload?: any) {
@@ -75,7 +81,7 @@ export class ActionTree {
             this.payload = payload;
         }
         let nextNode: Action;
-        if (this.currentNode.failureNode !== null ) {
+        if (this.currentNode.failureNode !== null || this.currentNode.failureNode !== undefined) {
             nextNode = this.currentNode.failureNode.initAction;
             this.currentNode = this.currentNode.failureNode;
             if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
@@ -88,6 +94,9 @@ export class ActionTree {
         this.actionList.push('Failed: ' + this.lastAction.type);
         this.lastAction = nextNode;
         nextNode.tree = this;
+        if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {
+            nextNode.payload = this.currentNode.payload;
+        }
         return nextNode;
     }
 }

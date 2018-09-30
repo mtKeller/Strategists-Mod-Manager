@@ -30,7 +30,7 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
             } else {
                 let exists = false;
                 for (let i = 0; i < state.currentFiles.length; i++) {
-                    if (action.payload[0] === state.currentFiles[i]) {
+                    if (action.payload[0] === state.currentFiles[i].fileName) {
                         exists = true;
                     }
                 }
@@ -128,6 +128,12 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
             return newState;
         }
         case DownloadManagerActions.UPDATE_DOWNLOAD_ITEM_PROCESSING_PROGRESS: {
+            let payload;
+            if (action.payload) {
+                payload = action.payload;
+            } else {
+                payload = action.tree.payload;
+            }
             let newState;
             if (state.currentFiles.length < 1) {
                 newState = {
@@ -136,7 +142,7 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
             } else {
                 const newArray = [];
                 for (let i = 0; i < state.currentFiles.length; i++) {
-                    if (action.tree.payload[0] !== state.currentFiles[i].fileName) {
+                    if (payload[0] !== state.currentFiles[i].fileName) {
                         newArray.push(state.currentFiles[i]);
                     } else {
                         newArray.push({
@@ -144,7 +150,7 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                             progress: state.currentFiles[i].progress,
                             complete: state.currentFiles[i].complete,
                             processing: true,
-                            processingProgress: action.tree.payload[1]
+                            processingProgress: payload[1]
                         });
                     }
                 }

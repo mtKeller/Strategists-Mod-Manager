@@ -35,20 +35,27 @@ export const PROCESS_RAR_MOD = '[ModManager] PROCESS_RAR_MOD';
 
 export class ProcessRarMod implements Action {
     readonly type = PROCESS_RAR_MOD;
-    constructor(public tree: ActionTree = null) { }
+    constructor(public payload: any = null) { }
 }
 
 export const PROCESS_ZIP_MOD = '[ModManager] PROCESS_ZIP_MOD';
 
 export class ProcessZipMod implements Action {
     readonly type = PROCESS_RAR_MOD;
-    constructor(public tree: ActionTree = null) { }
+    constructor(public payload: any = null) { }
 }
 
 export const PROCESS_7_ZIP_MOD = '[ModManager] PROCESS_7_ZIP_MOD';
 
 export class Process7ZipMod implements Action {
     readonly type = PROCESS_RAR_MOD;
+    constructor(public payload: any = null) { }
+}
+
+export const ADD_MOD_TO_MOD_LIST = '[ModManager] ADD_MOD_TO_MOD_LIST';
+
+export class AddModToModList implements Action {
+    readonly type = ADD_MOD_TO_MOD_LIST;
     constructor(public tree: ActionTree = null) { }
 }
 
@@ -63,6 +70,13 @@ export const ADD_MOD_DETAIL_FROM_DOWNLOAD = '[ModManager] ADD_MOD_DETAIL_FROM_DO
 
 export class AddModDetailFromDownload implements Action {
     readonly type = ADD_MOD_DETAIL_FROM_DOWNLOAD;
+    constructor(public payload: any) { }
+}
+
+export const REMOVE_MOD_DETAIL_FROM_DOWNLOAD = '[ModManager] REMOVE_MOD_DETAIL_FROM_DOWNLOAD';
+
+export class RemoveModDetailFromDownload implements Action {
+    readonly type = REMOVE_MOD_DETAIL_FROM_DOWNLOAD;
     constructor(public payload: any) { }
 }
 
@@ -95,4 +109,4 @@ export class ModManagerSuccess implements Action {
 
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
-    Process7ZipMod;
+    Process7ZipMod | RemoveModDetailFromDownload | AddModToModList;

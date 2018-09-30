@@ -31,12 +31,8 @@ const { ipcRenderer } = window.require('electron');
         this.store.select(state => state).subscribe(val => {
             this.appState = val;
         });
-        this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
-           for (let i = 0; i < val.length; i++) {
-            if (val[i].complete) {
-                console.log('READY TO PROCESS', val[i].fileName);
-            }
-           }
+        this.store.select(state => state.ModManagerState.downloadedModDetail).subscribe(val => {
+            console.log('READY TO PROCESS', val);
         });
     }
 
@@ -166,11 +162,7 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.send('OPEN_DIRECTORY', this.mainState.mhwDirectoryPath);
                 ipcRenderer.once('OPENED_DIRECTORY', (err, args) => {
-                    if (args) {
-                        this.store.dispatch(action.tree.success());
-                    } else {
-                        this.store.dispatch(action.tree.failed());
-                    }
+                    console.log('OPENED DIR', args);
                 });
                 return new MainActions.MainSuccess();
             });

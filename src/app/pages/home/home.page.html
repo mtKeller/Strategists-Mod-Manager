@@ -23,7 +23,7 @@
   <ul *ngIf="this.downloadManagerItems !== null">
     <li *ngFor="let item of this.downloadManagerItems">
       {{item.fileName}} {{item.progress}}
-      <button *ngIf="item.complete" (click)="this.removeDlItem(item.fileName)">Complete</button>
+      <button *ngIf="item.complete">Complete</button>
     </li>
   </ul>
 </ion-content>

@@ -1,11 +1,16 @@
 export interface Mod {
     name: string;
-    author: string;
+    authorLink: string;
+    authorName: string;
+    url: string;
     publishDate: string;
-    archivePath: string;
-    paths: Array<string>;
-    enabled: boolean;
+    updateDate: string;
+    archiveNames: Array<string>;
+    archivePaths: Array<string>;
+    archiveMaps: Array<Array<string>>;
     pictures: Array<string>;
+    thumbs: Array<string>;
+    enabled: Array<boolean>;
 }
 
 export interface ModManagerState {

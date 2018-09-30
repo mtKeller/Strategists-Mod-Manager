@@ -22,19 +22,29 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.on('DOWNLOAD_MANAGER_START', (err, args) => {
                     console.log('CHECK DL', args);
-                    this.store.dispatch(new AddModDetailFromDownload(args));
                     this.store.dispatch(new DownloadManagerActions.AddDownloadItem(args));
                 });
                 ipcRenderer.on('DOWNLOAD_MANAGER_END', (err, args) => {
                     console.log('CHECK END', args);
                     this.store.dispatch(new DownloadManagerActions.CompleteDownloadItem(args));
-                    this.store.dispatch(new ProcessMod(args));
                 });
                 ipcRenderer.on('DOWNLOAD_MANAGER_UPDATE', (err, args) => {
                     console.log('CHECK UPDATE', args);
                     this.store.dispatch(new DownloadManagerActions.UpdateDownloadItemProgress(args));
                 });
                 return action.tree.success();
+            });
+    @Effect()
+        DownloadManagerAddDownloadItem$: Observable<any> = this.actions$
+            .ofType(DownloadManagerActions.ADD_DOWNLOAD_ITEM)
+            .map(action => {
+                return new AddModDetailFromDownload(action.payload);
+            });
+    @Effect()
+        DownloadManagerCompleteDownloadItem$: Observable<any> = this.actions$
+            .ofType(DownloadManagerActions.COMPLETE_DOWNLOAD_ITEM)
+            .map(action => {
+                return new ProcessMod(action.payload);
             });
     @Effect()
         DownloadManagerRemoveItem$: Observable<any> = this.actions$

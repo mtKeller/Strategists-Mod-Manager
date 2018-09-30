@@ -33,7 +33,7 @@ export const REMOVE_DOWNLOAD_ITEM = '[DownloadManager] REMOVE_DOWNLOAD_ITEM';
 
 export class RemoveDownloadItem implements Action {
     readonly type = REMOVE_DOWNLOAD_ITEM;
-    constructor(public payload: any) { }
+    constructor(public tree: ActionTree = null) { }
 }
 
 export const UPDATE_DOWNLOAD_ITEM_PROCESSING_PROGRESS = '[DownloadManager] UPDATE_DOWNLOAD_ITEM_PROCESSING_PROGRESS';

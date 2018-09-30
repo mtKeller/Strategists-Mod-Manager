@@ -1,14 +1,6 @@
 {
   "DownloadManagerState": {
-    "currentFiles": [
-      {
-        "complete": true,
-        "fileName": "Holy knight long sword-250-1.rar",
-        "processing": false,
-        "processingProgress": 0,
-        "progress": 100
-      }
-    ],
+    "currentFiles": [],
     "ready": true
   },
   "FileSystemState": {
@@ -37,40 +29,10 @@
   "ModManagerState": {
     "downloadedModDetail": [
       {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/59343236",
-        "authorName": "FateEscape",
-        "modArchiveName": "Fate's Quest Pack-248-V2-0.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218603-776953294.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218630-1490872030.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218629-85916012.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218637-1220919299.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218638-1418787768.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218644-694803357.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218643-1610851682.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218650-8072691.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218652-491284806.png"
-        ],
-        "modPublishDate": "29 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218603-776953294.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218630-1490872030.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218629-85916012.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218637-1220919299.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218638-1418787768.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218644-694803357.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218643-1610851682.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218650-8072691.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218652-491284806.png"
-        ],
-        "modTitle": "Fate's Quest Pack",
-        "modUpdateDate": "29 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/248"
-      },
-      {
         "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
         "authorName": "DIBZ420",
         "modArchiveName": "Holy knight long sword-250-1.rar",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Holy knight long sword-250-1.rar",
         "modPictures": [
           "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235776-2009549126.jpeg",
           "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235795-1665158496.jpeg"
@@ -90,7 +52,84 @@
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Holy knight long sword-250-1.rar",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
     ],
-    "modList": [],
+    "modList": [
+      {
+        "archiveMaps": [
+          [
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_BML.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_RMT.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/ReadMe.txt"
+          ]
+        ],
+        "archiveNames": [
+          "Holy knight long sword-250-1.rar"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Holy knight long sword-250-1.rar"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
+        "authorName": "DIBZ420",
+        "enabled": [
+          false
+        ],
+        "name": "Holy knight long sword",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235776-2009549126.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235795-1665158496.jpeg"
+        ],
+        "publishDate": "29 September 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235776-2009549126.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235795-1665158496.jpeg"
+        ],
+        "updateDate": "29 September 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/250"
+      },
+      {
+        "archiveMaps": [
+          [
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_BML.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_RMT.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/ReadMe.txt"
+          ]
+        ],
+        "archiveNames": [
+          "Holy knight long sword-250-1.rar"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Holy knight long sword-250-1.rar"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
+        "authorName": "DIBZ420",
+        "enabled": [
+          false
+        ],
+        "name": "Holy knight long sword",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235776-2009549126.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235795-1665158496.jpeg"
+        ],
+        "publishDate": "29 September 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235776-2009549126.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235795-1665158496.jpeg"
+        ],
+        "updateDate": "29 September 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/250"
+      }
+    ],
     "needsProcessing": []
   }
 }

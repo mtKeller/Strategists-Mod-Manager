@@ -84,6 +84,20 @@ export class CreateModdingDirectories implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const MAP_DIRECTORY = '[FileSystem] MAP_DIRECTORY';
+
+export class MapDirectory implements Action {
+    readonly type = MAP_DIRECTORY;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const MAP_DIRECTORY_THEN_APPEND_PAYLOAD = '[FileSystem] MAP_DIRECTORY_THEN_APPEND_PAYLOAD';
+
+export class MapDirectoryThenAppendPayload implements Action {
+    readonly type = MAP_DIRECTORY_THEN_APPEND_PAYLOAD;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const GET_NATIVE_PC_MAP = '[FileSystem] GET_NATIVE_PC_MAP';
 
 export class GetNativePcMap implements Action {
@@ -109,6 +123,14 @@ export const UNRAR_FILE = '[FileSystem] UNRAR_FILE';
 
 export class UnrarFile implements Action {
     readonly type = UNRAR_FILE;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const DELETE_DIRECTORY = '[FileSystem] DELETE DIRECTORY';
+
+export class DeleteDirectory implements Action {
+    readonly type = DELETE_DIRECTORY;
+    constructor(public tree: ActionTree = null) { }
 }
 
 export const FILE_SYSTEM_SUCCESS = '[FileSystem] FILE_SYSTEM_SUCCESS';
@@ -141,4 +163,5 @@ export type All =
     RenameFile | RenameFileSuccess | WriteFile | WriteFileSuccess |
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
     CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile |
-    Init | Exit | ViewZippedContents | UnrarFile;
+    Init | Exit | ViewZippedContents | UnrarFile | MapDirectory | DeleteDirectory |
+    MapDirectoryThenAppendPayload;

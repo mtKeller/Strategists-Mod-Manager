@@ -1,4 +1,4 @@
-import { InitializeModManagerState } from './ModManager.state';
+import { InitializeModManagerState, Mod } from './ModManager.state';
 import * as ModManagerActions from './ModManager.action';
 import {Action} from '@ngrx/store';
 
@@ -22,6 +22,93 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 needsProcessing: needsProcessing
             };
         }
+        case ModManagerActions.ADD_MOD_TO_MOD_LIST : {
+            let MOD;
+            if (action.payload) {
+                MOD = action.payload;
+            } else {
+                MOD = action.tree.payload;
+            }
+            let modExists = false;
+            for (let i = 0; i < state.modList.length; i++) {
+                if (MOD.modTitle === state.modList[i].modTitle) {
+                    let modPathExists;
+                    for (let j = 0; j < state.modList[i].archivePaths.length; j++) {
+                        if (state.modList[i].archivePaths[j] === MOD.archivePaths[0]) {
+                            modPathExists = true;
+                            break;
+                        }
+                    }
+                    if (!modPathExists) {
+                        const archiveNames = state.modList[i].archiveNames;
+                        archiveNames.push(MOD.modArchiveName);
+
+                        const archivePaths = state.modList[i].archivePaths;
+                        archivePaths.push(MOD.modArchivePath);
+
+                        const archiveMaps = state.modList[i].archiveMaps;
+                        archiveMaps.push(MOD.modMap);
+
+                        const enabled = state.modList[i].enabled;
+                        enabled.push(false);
+
+                        const mutatedMOD = {
+                            name: state.modList[i].name,
+                            authorLink: state.modList[i].authorLink,
+                            authorName: state.modList[i].authorName,
+                            url: state.modList[i].url,
+                            publishDate: state.modList[i].publishDate,
+                            updateDate: state.modList[i].updateDate,
+                            archiveNames: archiveNames,
+                            archivePaths: archivePaths,
+                            archiveMaps: archiveMaps,
+                            pictures: state.modList[i].pictures,
+                            thumbs: state.modList[i].thumbs,
+                            enabled: enabled,
+                        };
+                        const newModList = [];
+                        for (let j = 0; j < state.modList.length; j++) {
+                            if (mutatedMOD.name === state.modList[j]) {
+                                newModList.push(mutatedMOD);
+                            } else {
+                                newModList.push(state.modList[j]);
+                            }
+                        }
+                        return {
+                            ...state,
+                            modList : newModList
+                        };
+                    }
+                    modExists = true;
+                    break;
+                }
+            }
+            if (!modExists) {
+                const mutatedMOD: Mod = {
+                    name: MOD.modTitle,
+                    authorLink: MOD.authorLink,
+                    authorName: MOD.authorName,
+                    url: MOD.modUrl,
+                    publishDate: MOD.modPublishDate,
+                    updateDate: MOD.modUpdateDate,
+                    archiveNames: [ MOD.modArchiveName ],
+                    archivePaths: [ MOD.modArchivePath ],
+                    archiveMaps: [ MOD.modMap ],
+                    pictures: MOD.modPictures,
+                    thumbs: MOD.modThumbs,
+                    enabled: [ false ],
+                };
+                const modList = state.modList;
+                modList.push(mutatedMOD);
+                return {
+                    ...state,
+                    modList: modList
+                };
+            }
+            return {
+                ...state
+            };
+        }
         case ModManagerActions.ADD_MOD_FROM_PROCESSING : {
             const MOD = action.payload;
             const newProcessingList = [];
@@ -30,9 +117,11 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     newProcessingList.push(state.needsProcessing[i]);
                 }
             }
+            const modList = state.modList;
+            modList.push(MOD);
             return {
                 ...state,
-                modList: state.modList.push(MOD),
+                modList: modList,
                 needsProcessing: newProcessingList
             };
         }
@@ -72,6 +161,18 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 }
             }
             return newState;
+        }
+        case ModManagerActions.REMOVE_MOD_DETAIL_FROM_DOWNLOAD : {
+            const newDownloadedModDetail = state.downloadedModDetail;
+            for (let i = 0; i < state.downloadedModDetail.length; i++) {
+                if (action.payload !== state.downloadedModDetail[i].modArchiveName) {
+                    newDownloadedModDetail.push(state.downloadedModDetail[i].modArchiveName);
+                }
+            }
+            return {
+                ...state,
+                downloadedModDetail: newDownloadedModDetail
+            };
         }
         case ModManagerActions.SET_MOD_FOLDER_MAP: {
             return {
