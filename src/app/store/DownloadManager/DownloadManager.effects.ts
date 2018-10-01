@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 
 import * as DownloadManagerActions from './DownloadManager.actions';
-import { AddModDetailFromDownload, ProcessMod } from '../ModManager/ModManager.action';
+import { AddModDetailFromDownload, ProcessModByName } from '../ModManager/ModManager.action';
 import { SaveStateTree } from '../Main/Main.tree';
 import { empty } from '../../../../node_modules/rxjs';
 
@@ -37,14 +37,20 @@ const { ipcRenderer } = window.require('electron');
     @Effect()
         DownloadManagerAddDownloadItem$: Observable<any> = this.actions$
             .ofType(DownloadManagerActions.ADD_DOWNLOAD_ITEM)
+            .debounceTime(500)
             .map(action => {
+                console.log('ADD TO MOD DETAIL', action.payload);
                 return new AddModDetailFromDownload(action.payload);
             });
     @Effect()
         DownloadManagerCompleteDownloadItem$: Observable<any> = this.actions$
             .ofType(DownloadManagerActions.COMPLETE_DOWNLOAD_ITEM)
+            .debounceTime(500)
             .map(action => {
-                return new ProcessMod(action.payload);
+                if (action.payload !== null) {
+                    return new ProcessModByName(action.payload);
+                }
+                return new DownloadManagerActions.DownloadManagerSuccess();
             });
     @Effect()
         DownloadManagerRemoveItem$: Observable<any> = this.actions$
@@ -52,7 +58,11 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 const saveStateTree = SaveStateTree(this.store);
                 saveStateTree.init();
-                return new DownloadManagerActions.DownloadManagerSuccess;
+                if (action.tree) {
+                    return action.tree.success();
+                } else {
+                    return new DownloadManagerActions.DownloadManagerSuccess;
+                }
             });
     @Effect()
         DownloadManagerSetState$: Observable<any> = this.actions$

@@ -116,11 +116,21 @@ const { ipcRenderer } = window.require('electron');
         FileSystemViewZippedContents$: Observable<any> = this.actions$
             .ofType(FileSystemActions.VIEW_ZIPPED_CONTENTS)
             .map(action => {
-                console.log('TREE HIT', action.tree.payload);
-                ipcRenderer.send('VIEW_ZIPPED_CONTENTS', action.tree.payload);
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                console.log('TREE HIT PAYLOAD', action.tree.payload);
+                console.log('TREE HIT', payload);
+                ipcRenderer.send('VIEW_ZIPPED_CONTENTS', payload);
                 ipcRenderer.once('VIEWED_ZIPPED_CONTENTS', (err, args) => {
                     console.log('LIST', args);
-                    this.store.dispatch(action.tree.success());
+                    this.store.dispatch(action.tree.success({
+                        ...action.tree.payload,
+                        modMap: args
+                    }));
                 });
                 return new FileSystemActions.FileSystemSuccess();
             });
@@ -257,7 +267,7 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.send('GET_MOD_FOLDER_MAP', null);
                 ipcRenderer.once('GOT_MOD_FOLDER_MAP', (err, args) => {
-                    console.log('MOD_FOLDER_MAP', args);
+                    // console.log('MOD_FOLDER_MAP', args);
                     this.store.dispatch(action.tree.success(args));
                 });
                 return new FileSystemActions.FileSystemSuccess();

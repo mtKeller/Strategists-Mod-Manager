@@ -6,7 +6,7 @@ declare global {
 
 const { ipcRenderer } = require('electron');
 
-// console.log('SOMETHING HERE');
+console.log('SOMETHING HERE');
 
 export function scrapeModDetails(modUrl) {
     const pageTitle = document.getElementById('pagetitle') as HTMLElement;
@@ -26,6 +26,16 @@ export function scrapeModDetails(modUrl) {
     }
 
     ipcRenderer.send('STORE_MOD_DETAILS', {
+        modUpdateDate: modUpdateDate,
+        modPublishDate: modPublishDate,
+        authorName: authorName,
+        authorLink: authorLink,
+        modTitle: modTitle,
+        modThumbs: modThumbs,
+        modUrl: modUrl
+    });
+
+    console.log('STORE_MOD_DETAILS', {
         modUpdateDate: modUpdateDate,
         modPublishDate: modPublishDate,
         authorName: authorName,

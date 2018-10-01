@@ -148,7 +148,7 @@ function initIPC(win, ele) {
         if (watchFork === null) {
             watchFork = fork('./dist/out-tsc/electronSrc/watchDir.js');
             watchFork.on('message', function (action) {
-                console.log('DIR_CHANGED', action.payload);
+                // console.log('DIR_CHANGED', action.payload);
                 event.sender.send('DIR_CHANGED', action.payload);
             });
         }
@@ -246,7 +246,7 @@ function initIPC(win, ele) {
         }, function (action) {
             switch (action.type) {
                 case 'GOT_MOD_FOLDER_MAP': {
-                    console.log('CHECK THIS 2', action.payload);
+                    // console.log('CHECK THIS 2', action.payload);
                     event.sender.send('GOT_MOD_FOLDER_MAP', action.payload);
                     break;
                 }
@@ -353,7 +353,8 @@ function initIPC(win, ele) {
             switch (action.type) {
                 case 'DOWNLOAD_MANAGER_START': {
                     window.focus();
-                    window.webContents.send('DOWNLOAD_MANAGER_START', [fileName, modDetails]);
+                    console.log('MOD DETAILS', modDetails);
+                    window.webContents.send('DOWNLOAD_MANAGER_START', [action.payload, modDetails]);
                     break;
                 }
                 case 'DOWNLOAD_MANAGER_UPDATE': {
@@ -368,48 +369,54 @@ function initIPC(win, ele) {
             }
         });
     }
-    var childWindow;
+    var childWindow = null;
     electron_1.ipcMain.on('OPEN_MOD_NEXUS', function (event, args) {
-        var createChildWindow = function () {
-            console.log('FIND PATH: ', electron_1.app.getAppPath());
-            childWindow = new electron_1.BrowserWindow({
-                width: 1500,
-                height: 900,
-                darkTheme: true,
-                show: false,
-                center: true,
-                title: 'Mod Nexus: Monster Hunter World',
-                webPreferences: {
-                    nativeWindowOpen: true,
-                }
-            });
-            // childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
-            var pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
-            childWindow.loadURL(url.format({
-                pathname: pathToIndex,
-                protocol: 'file:',
-                slashes: true
-            }));
-            childWindow.once('ready-to-show', function () {
-                childWindow.show();
-            });
-            childWindow.on('close', function () {
-                childWindow = null;
-            });
-            childWindow.webContents.session.on('will-download', function (even, item, webContents) {
-                downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
-                item.cancel();
-            });
-        };
-        createChildWindow();
+        if (childWindow === null) {
+            var createChildWindow = function () {
+                console.log('FIND PATH: ', electron_1.app.getAppPath());
+                childWindow = new electron_1.BrowserWindow({
+                    width: 1500,
+                    height: 900,
+                    darkTheme: true,
+                    show: false,
+                    center: true,
+                    title: 'Mod Nexus: Monster Hunter World',
+                    webPreferences: {
+                        nativeWindowOpen: true,
+                    }
+                });
+                // childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
+                var pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
+                childWindow.loadURL(url.format({
+                    pathname: pathToIndex,
+                    protocol: 'file:',
+                    slashes: true
+                }));
+                childWindow.once('ready-to-show', function () {
+                    childWindow.show();
+                });
+                childWindow.on('close', function () {
+                    childWindow = null;
+                });
+                childWindow.webContents.session.on('will-download', function (even, item, webContents) {
+                    downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
+                    item.cancel();
+                });
+            };
+            createChildWindow();
+        }
+        else {
+            childWindow.focus();
+        }
     });
     electron_1.ipcMain.on('FOUND_MOD_PAGE', function (event, args) {
         // console.log('HIT FOUND MOD PAGE');
-        childWindow.webContents.send('SCRAPE_MOD_DETAILS', args);
+        if (childWindow !== null) {
+            childWindow.webContents.send('SCRAPE_MOD_DETAILS', args);
+        }
     });
     electron_1.ipcMain.on('STORE_MOD_DETAILS', function (event, args) {
         modDetails = args;
-        // console.log(args);
     });
 }
 exports.initIPC = initIPC;

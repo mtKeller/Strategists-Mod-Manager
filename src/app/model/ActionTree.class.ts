@@ -42,6 +42,17 @@ export class ActionTree {
         }
         this.store = params.store;
     }
+    begin(): Action {
+        this.currentNode.initAction.tree = this;
+        if (this.currentNode.initAction !== null) {
+            if (this.currentNode.payload) {
+                this.currentNode.initAction.payload = this.currentNode.payload;
+            }
+            return this.currentNode.initAction;
+        } else {
+            return new EndOfActionChain(this);
+        }
+    }
     init() {
         this.currentNode.initAction.tree = this;
         if (this.currentNode.initAction !== null) {
@@ -81,7 +92,7 @@ export class ActionTree {
             this.payload = payload;
         }
         let nextNode: Action;
-        if (this.currentNode.failureNode !== null || this.currentNode.failureNode !== undefined) {
+        if (this.currentNode.failureNode !== null && this.currentNode.failureNode !== undefined) {
             nextNode = this.currentNode.failureNode.initAction;
             this.currentNode = this.currentNode.failureNode;
             if (this.currentNode.payload !== null && this.currentNode.payload !== undefined) {

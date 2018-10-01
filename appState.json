@@ -5,7 +5,7 @@
   },
   "FileSystemState": {
     "data": null,
-    "fileSystemLoading": false
+    "fileSystemLoading": true
   },
   "MainState": {
     "loading": false,
@@ -27,107 +27,332 @@
     "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World"
   },
   "ModManagerState": {
-    "downloadedModDetail": [
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
-        "authorName": "DIBZ420",
-        "modArchiveName": "Holy knight long sword-250-1.rar",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Holy knight long sword-250-1.rar",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235776-2009549126.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235795-1665158496.jpeg"
-        ],
-        "modPublishDate": "29 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235776-2009549126.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235795-1665158496.jpeg"
-        ],
-        "modTitle": "Holy knight long sword",
-        "modUpdateDate": "29 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/250"
-      }
-    ],
+    "downloadedModDetail": [],
     "loading": false,
     "modFolderMap": [
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Holy knight long sword-250-1.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/BetterNPC-188-0-7-6.rar",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Cuter Handler Face Model-247-1-01.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Souvenir's Light Pillar-112-1-1.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
     ],
     "modList": [
       {
         "archiveMaps": [
           [
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_BML.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_RMT.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/ReadMe.txt"
+            "nativePC/",
+            "nativePC/vfx/",
+            "nativePC/vfx/efx/",
+            "nativePC/vfx/efx/gm/",
+            "nativePC/vfx/efx/gm/gm000/",
+            "nativePC/vfx/efx/gm/gm000/gm000_014/",
+            "nativePC/vfx/efx/gm/gm000/gm000_014/gm000_014_00.efx"
           ]
         ],
         "archiveNames": [
-          "Holy knight long sword-250-1.rar"
+          "Souvenir's Light Pillar-112-1-1.zip"
         ],
         "archivePaths": [
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Holy knight long sword-250-1.rar"
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Light Pillar-112-1-1.zip"
         ],
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
-        "authorName": "DIBZ420",
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
+        "authorName": "2hh8899",
         "enabled": [
           false
         ],
-        "name": "Holy knight long sword",
+        "name": "Souvenir's Light Pillar",
         "pictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235776-2009549126.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235795-1665158496.jpeg"
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
         ],
-        "publishDate": "29 September 2018",
+        "publishDate": "03 September 2018",
         "thumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235776-2009549126.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235795-1665158496.jpeg"
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
         ],
-        "updateDate": "29 September 2018",
-        "url": "https://www.nexusmods.com/monsterhunterworld/mods/250"
+        "updateDate": "05 September 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/112"
       },
       {
         "archiveMaps": [
           [
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_BML.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/Holy knight long sword/NativePC/wp/swo/swo002/mod/swo002_RMT.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Holy knight long sword/ReadMe.txt"
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/event",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/event/etc0110",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/event/etc0110/etc0110.sdl",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/stage",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/stage/st302",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/stage/st302/common",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/stage/st302/common/set",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/nativePC/stage/st302/common/set/st302_npccom.sobj",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Improved NPC Locations/Readme.txt"
           ]
         ],
         "archiveNames": [
-          "Holy knight long sword-250-1.rar"
+          "BetterNPC-188-0-7-6.rar"
         ],
         "archivePaths": [
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Holy knight long sword-250-1.rar"
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\BetterNPC-188-0-7-6.rar"
         ],
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
-        "authorName": "DIBZ420",
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/3913354",
+        "authorName": "MHVuze",
         "enabled": [
           false
         ],
-        "name": "Holy knight long sword",
+        "name": "Improved NPC Locations",
         "pictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235776-2009549126.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/250/250-1538235795-1665158496.jpeg"
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537473889-1799859423.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537293994-1664249903.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537294004-643272943.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537294012-231328465.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537473874-1202647568.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537473904-2001175083.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/188/188-1537868407-276369550.png"
         ],
-        "publishDate": "29 September 2018",
+        "publishDate": "18 September 2018",
         "thumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235776-2009549126.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/250/250-1538235795-1665158496.jpeg"
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537473889-1799859423.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537293994-1664249903.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537294004-643272943.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537294012-231328465.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537473874-1202647568.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537473904-2001175083.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/188/188-1537868407-276369550.png"
         ],
-        "updateDate": "29 September 2018",
-        "url": "https://www.nexusmods.com/monsterhunterworld/mods/250"
+        "updateDate": "25 September 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/188"
+      },
+      {
+        "archiveMaps": [
+          [
+            "nativePC/",
+            "nativePC/npc/",
+            "nativePC/npc/npc002/",
+            "nativePC/npc/npc002/mod/",
+            "nativePC/npc/npc002/mod/npc002_010/",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face.mod3",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face.mrl3",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face_NM.tex",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_hair.mod3",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_hair.mrl3",
+            "nativePC/npc/npc002/mod/npc002_010/npc002_010_hair_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_020/",
+            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face.mod3",
+            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face.mrl3",
+            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face_NM.tex",
+            "nativePC/npc/npc002/mod/npc002_020/npc002_020_hair_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_040/",
+            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face.mod3",
+            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face.mrl3",
+            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face_NM.tex",
+            "nativePC/npc/npc002/mod/npc002_040/npc002_040_hair_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_050/",
+            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face.mod3",
+            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face.mrl3",
+            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face_NM.tex",
+            "nativePC/npc/npc002/mod/npc002_050/npc002_050_hair_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_face.mod3",
+            "nativePC/npc/npc002/mod/npc002_face.mrl3",
+            "nativePC/npc/npc002/mod/npc002_face_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_face_NM.tex",
+            "nativePC/npc/npc002/mod/npc002_hair.mod3",
+            "nativePC/npc/npc002/mod/npc002_hair_BM.tex"
+          ]
+        ],
+        "archiveNames": [
+          "Cuter Handler Face Model-247-1-01.zip"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Cuter Handler Face Model-247-1-01.zip"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/3124030",
+        "authorName": "UberGrainy",
+        "enabled": [
+          false
+        ],
+        "name": "Cuter Handler Face Model",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538185727-368351039.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129611-576482.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129479-260022103.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129269-1026579036.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129489-77255862.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129379-1411928025.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129538-213469183.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129464-1789776940.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129472-1865871136.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129603-1464094464.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129497-713523538.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129505-985355653.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129511-2125290666.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129518-141604912.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129525-729719125.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129532-2120234869.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129544-935494049.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129552-385850411.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129564-1703403522.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129571-1141692256.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129579-958204461.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129585-1670220996.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129593-1388923518.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132765-875582285.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133340-1430211957.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132775-8955386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133217-1577657590.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132785-7691386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133329-1027220758.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129626-849394591.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129643-421160144.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132755-1870215320.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132793-1531124814.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132940-1678486790.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132807-1592925328.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132800-103429824.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132924-87541309.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132816-280585687.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129618-2093651050.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538128898-247404294.jpeg"
+        ],
+        "publishDate": "28 September 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538185727-368351039.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129611-576482.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129479-260022103.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129269-1026579036.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129489-77255862.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129379-1411928025.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129538-213469183.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129464-1789776940.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129472-1865871136.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129603-1464094464.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129497-713523538.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129505-985355653.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129511-2125290666.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129518-141604912.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129525-729719125.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129532-2120234869.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129544-935494049.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129552-385850411.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129564-1703403522.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129571-1141692256.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129579-958204461.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129585-1670220996.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129593-1388923518.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132765-875582285.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133340-1430211957.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132775-8955386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133217-1577657590.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132785-7691386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133329-1027220758.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129626-849394591.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129643-421160144.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132755-1870215320.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132793-1531124814.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132940-1678486790.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132807-1592925328.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132800-103429824.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132924-87541309.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132816-280585687.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129618-2093651050.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538128898-247404294.jpeg"
+        ],
+        "updateDate": "28 September 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/247"
+      },
+      {
+        "archiveMaps": [
+          [
+            "nativePC/",
+            "nativePC/vfx/",
+            "nativePC/vfx/efx/",
+            "nativePC/vfx/efx/wp/",
+            "nativePC/vfx/efx/wp/wp03/",
+            "nativePC/vfx/efx/wp/wp03/wp03_000.efx",
+            "nativePC/vfx/efx/wp/wp03/wp03_010.efx",
+            "nativePC/vfx/efx/wp/wp03/wp03_011.efx",
+            "nativePC/vfx/efx/wp/wp03/wp03_012.efx",
+            "nativePC/vfx/efx/wp/wp03/wp03_030.efx",
+            "nativePC/vfx/efx/wp/wp03/wp03_040.efx",
+            "nativePC/vfx/efx/wp/wp03/wp03_050.efx"
+          ]
+        ],
+        "archiveNames": [
+          "LongSword Effect by Yuna-240-154553.zip"
+        ],
+        "archivePaths": [
+          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip"
+        ],
+        "authorLink": null,
+        "authorName": "Anonymous",
+        "enabled": [
+          false
+        ],
+        "name": "LongSword Effect by Yuna-240-154553",
+        "pictures": [],
+        "publishDate": "1 9 2018",
+        "thumbs": [],
+        "updateDate": "1 9 2018",
+        "url": null
+      },
+      {
+        "archiveMaps": [
+          [
+            "nativePC/",
+            "nativePC/pl/",
+            "nativePC/pl/f_equip/",
+            "nativePC/pl/f_equip/pl038_0000/",
+            "nativePC/pl/f_equip/pl038_0000/arm/",
+            "nativePC/pl/f_equip/pl038_0000/arm/mod/",
+            "nativePC/pl/f_equip/pl038_0000/arm/mod/f_arm038_0000_BML.tex",
+            "nativePC/pl/f_equip/pl038_0000/arm/mod/f_arm038_0000_EM.tex",
+            "nativePC/pl/f_equip/pl038_0000/arm/mod/f_slinger038_0000_BML.tex",
+            "nativePC/pl/f_equip/pl038_0000/body/",
+            "nativePC/pl/f_equip/pl038_0000/body/mod/",
+            "nativePC/pl/f_equip/pl038_0000/body/mod/f_body038_0000_BML.tex",
+            "nativePC/pl/f_equip/pl038_0000/body/mod/f_body038_0000_EM.tex",
+            "nativePC/pl/f_equip/pl038_0000/helm/",
+            "nativePC/pl/f_equip/pl038_0000/helm/mod/",
+            "nativePC/pl/f_equip/pl038_0000/helm/mod/f_helm038_0000_BML.tex",
+            "nativePC/pl/f_equip/pl038_0000/helm/mod/f_helm038_0000_EM.tex",
+            "nativePC/pl/f_equip/pl038_0000/leg/",
+            "nativePC/pl/f_equip/pl038_0000/leg/mod/",
+            "nativePC/pl/f_equip/pl038_0000/leg/mod/f_leg038_0000_BML.tex",
+            "nativePC/pl/f_equip/pl038_0000/leg/mod/f_leg038_0000_EM.tex",
+            "nativePC/pl/f_equip/pl038_0010/",
+            "nativePC/pl/f_equip/pl038_0010/wst/",
+            "nativePC/pl/f_equip/pl038_0010/wst/mod/",
+            "nativePC/pl/f_equip/pl038_0010/wst/mod/f_wst038_0010_BML.tex",
+            "nativePC/pl/f_equip/pl038_0010/wst/mod/f_wst038_0010_EM.tex"
+          ]
+        ],
+        "archiveNames": [
+          "Knightess Potestas-239-0-2.zip"
+        ],
+        "archivePaths": [
+          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip"
+        ],
+        "authorLink": null,
+        "authorName": "Anonymous",
+        "enabled": [
+          false
+        ],
+        "name": "Knightess Potestas-239-0-2",
+        "pictures": [],
+        "publishDate": "1 9 2018",
+        "thumbs": [],
+        "updateDate": "1 9 2018",
+        "url": null
       }
     ],
     "needsProcessing": []

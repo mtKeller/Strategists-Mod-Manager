@@ -108,7 +108,7 @@ function detectModPage () {
     }
 }
 
-setInterval(detectModPage, 1000);
+setInterval(detectModPage, 100);
 
 refresh.addEventListener('click', reloadView);
 back.addEventListener('click', backView);

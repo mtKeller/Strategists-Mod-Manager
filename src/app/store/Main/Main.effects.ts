@@ -118,15 +118,14 @@ const { ipcRenderer } = window.require('electron');
                     failureNode: ActionNodeWriteFile
                 };
                 // TIER 0
-                const actionChainParams: ActionTreeParams = {
+                const ActionTreeParam: ActionTreeParams = {
                     payload: 'appState.json',
                     actionNode: ActionNodeReadFile,
                     store: this.store,
                 };
-                const initializationChain: ActionTree = new ActionTree(actionChainParams);
-                console.log(initializationChain);
-                initializationChain.init();
-                return new MainActions.MainSuccess;
+                const initializationTree: ActionTree = new ActionTree(ActionTreeParam);
+                console.log('INIT_TREE', initializationTree);
+                return initializationTree.begin();
             })
             .catch(err => {
                 this.store.dispatch(new MainActions.MainFailed(err));

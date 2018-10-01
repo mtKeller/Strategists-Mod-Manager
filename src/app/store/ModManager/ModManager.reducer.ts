@@ -133,7 +133,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 modPictures.push(modDetail.modThumbs[i].replace('/thumbnails/', '/'));
             }
             modDetail['modPictures'] = modPictures;
-
+            console.log('MOD DETAIL', modDetail);
             let newState = {
                 ...state
             };
@@ -162,8 +162,9 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             }
             return newState;
         }
-        case ModManagerActions.REMOVE_MOD_DETAIL_FROM_DOWNLOAD : {
-            const newDownloadedModDetail = state.downloadedModDetail;
+        case ModManagerActions.REMOVE_MOD_DETAIL : {
+            const newDownloadedModDetail = [];
+            console.log('REMOVE_MOD_DETAIL', action.payload);
             for (let i = 0; i < state.downloadedModDetail.length; i++) {
                 if (action.payload !== state.downloadedModDetail[i].modArchiveName) {
                     newDownloadedModDetail.push(state.downloadedModDetail[i].modArchiveName);

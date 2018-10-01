@@ -31,6 +31,13 @@ export class ProcessMod implements Action {
     constructor(public payload: any = null) { }
 }
 
+export const PROCESS_MOD_BY_NAME = '[ModManager] PROCESS_MOD_BY_NAME';
+
+export class ProcessModByName implements Action {
+    readonly type = PROCESS_MOD_BY_NAME;
+    constructor(public payload: any = null) { }
+}
+
 export const PROCESS_RAR_MOD = '[ModManager] PROCESS_RAR_MOD';
 
 export class ProcessRarMod implements Action {
@@ -41,14 +48,14 @@ export class ProcessRarMod implements Action {
 export const PROCESS_ZIP_MOD = '[ModManager] PROCESS_ZIP_MOD';
 
 export class ProcessZipMod implements Action {
-    readonly type = PROCESS_RAR_MOD;
+    readonly type = PROCESS_ZIP_MOD;
     constructor(public payload: any = null) { }
 }
 
 export const PROCESS_7_ZIP_MOD = '[ModManager] PROCESS_7_ZIP_MOD';
 
 export class Process7ZipMod implements Action {
-    readonly type = PROCESS_RAR_MOD;
+    readonly type = PROCESS_7_ZIP_MOD;
     constructor(public payload: any = null) { }
 }
 
@@ -73,11 +80,11 @@ export class AddModDetailFromDownload implements Action {
     constructor(public payload: any) { }
 }
 
-export const REMOVE_MOD_DETAIL_FROM_DOWNLOAD = '[ModManager] REMOVE_MOD_DETAIL_FROM_DOWNLOAD';
+export const REMOVE_MOD_DETAIL = '[ModManager] REMOVE_MOD_DETAIL';
 
-export class RemoveModDetailFromDownload implements Action {
-    readonly type = REMOVE_MOD_DETAIL_FROM_DOWNLOAD;
-    constructor(public payload: any) { }
+export class RemoveModDetail implements Action {
+    readonly type = REMOVE_MOD_DETAIL;
+    constructor(public payload: any = null) { }
 }
 
 export const PACK_MOD = '[ModManager] PACK_MOD';
@@ -109,4 +116,4 @@ export class ModManagerSuccess implements Action {
 
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
-    Process7ZipMod | RemoveModDetailFromDownload | AddModToModList;
+    Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName;

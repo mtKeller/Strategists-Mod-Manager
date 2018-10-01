@@ -272,7 +272,7 @@ function getNativePcMap(payload) {
 
 function getModFolderMap(payload) {
     getDirContents(payload + '\\modFolder\\', (er, files) => {
-        console.log('CHECK THIS', files);
+        // console.log('CHECK THIS', files);
         process.send({
             type: 'GOT_MOD_FOLDER_MAP',
             payload: files
@@ -411,6 +411,7 @@ function zipFiles(payload) {
 function viewZippedContents(payload) {
     const zip = new AdmZip(payload);
     const zippedPaths = zip.getEntries().map(item => item.entryName);
+    console.log('VIEW_ZIPPED', payload, zippedPaths);
     process.send({
         type: 'VIEWED_ZIPPED_CONTENTS',
         payload: zippedPaths
