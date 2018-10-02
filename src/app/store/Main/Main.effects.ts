@@ -173,10 +173,17 @@ const { ipcRenderer } = window.require('electron');
                 return new MainActions.MainSuccess();
             });
     @Effect()
-        MainCloseWindow: Observable<any> = this.actions$
+        MainCloseWindow$: Observable<any> = this.actions$
             .ofType(MainActions.CLOSE_WINDOW)
             .map(action => {
                 ipcRenderer.send('CLOSE_WINDOW', null);
+                return new MainActions.MainSuccess;
+            });
+    @Effect()
+        MainMinimizeWindow$: Observable<any> = this.actions$
+            .ofType(MainActions.MINIMIZE_WINDOW)
+            .map(action => {
+                ipcRenderer.send('MINIMIZE_WINDOW', null);
                 return new MainActions.MainSuccess;
             });
     @Effect()

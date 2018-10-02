@@ -20,10 +20,13 @@ function createWindow() {
     win.once('ready-to-show', () => {
         win.show();
     });
-    initIPC(win, app);
+    const window = initIPC(win, app);
 
     win.on('closed', () => {
         win = null;
+        if (window.getChildWindow() !== null) {
+            window.nullChildWindow();
+        }
     });
 }
 

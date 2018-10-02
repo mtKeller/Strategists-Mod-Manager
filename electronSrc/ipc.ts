@@ -40,6 +40,12 @@ export function initIPC(win, ele) {
         event.sender.send('HIT', 'ME');
     });
 
+    ipcMain.on('MINIMIZE_WINDOW', (event, args) => {
+        console.log('MINIMIZE_WINDOW');
+        window.minimize();
+        event.sender.send('HIT', 'ME');
+    });
+
     ipcMain.on('OPEN_DIRECTORY', (event, args) => {
         const success = shell.openItem(args);
         if (success) {
@@ -475,4 +481,13 @@ export function initIPC(win, ele) {
     ipcMain.on('STORE_MOD_DETAILS', (event, args) => {
         modDetails = args;
     });
+
+    return {
+        getChildWindow : () => {
+            return childWindow;
+        },
+        nullChildWindow : () => {
+            childWindow = null;
+        }
+    };
 }

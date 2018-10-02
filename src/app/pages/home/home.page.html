@@ -2,19 +2,22 @@
   <div class="title-bar">
     Testing
     <button>
-      <ion-icon name="close"></ion-icon>
+      <ion-icon name="close" (click)='this.closeWindow()'></ion-icon>
     </button>
     <button>
-      <ion-icon name="remove"></ion-icon>
+      <ion-icon name="remove" (click)='this.minimizeWindow()'></ion-icon>
     </button>
   </div>
   <div class="container">
     <div class="content">
       <div class="block"></div>
-      <button class="btn btn-play" (click)="this.play()">PLAY MHW</button>
+      <button id="play-button" #playButton class="btn btn-play ripple" (click)="this.play($event)">
+        MONSTER HUNTER: WORLD
+        <ion-icon name="play"></ion-icon>
+      </button>
       <div class="content-functions">
-        <button class="btn" (click)='openMhwDir()'>Open MHW Directory</button>
-        <button class="btn" (click)='this.openModNexus()'>Open Mod Nexus</button>
+        <button id='open-dir' #openMhwDirButton class="btn ripple" (click)='openMhwDir($event)'>OPEN GAME FOLDER</button>
+        <button id='open-nexus' #openNexusButton class="btn ripple" (click)='this.openModNexus($event)'>FIND MODS</button>
       </div>
       <div class='mod-list-header'>
         <h2>
@@ -36,6 +39,9 @@
               <h3>
                 <a href="{{mod.url}}">{{mod.name}}</a>
               </h3>
+              <button>
+                <ion-icon name="more"></ion-icon>
+              </button>
             </div>
             <div class='mod-info'>
               <p>
@@ -92,4 +98,5 @@
       </div>
     </div>
   </div>
+  <div class="spotlight"></div>
 </ion-content>

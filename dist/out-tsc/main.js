@@ -20,9 +20,12 @@ function createWindow() {
     win.once('ready-to-show', function () {
         win.show();
     });
-    ipc_1.initIPC(win, electron_1.app);
+    var window = ipc_1.initIPC(win, electron_1.app);
     win.on('closed', function () {
         win = null;
+        if (window.getChildWindow() !== null) {
+            window.nullChildWindow();
+        }
     });
 }
 electron_1.app.on('ready', createWindow);

@@ -38,6 +38,12 @@ export class CloseWindow implements Action {
     readonly type = CLOSE_WINDOW;
 }
 
+export const MINIMIZE_WINDOW = '[MAIN] MINIMIZE_WINDOW';
+
+export class MinimizeWindow implements Action {
+    readonly type = MINIMIZE_WINDOW;
+}
+
 export const SAVE_STATE = '[MAIN] SAVE_STATE';
 
 export class SaveState implements Action {
@@ -128,4 +134,5 @@ export class MainFailed implements Action {
 
 export type All = InitApp | InitAppSuccess | CloseWindow | SaveState | MainSuccess | MainFailed |
     GetMhwDirectoryPath | GetMhwDirectoryPathSuccess | GetMhwDirectoryPathFailed | InitDirWatch |
-    SetMhwMappedDir | DirWatchEmit | Play | OpenModNexus | InitModManager | OpenMhwDirectory;
+    SetMhwMappedDir | DirWatchEmit | Play | OpenModNexus | InitModManager | OpenMhwDirectory |
+    MinimizeWindow;

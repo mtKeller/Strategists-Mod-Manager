@@ -34,6 +34,11 @@ function initIPC(win, ele) {
         process.exit();
         event.sender.send('HIT', 'ME');
     });
+    electron_1.ipcMain.on('MINIMIZE_WINDOW', function (event, args) {
+        console.log('MINIMIZE_WINDOW');
+        window.minimize();
+        event.sender.send('HIT', 'ME');
+    });
     electron_1.ipcMain.on('OPEN_DIRECTORY', function (event, args) {
         var success = electron_1.shell.openItem(args);
         if (success) {
@@ -418,6 +423,14 @@ function initIPC(win, ele) {
     electron_1.ipcMain.on('STORE_MOD_DETAILS', function (event, args) {
         modDetails = args;
     });
+    return {
+        getChildWindow: function () {
+            return childWindow;
+        },
+        nullChildWindow: function () {
+            childWindow = null;
+        }
+    };
 }
 exports.initIPC = initIPC;
 //# sourceMappingURL=ipc.js.map
