@@ -8,6 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ComponentsModule } from './component/components.module';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -42,6 +43,7 @@ declare global {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
+    ComponentsModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,

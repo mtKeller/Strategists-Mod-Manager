@@ -6,10 +6,14 @@ require('events').EventEmitter.prototype._maxListeners = 500;
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 900,
+        height: 700,
         darkTheme: true,
-        show: false
+        resizable: false,
+        show: false,
+        titleBarStyle: 'hidden',
+        frame: false,
+        alwaysOnTop: true
     });
     win.loadURL('http://localhost:4200');
     win.webContents.openDevTools();

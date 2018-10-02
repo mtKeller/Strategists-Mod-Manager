@@ -8,16 +8,15 @@ import { RemoveDownloadItem } from '../../store/DownloadManager/DownloadManager.
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss']
+  styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
   mhwDirectoryPath: any = 'Maybe something';
   mhwDirectoryMap: any = [];
-  mhwDirectoryMapped: boolean;
   downloadManagerItems: any = null;
+  modList: any = null;
   downloading = false;
   constructor(private store: Store<any>, private cdr: ChangeDetectorRef) {
-    this.mhwDirectoryMapped = false;
   }
   ngOnInit(): void {
     this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
@@ -25,16 +24,14 @@ export class HomePage implements OnInit {
       this.cdr.detectChanges();
     });
     this.store.select(state => state.MainState.mhwDirectoryMap).subscribe(val => {
-      if (val === []) {
-        this.mhwDirectoryMapped = false;
-      } else {
-        this.mhwDirectoryMapped = true;
-        this.cdr.detectChanges();
-      }
       this.mhwDirectoryMap = val;
     });
     this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
       this.downloadManagerItems = val;
+      this.cdr.detectChanges();
+    });
+    this.store.select(state => state.ModManagerState.modList).subscribe(val => {
+      this.modList = val;
       this.cdr.detectChanges();
     });
   }
@@ -67,7 +64,7 @@ export class HomePage implements OnInit {
       this.store.dispatch(new MainActions.OpenMhwDirectory());
     }
   }
-  testClick() {
+  openModNexus() {
     this.store.dispatch(new MainActions.OpenModNexus);
     console.log('Slick did click');
   }

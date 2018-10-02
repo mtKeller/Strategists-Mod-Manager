@@ -1,29 +1,95 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Home</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content padding>
-  The hunt is on!
-  <br>
-  <p>
-    {{this.getMhwDirPath()}}
-  </p>
-  <ul *ngIf="this.mhwDirectoryMapped">
-    <li *ngFor="let paths of this.mhwDirectoryMap">
-      {{paths.substring(paths.indexOf('Monster Hunter World', paths.length))}}
-    </li>
-  </ul>
-  <button (click)="this.play()">PLAY MHW</button>
-  <button (click)='this.launchWideScreenFix()'>Add tool shortcut</button>
-  <button (click)='openMhwDir()'>Open MHW Directory</button>
-  <button (click)='this.testClick()'>Open Mod Nexus</button>
-  <button (click)='this.testUnrar()'>Test Unrar</button>
-  <ul *ngIf="this.downloadManagerItems !== null">
-    <li *ngFor="let item of this.downloadManagerItems">
-      {{item.fileName}} {{item.progress}}
-      <button *ngIf="item.complete">Complete</button>
-    </li>
-  </ul>
+<ion-content>
+  <div class="title-bar">
+    Testing
+    <button>
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <button>
+      <ion-icon name="remove"></ion-icon>
+    </button>
+  </div>
+  <div class="container">
+    <div class="content">
+      <div class="block"></div>
+      <button class="btn btn-play" (click)="this.play()">PLAY MHW</button>
+      <div class="content-functions">
+        <button class="btn" (click)='openMhwDir()'>Open MHW Directory</button>
+        <button class="btn" (click)='this.openModNexus()'>Open Mod Nexus</button>
+      </div>
+      <div class='mod-list-header'>
+        <h2>
+          MOD MANAGER
+        </h2>
+      </div>
+      <ion-list>
+        <div class="mod" *ngFor='let mod of this.modList'>
+          <div class='img-container'>
+            <img *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
+            <ng-template #question>
+              <div class="question">
+                <ion-icon name="help"></ion-icon>
+              </div>
+            </ng-template>
+          </div>
+          <div class="mod-main">
+            <div class="mod-header">
+              <h3>
+                <a href="{{mod.url}}">{{mod.name}}</a>
+              </h3>
+            </div>
+            <div class='mod-info'>
+              <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium doloribus dolorum aspernatur
+                cupiditate odit minima voluptatem praesentium! Rem laborum amet aspernatur accusantium voluptas maiores
+                eveniet, quibusdam sit eum laudantium aut labore sapiente dolores perspiciatis quaerat deleniti
+                dignissimos omnis velit sed rerum a numquam. Sequi, consequatur eaque labore iure recusandae
+                consequuntur aut! Quas temporibus neque quis eum? Sequi quaerat dolorem alias mollitia, beatae ipsa
+                magnam dolore accusantium in quasi consequuntur quos aspernatur odit corporis est minima quis autem ex
+                veritatis illum incidunt laboriosam perferendis magni? Ullam nulla non libero labore distinctio,
+                aspernatur accusantium debitis, autem nesciunt repellat officiis, necessitatibus fugit ipsam!
+              </p>
+              <ul>
+                <li>
+                  Author <a href="{{mod.authorLink}}">{{mod.authorName}}</a>
+                </li>
+                <li>
+                  Published: <span>{{mod.publishDate}}</span>
+                </li>
+                <li>
+                  Updated: <span>{{mod.updateDate}}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="mod-functions">
+            <ul>
+              <li>
+                <button>
+                  <ion-icon name="arrow-dropup"></ion-icon>
+                </button>
+              </li>
+              <li>
+                <button>
+                  <ion-icon class="sm" name="trash"></ion-icon>
+                </button>
+              </li>
+              <li>
+                <button>
+                  <ion-icon name="arrow-dropdown"></ion-icon>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ion-list>
+      <div class="downloads">
+        <ul *ngIf="this.downloadManagerItems !== null">
+          <li *ngFor="let item of this.downloadManagerItems">
+            {{item.fileName}} {{item.progress}}
+            <button *ngIf="item.complete">Complete</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </ion-content>

@@ -21,15 +21,15 @@ const { ipcRenderer } = window.require('electron');
             .ofType(DownloadManagerActions.INIT_DOWNLOAD_MANAGER)
             .map(action => {
                 ipcRenderer.on('DOWNLOAD_MANAGER_START', (err, args) => {
-                    console.log('CHECK DL', args);
+                    // console.log('CHECK DL', args);
                     this.store.dispatch(new DownloadManagerActions.AddDownloadItem(args));
                 });
                 ipcRenderer.on('DOWNLOAD_MANAGER_END', (err, args) => {
-                    console.log('CHECK END', args);
+                    // console.log('CHECK END', args);
                     this.store.dispatch(new DownloadManagerActions.CompleteDownloadItem(args));
                 });
                 ipcRenderer.on('DOWNLOAD_MANAGER_UPDATE', (err, args) => {
-                    console.log('CHECK UPDATE', args);
+                    // console.log('CHECK UPDATE', args);
                     this.store.dispatch(new DownloadManagerActions.UpdateDownloadItemProgress(args));
                 });
                 return action.tree.success();
