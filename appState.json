@@ -5,7 +5,8 @@
   },
   "FileSystemState": {
     "data": null,
-    "fileSystemLoading": false
+    "fileSystemLoading": true,
+    "targetPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\"
   },
   "MainState": {
     "loading": false,
@@ -30,13 +31,8 @@
     "downloadedModDetail": [],
     "loading": false,
     "modFolderMap": [
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/BetterNPC-188-0-7-6.rar",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Cuter Handler Face Model-247-1-01.zip",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Fate's Quest Pack-248-V3-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Felyne iron sword replacers-257-1.rar",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip",
-      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Souvenir's Light Pillar-112-1-1.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Monster 3 Star Weakness Icon Indicator-258-1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
     ],
     "modList": [
@@ -44,43 +40,129 @@
         "archiveMaps": [
           [
             "nativePC/",
-            "nativePC/vfx/",
-            "nativePC/vfx/efx/",
-            "nativePC/vfx/efx/gm/",
-            "nativePC/vfx/efx/gm/gm000/",
-            "nativePC/vfx/efx/gm/gm000/gm000_014/",
-            "nativePC/vfx/efx/gm/gm000/gm000_014/gm000_014_00.efx"
+            "nativePC/ui/",
+            "nativePC/ui/common/",
+            "nativePC/ui/common/tex/",
+            "nativePC/ui/common/tex/cmn_micon00_ID.tex",
+            "nativePC/ui/common/tex/cmn_micon00M_ID.tex"
           ]
         ],
         "archiveNames": [
-          "Souvenir's Light Pillar-112-1-1.zip"
+          "Monster 3 Star Weakness Icon Indicator-258-1-0.zip"
         ],
         "archivePaths": [
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Light Pillar-112-1-1.zip"
+          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Monster 3 Star Weakness Icon Indicator-258-1-0.zip"
         ],
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
-        "authorName": "2hh8899",
+        "authorLink": null,
+        "authorName": "Anonymous",
         "enabled": [
           false
         ],
-        "name": "Souvenir's Light Pillar",
-        "pictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
+        "name": "Monster 3 Star Weakness Icon Indicator-258-1-0",
+        "pictures": [],
+        "publishDate": "2 9 2018",
+        "thumbs": [],
+        "updateDate": "2 9 2018",
+        "url": null
+      },
+      {
+        "archiveMaps": [
+          [
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_caxe001.evwp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_caxe001.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_caxe001.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_sld001.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_sld001.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_caxe_emblem.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_caxe_emblem.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_sld_emblem.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_sld_emblem.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/two",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_BML_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_RMT_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod/bs_two001.evwp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod/bs_two001.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod/bs_two001.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem/mod/bs_saya_emblem.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem/mod/bs_saya_emblem.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_BML_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_RMT_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005/mod/op_two005.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005/mod/op_two005.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_saya001.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_saya001.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_swo001.evwp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_swo001.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_swo001.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_saya003.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_saya003.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_swo003.evwp",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_swo003.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_swo003.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem/mod",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem/mod/bs_saya_emblem.mod3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem/mod/bs_saya_emblem.mrl3",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/two",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_BML_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_RMT_edit.tex",
+            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers-257-1/Felyne iron sword replacers/ReadMe.txt"
+          ]
         ],
-        "publishDate": "03 September 2018",
-        "thumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
+        "archiveNames": [
+          "Felyne iron sword replacers-257-1.rar"
         ],
-        "updateDate": "05 September 2018",
-        "url": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+        "archivePaths": [
+          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Felyne iron sword replacers-257-1.rar"
+        ],
+        "authorLink": null,
+        "authorName": "Anonymous",
+        "enabled": [
+          false
+        ],
+        "name": "Felyne iron sword replacers-257-1",
+        "pictures": [],
+        "publishDate": "2 9 2018",
+        "thumbs": [],
+        "updateDate": "2 9 2018",
+        "url": null
       },
       {
         "archiveMaps": [
@@ -130,422 +212,11 @@
         ],
         "updateDate": "25 September 2018",
         "url": "https://www.nexusmods.com/monsterhunterworld/mods/188"
-      },
-      {
-        "archiveMaps": [
-          [
-            "nativePC/",
-            "nativePC/npc/",
-            "nativePC/npc/npc002/",
-            "nativePC/npc/npc002/mod/",
-            "nativePC/npc/npc002/mod/npc002_010/",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face.mod3",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face.mrl3",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_face_NM.tex",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_hair.mod3",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_hair.mrl3",
-            "nativePC/npc/npc002/mod/npc002_010/npc002_010_hair_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_020/",
-            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face.mod3",
-            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face.mrl3",
-            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_020/npc002_020_face_NM.tex",
-            "nativePC/npc/npc002/mod/npc002_020/npc002_020_hair_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_040/",
-            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face.mod3",
-            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face.mrl3",
-            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_040/npc002_040_face_NM.tex",
-            "nativePC/npc/npc002/mod/npc002_040/npc002_040_hair_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_050/",
-            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face.mod3",
-            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face.mrl3",
-            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_050/npc002_050_face_NM.tex",
-            "nativePC/npc/npc002/mod/npc002_050/npc002_050_hair_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_face.mod3",
-            "nativePC/npc/npc002/mod/npc002_face.mrl3",
-            "nativePC/npc/npc002/mod/npc002_face_BM.tex",
-            "nativePC/npc/npc002/mod/npc002_face_NM.tex",
-            "nativePC/npc/npc002/mod/npc002_hair.mod3",
-            "nativePC/npc/npc002/mod/npc002_hair_BM.tex"
-          ]
-        ],
-        "archiveNames": [
-          "Cuter Handler Face Model-247-1-01.zip"
-        ],
-        "archivePaths": [
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Cuter Handler Face Model-247-1-01.zip"
-        ],
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/3124030",
-        "authorName": "UberGrainy",
-        "enabled": [
-          false
-        ],
-        "name": "Cuter Handler Face Model",
-        "pictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538185727-368351039.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129611-576482.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129479-260022103.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129269-1026579036.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129489-77255862.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129379-1411928025.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129538-213469183.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129464-1789776940.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129472-1865871136.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129603-1464094464.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129497-713523538.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129505-985355653.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129511-2125290666.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129518-141604912.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129525-729719125.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129532-2120234869.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129544-935494049.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129552-385850411.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129564-1703403522.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129571-1141692256.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129579-958204461.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129585-1670220996.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129593-1388923518.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132765-875582285.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133340-1430211957.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132775-8955386.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133217-1577657590.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132785-7691386.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133329-1027220758.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129626-849394591.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129643-421160144.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132755-1870215320.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132793-1531124814.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132940-1678486790.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132807-1592925328.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132800-103429824.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132924-87541309.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132816-280585687.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129618-2093651050.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538128898-247404294.jpeg"
-        ],
-        "publishDate": "28 September 2018",
-        "thumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538185727-368351039.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129611-576482.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129479-260022103.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129269-1026579036.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129489-77255862.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129379-1411928025.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129538-213469183.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129464-1789776940.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129472-1865871136.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129603-1464094464.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129497-713523538.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129505-985355653.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129511-2125290666.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129518-141604912.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129525-729719125.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129532-2120234869.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129544-935494049.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129552-385850411.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129564-1703403522.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129571-1141692256.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129579-958204461.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129585-1670220996.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129593-1388923518.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132765-875582285.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133340-1430211957.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132775-8955386.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133217-1577657590.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132785-7691386.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133329-1027220758.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129626-849394591.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129643-421160144.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132755-1870215320.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132793-1531124814.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132940-1678486790.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132807-1592925328.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132800-103429824.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132924-87541309.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132816-280585687.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129618-2093651050.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538128898-247404294.jpeg"
-        ],
-        "updateDate": "28 September 2018",
-        "url": "https://www.nexusmods.com/monsterhunterworld/mods/247"
-      },
-      {
-        "archiveMaps": [
-          [
-            "nativePC/",
-            "nativePC/vfx/",
-            "nativePC/vfx/efx/",
-            "nativePC/vfx/efx/wp/",
-            "nativePC/vfx/efx/wp/wp03/",
-            "nativePC/vfx/efx/wp/wp03/wp03_000.efx",
-            "nativePC/vfx/efx/wp/wp03/wp03_010.efx",
-            "nativePC/vfx/efx/wp/wp03/wp03_011.efx",
-            "nativePC/vfx/efx/wp/wp03/wp03_012.efx",
-            "nativePC/vfx/efx/wp/wp03/wp03_030.efx",
-            "nativePC/vfx/efx/wp/wp03/wp03_040.efx",
-            "nativePC/vfx/efx/wp/wp03/wp03_050.efx"
-          ]
-        ],
-        "archiveNames": [
-          "LongSword Effect by Yuna-240-154553.zip"
-        ],
-        "archivePaths": [
-          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/LongSword Effect by Yuna-240-154553.zip"
-        ],
-        "authorLink": null,
-        "authorName": "Anonymous",
-        "enabled": [
-          false
-        ],
-        "name": "LongSword Effect by Yuna-240-154553",
-        "pictures": [],
-        "publishDate": "1 9 2018",
-        "thumbs": [],
-        "updateDate": "1 9 2018",
-        "url": null
-      },
-      {
-        "archiveMaps": [
-          [
-            "nativePC/",
-            "nativePC/pl/",
-            "nativePC/pl/f_equip/",
-            "nativePC/pl/f_equip/pl038_0000/",
-            "nativePC/pl/f_equip/pl038_0000/arm/",
-            "nativePC/pl/f_equip/pl038_0000/arm/mod/",
-            "nativePC/pl/f_equip/pl038_0000/arm/mod/f_arm038_0000_BML.tex",
-            "nativePC/pl/f_equip/pl038_0000/arm/mod/f_arm038_0000_EM.tex",
-            "nativePC/pl/f_equip/pl038_0000/arm/mod/f_slinger038_0000_BML.tex",
-            "nativePC/pl/f_equip/pl038_0000/body/",
-            "nativePC/pl/f_equip/pl038_0000/body/mod/",
-            "nativePC/pl/f_equip/pl038_0000/body/mod/f_body038_0000_BML.tex",
-            "nativePC/pl/f_equip/pl038_0000/body/mod/f_body038_0000_EM.tex",
-            "nativePC/pl/f_equip/pl038_0000/helm/",
-            "nativePC/pl/f_equip/pl038_0000/helm/mod/",
-            "nativePC/pl/f_equip/pl038_0000/helm/mod/f_helm038_0000_BML.tex",
-            "nativePC/pl/f_equip/pl038_0000/helm/mod/f_helm038_0000_EM.tex",
-            "nativePC/pl/f_equip/pl038_0000/leg/",
-            "nativePC/pl/f_equip/pl038_0000/leg/mod/",
-            "nativePC/pl/f_equip/pl038_0000/leg/mod/f_leg038_0000_BML.tex",
-            "nativePC/pl/f_equip/pl038_0000/leg/mod/f_leg038_0000_EM.tex",
-            "nativePC/pl/f_equip/pl038_0010/",
-            "nativePC/pl/f_equip/pl038_0010/wst/",
-            "nativePC/pl/f_equip/pl038_0010/wst/mod/",
-            "nativePC/pl/f_equip/pl038_0010/wst/mod/f_wst038_0010_BML.tex",
-            "nativePC/pl/f_equip/pl038_0010/wst/mod/f_wst038_0010_EM.tex"
-          ]
-        ],
-        "archiveNames": [
-          "Knightess Potestas-239-0-2.zip"
-        ],
-        "archivePaths": [
-          "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Knightess Potestas-239-0-2.zip"
-        ],
-        "authorLink": null,
-        "authorName": "Anonymous",
-        "enabled": [
-          false
-        ],
-        "name": "Knightess Potestas-239-0-2",
-        "pictures": [],
-        "publishDate": "1 9 2018",
-        "thumbs": [],
-        "updateDate": "1 9 2018",
-        "url": null
-      },
-      {
-        "archiveMaps": [
-          [
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_caxe001.evwp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_caxe001.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_caxe001.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_sld001.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/bs_caxe001/mod/bs_sld001.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_caxe_emblem.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_caxe_emblem.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_sld_emblem.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/caxe/emblem/mod/bs_sld_emblem.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/two",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_BML_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Charge sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_RMT_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod/bs_two001.evwp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod/bs_two001.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/bs_two001/mod/bs_two001.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem/mod/bs_saya_emblem.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/emblem/mod/bs_saya_emblem.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_BML_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_RMT_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005/mod/op_two005.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Great sword/NativePC/wp/two/parts/op_two005/mod/op_two005.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_saya001.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_saya001.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_swo001.evwp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_swo001.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo001/mod/bs_swo001.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_saya003.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_saya003.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_swo003.evwp",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_swo003.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/bs_swo003/mod/bs_swo003.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem/mod",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem/mod/bs_saya_emblem.mod3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/swo/emblem/mod/bs_saya_emblem.mrl3",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/two",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_BML_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_NM_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/Long sword/NativePC/wp/two/mod_wp_otomoGS/ot_we029_RMT_edit.tex",
-            "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp/Felyne iron sword replacers/Felyne iron sword replacers/ReadMe.txt"
-          ]
-        ],
-        "archiveNames": [
-          "Felyne iron sword replacers-257-1.rar"
-        ],
-        "archivePaths": [
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Felyne iron sword replacers-257-1.rar"
-        ],
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/8178223",
-        "authorName": "DIBZ420",
-        "enabled": [
-          false
-        ],
-        "name": "Felyne iron sword replacers",
-        "pictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/257/257-1538395775-1878649918.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/257/257-1538395790-490931819.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/257/257-1538395810-1825126177.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/257/257-1538395826-1368355976.jpeg"
-        ],
-        "publishDate": "01 October 2018",
-        "thumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/257/257-1538395775-1878649918.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/257/257-1538395790-490931819.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/257/257-1538395810-1825126177.jpeg",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/257/257-1538395826-1368355976.jpeg"
-        ],
-        "updateDate": "01 October 2018",
-        "url": "https://www.nexusmods.com/monsterhunterworld/mods/257"
-      },
-      {
-        "archiveMaps": [
-          [
-            "nativePC/common/text/quest/q00153_eng.gmd",
-            "nativePC/common/text/quest/q00153_ger.gmd",
-            "nativePC/common/text/quest/q00261_eng.gmd",
-            "nativePC/common/text/quest/q00261_ger.gmd",
-            "nativePC/common/text/quest/q00262_eng.gmd",
-            "nativePC/common/text/quest/q00262_ger.gmd",
-            "nativePC/common/text/quest/q00263_eng.gmd",
-            "nativePC/common/text/quest/q00263_ger.gmd",
-            "nativePC/common/text/quest/q00363_eng.gmd",
-            "nativePC/common/text/quest/q00363_ger.gmd",
-            "nativePC/common/text/quest/q00471_eng.gmd",
-            "nativePC/common/text/quest/q00471_ger.gmd",
-            "nativePC/common/text/quest/q00475_eng.gmd",
-            "nativePC/common/text/quest/q00475_ger.gmd",
-            "nativePC/common/text/quest/q00481_eng.gmd",
-            "nativePC/common/text/quest/q00481_ger.gmd",
-            "nativePC/quest/questData_00153.mib",
-            "nativePC/quest/questData_00261.mib",
-            "nativePC/quest/questData_00262.mib",
-            "nativePC/quest/questData_00263.mib",
-            "nativePC/quest/questData_00363.mib",
-            "nativePC/quest/questData_00471.mib",
-            "nativePC/quest/questData_00475.mib",
-            "nativePC/quest/questData_00481.mib",
-            "nativePC/quest/rem/remData_99901.rem",
-            "nativePC/quest/rem/remData_99902.rem",
-            "nativePC/quest/rem/remData_99903.rem",
-            "nativePC/quest/rem/remData_99904.rem",
-            "nativePC/quest/rem/remData_99905.rem",
-            "nativePC/quest/rem/remData_99906.rem",
-            "nativePC/quest/rem/remData_99907.rem",
-            "nativePC/quest/rem/remData_99908.rem",
-            "nativePC/quest/supp/suppData_60001.supp",
-            "nativePC/quest/supp/suppData_60002.supp",
-            "nativePC/quest/supp/suppData_60003.supp",
-            "README_eng.txt",
-            "README_ger.txt"
-          ]
-        ],
-        "archiveNames": [
-          "Fate's Quest Pack-248-V3-0.zip"
-        ],
-        "archivePaths": [
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Fate's Quest Pack-248-V3-0.zip"
-        ],
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/59343236",
-        "authorName": "FateEscape",
-        "enabled": [
-          false
-        ],
-        "name": "Fate's Quest Pack",
-        "pictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218603-776953294.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218630-1490872030.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218629-85916012.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218637-1220919299.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218638-1418787768.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218644-694803357.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218643-1610851682.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218650-8072691.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/248/248-1538218652-491284806.png"
-        ],
-        "publishDate": "29 September 2018",
-        "thumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218603-776953294.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218630-1490872030.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218629-85916012.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218637-1220919299.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218638-1418787768.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218644-694803357.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218643-1610851682.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218650-8072691.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/248/248-1538218652-491284806.png"
-        ],
-        "updateDate": "30 September 2018",
-        "url": "https://www.nexusmods.com/monsterhunterworld/mods/248"
       }
     ],
-    "needsProcessing": []
+    "modProcessing": false,
+    "nativePcMap": [],
+    "ownedPathDict": {},
+    "processingQue": []
   }
 }

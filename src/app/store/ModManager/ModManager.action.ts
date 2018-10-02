@@ -31,6 +31,13 @@ export class ProcessMod implements Action {
     constructor(public payload: any = null) { }
 }
 
+export const BEGIN_MOD_PROCESSING = '[ModManager] BEGIN_MOD_PROCESSING';
+
+export class BeginModProcessing implements Action {
+    readonly type = BEGIN_MOD_PROCESSING;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const PROCESS_MOD_BY_NAME = '[ModManager] PROCESS_MOD_BY_NAME';
 
 export class ProcessModByName implements Action {
@@ -71,6 +78,19 @@ export const ADD_MOD_FROM_PROCESSING = '[ModManager] ADD_MOD_FROM_PROCESSING';
 export class AddModFromProcessing implements Action {
     readonly type = ADD_MOD_FROM_PROCESSING;
     constructor(public payload: Mod) { }
+}
+
+export const ADD_MOD_TO_PROCESSING_QUE = '[ModManager] ADD_MOD_TO_PROCESSING_QUE';
+
+export class AddModToProcessingQue implements Action {
+    readonly type = ADD_MOD_TO_PROCESSING_QUE;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const MOD_PROCESSED = '[ModManager] MOD_PROCESSED';
+
+export class ModProcessed implements Action {
+    readonly type = MOD_PROCESSED;
 }
 
 export const ADD_MOD_DETAIL_FROM_DOWNLOAD = '[ModManager] ADD_MOD_DETAIL_FROM_DOWNLOAD';
@@ -116,4 +136,5 @@ export class ModManagerSuccess implements Action {
 
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
-    Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName;
+    Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
+    AddModToProcessingQue;

@@ -25,7 +25,10 @@
         </h2>
       </div>
       <ion-list>
-        <div class="mod" *ngFor='let mod of this.modList'>
+        <div class="no-mods" [ngClass]="{'hidden' : this.modList.length !== 0}">
+            <ion-icon name="bonfire"></ion-icon>
+        </div>
+        <div #modManager class="mod" *ngFor='let mod of this.modList'>
           <div class='img-container'>
             <img *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
             <ng-template #question>

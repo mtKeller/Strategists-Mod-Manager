@@ -20,7 +20,6 @@ export class HomePage implements OnInit {
   @ViewChild('playButton')
   set playButton(ele) {
     setTimeout(() => {
-      console.log('PLAY Button', ele);
       this.PlayButton = ele.nativeElement;
     }, 500);
   }
@@ -28,7 +27,6 @@ export class HomePage implements OnInit {
   @ViewChild('openMhwDirButton')
   set openDirButton(ele) {
     setTimeout(() => {
-      console.log('PLAY Button', ele);
       this.OpenDirButton = ele.nativeElement;
     }, 500);
   }
@@ -36,7 +34,6 @@ export class HomePage implements OnInit {
   @ViewChild('openNexusButton')
   set openNexusButton(ele) {
     setTimeout(() => {
-      console.log('PLAY Button', ele);
       this.OpenNexusButton = ele.nativeElement;
     }, 500);
   }

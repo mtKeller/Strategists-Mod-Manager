@@ -8,7 +8,7 @@ import '../../helpers/rxjs-operators';
 import * as DownloadManagerActions from './DownloadManager.actions';
 import { AddModDetailFromDownload, ProcessModByName } from '../ModManager/ModManager.action';
 import { SaveStateTree } from '../Main/Main.tree';
-import { empty } from '../../../../node_modules/rxjs';
+import { empty } from 'rxjs';
 
 const { ipcRenderer } = window.require('electron');
 

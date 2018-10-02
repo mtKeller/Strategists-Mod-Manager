@@ -131,7 +131,7 @@
         .mod-list-header {
             background: black;
             color: white;
-            width: 90%;
+            width: 90.3%;
             margin: 0 auto;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
@@ -221,7 +221,6 @@
                         -webkit-padding-start: 8px;
                         margin-left: 8px;
                         font-size: 12px;
-                        float: right;
                     }
                     li {
                         padding: 0 4px 0 4px;
@@ -289,22 +288,39 @@
                         }
                     }
                 }
-            }
-            
-            
-            
-            
+            }  
         }
         ion-list {
-            background: none !important;
+            position: relative !important;
+            .hidden{
+                transition: 1s ease-out;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .no-mods {
+                background-image: url('assets/stars.svg');
+                background-position-y: -40px;
+                // background-size: cover;
+                transition: 1s ease-out;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                font-size: 128px;
+                text-align: center;
+                padding-top: 175px;
+            }
             overflow-y: scroll;
             height: 368px;
             width: 90%;
             margin: 0 auto;
             border-bottom-left-radius: 9px;
             border-bottom-right-radius: 9px;
-            border: 1.5px solid black;
+            background: linear-gradient(180deg, rgba(100,100,100,.7), rgba(80,80,80,.7)) !important;
+            // border: 1.5px solid black;
             // box-shadow: 0 -1px 2px darkgrey;
+        }
+        .downloads {
+            
         }
     }
 }

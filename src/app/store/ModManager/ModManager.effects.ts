@@ -11,7 +11,7 @@ import * as ModManagerActions from './ModManager.action';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
 import { SaveStateTree } from '../Main/Main.tree';
-import { map } from '../../../../node_modules/rxjs-compat/operator/map';
+import { map } from 'rxjs-compat/operator/map';
 
 function replaceAll(str , search, replacement) {
     const target = str;
@@ -25,6 +25,8 @@ function replaceAll(str , search, replacement) {
     downloadManagerCurrentFiles: Array<any>;
     downloadedModDetail: Array<any>;
     mhwDIR: string;
+    processingQue: Array<any>;
+    modProcessing: boolean;
 
     constructor(private actions$: Actions, private store: Store<any> ) {
         this.store.select(state => state.ModManagerState.modFolderMap).subscribe(val => {
@@ -47,19 +49,28 @@ function replaceAll(str , search, replacement) {
         this.store.select(state => state.ModManagerState.modList).subscribe(val => {
             this.modList = val;
         });
+        this.store.select(state => state.ModManagerState.processingQue).subscribe(val => {
+            this.processingQue = val;
+        });
+        this.store.select(state => state.ModManagerState.modProcessing).subscribe(val => {
+            this.modProcessing = val;
+        });
+        setInterval(() => {
+            if (!this.modProcessing && this.processingQue.length !== 0) {
+                this.store.dispatch(this.processingQue[0].tree.success());
+            }
+        }, 500);
     }
-    ProcessModDelay = 0;
+    @Effect()
+        ModManagerBeginProcessingMod$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.BEGIN_MOD_PROCESSING)
+            .map(action => {
+                return action.tree.success();
+            });
     @Effect()
         ModManagerProcessMod$: Observable<any> = this.actions$
             .ofType(ModManagerActions.PROCESS_MOD)
             .map(action => {
-                this.ProcessModDelay += 500;
-                return action;
-            })
-            .delay(this.ProcessModDelay)
-            .map(action => {
-                this.ProcessModDelay -= 500;
-                console.log('Process MOD: ', action.payload);
                 const payload = action.payload;
                 if (payload.modArchiveName.indexOf('.rar') > -1) {
                     return new ModManagerActions.ProcessRarMod(payload);
@@ -70,23 +81,13 @@ function replaceAll(str , search, replacement) {
                 } else {
                     return new ModManagerActions.ModManagerSuccess();
                 }
-                console.log('PAYLOAD2', payload);
             });
-        ProcessModNyNameDelay = 0;
     @Effect()
         ModManagerProcessModByName$: Observable<any> = this.actions$
             .ofType(ModManagerActions.PROCESS_MOD_BY_NAME)
             .map(action => {
-                this.ProcessModNyNameDelay += 500;
-                return action;
-            })
-            .delay(this.ProcessModNyNameDelay)
-            .map(action => {
-                this.ProcessModNyNameDelay -= 500;
-                console.log('Process MOD BY NAME: ', action.payload);
                 let payload = null;
                 for (let i = 0; i < this.downloadedModDetail.length; i++) {
-                    console.log(this.downloadedModDetail[i].modArchiveName, action.payload);
                     if (action.payload === this.downloadedModDetail[i].modArchiveName) {
                         payload = this.downloadedModDetail[i];
                         payload.modArchivePath = `${this.mhwDIR}\\modFolder\\${action.payload}`;
@@ -108,9 +109,13 @@ function replaceAll(str , search, replacement) {
             .ofType(ModManagerActions.PROCESS_RAR_MOD)
             .map(action => {
                 console.log('HIT PROCESS RAR MOD', action);
+                const ActionNodeModProcessed: ActionNode = {
+                    initAction: new ModManagerActions.ModProcessed(),
+                    successNode: null,
+                };
                 const ActionNodeDeleteModDetailFromDownload: ActionNode = {
                     initAction: new ModManagerActions.RemoveModDetail(),
-                    successNode: null,
+                    successNode: ActionNodeModProcessed,
                     payload: action.payload.modArchiveName
                 };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
@@ -167,8 +172,17 @@ function replaceAll(str , search, replacement) {
                     payload: [replaceAll(action.payload.modArchivePath, '/', '\\'),
                         this.mhwDIR + `\\modFolder\\temp\\${action.payload.modTitle}\\`]
                 };
+                const ActionNodeBeginModProcessing: ActionNode = {
+                    initAction: new ModManagerActions.BeginModProcessing(),
+                    successNode: ActionNodeUnRarFile,
+                };
+                const ActionNodeAddModToProcessingQue: ActionNode = {
+                    initAction: new ModManagerActions.AddModToProcessingQue(),
+                    successNode: ActionNodeBeginModProcessing,
+                    payload: action.payload.modArchiveName
+                };
                 const ActionTreeParam: ActionTreeParams = {
-                    actionNode: ActionNodeUnRarFile,
+                    actionNode: ActionNodeAddModToProcessingQue,
                     payload: action.payload,
                     store: this.store
                 };
@@ -197,9 +211,13 @@ function replaceAll(str , search, replacement) {
         ModManagerProcessZipMod$: Observable<any> = this.actions$
             .ofType(ModManagerActions.PROCESS_ZIP_MOD)
             .map(action => {
+                const ActionNodeModProcessed: ActionNode = {
+                    initAction: new ModManagerActions.ModProcessed(),
+                    successNode: null,
+                };
                 const ActionNodeDeleteModDetailFromDownload: ActionNode = {
                     initAction: new ModManagerActions.RemoveModDetail(),
-                    successNode: null,
+                    successNode: ActionNodeModProcessed,
                     payload: action.payload.modArchiveName
                 };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
@@ -230,8 +248,17 @@ function replaceAll(str , search, replacement) {
                     successNode: ActionNodeUpdateProgress50,
                     payload: action.payload.modArchivePath
                 };
+                const ActionNodeBeginModProcessing: ActionNode = {
+                    initAction: new ModManagerActions.BeginModProcessing(),
+                    successNode: ActionNodeViewZipContents,
+                };
+                const ActionNodeAddModToProcessingQue: ActionNode = {
+                    initAction: new ModManagerActions.AddModToProcessingQue(),
+                    successNode: ActionNodeBeginModProcessing,
+                    payload: action.payload.modArchiveName
+                };
                 const ActionTreeParam: ActionTreeParams = {
-                    actionNode: ActionNodeViewZipContents,
+                    actionNode: ActionNodeAddModToProcessingQue,
                     payload: action.payload,
                     store: this.store
                 };

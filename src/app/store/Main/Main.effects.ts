@@ -386,10 +386,9 @@ const { ipcRenderer } = window.require('electron');
     @Effect()
         MainDirWatchEmit$: Observable<any> = this.actions$
             .ofType(MainActions.DIR_WATCH_EMIT)
-            .debounceTime(500)
-            .flatMap(action => {
-                this.store.dispatch(action.tree.success());
-                return empty();
+            .debounceTime(1000)
+            .map(action => {
+                return action.tree.success();
             });
     @Effect()
         MainSetMhwMappedDir$: Observable<any> = this.actions$

@@ -22,6 +22,42 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 needsProcessing: needsProcessing
             };
         }
+        case ModManagerActions.BEGIN_MOD_PROCESSING : {
+            const newProcessingQue = [];
+            for (let i = 1; i < state.processingQue.length; i++) {
+                newProcessingQue.push(state.processingQue[i]);
+            }
+            return {
+                ...state,
+                modProcessing: true,
+                processingQue: newProcessingQue
+            };
+        }
+        case ModManagerActions.MOD_PROCESSED : {
+            return {
+                ...state,
+                modProcessing: false
+            };
+        }
+        case ModManagerActions.ADD_MOD_TO_PROCESSING_QUE : {
+            const newProcessingQue = [];
+            if (state.processingQue.length === 0) {
+                return {
+                    ...state,
+                    processingQue: [action]
+                };
+            } else {
+                for (let i = 0;  i < state.processingQue.length; i++) {
+                    if (state.processingQue[i].payload !== action.payload) {
+                        newProcessingQue.push(action);
+                    }
+                }
+                return {
+                    ...state,
+                    processingQue: newProcessingQue
+                };
+            }
+        }
         case ModManagerActions.ADD_MOD_TO_MOD_LIST : {
             let MOD;
             if (action.payload) {
@@ -107,22 +143,6 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             }
             return {
                 ...state
-            };
-        }
-        case ModManagerActions.ADD_MOD_FROM_PROCESSING : {
-            const MOD = action.payload;
-            const newProcessingList = [];
-            for (let i = 0; i < state.needsProcessing.length; i++) {
-                if (state.needsProcessing[i].indexOf(MOD.name) === -1) {
-                    newProcessingList.push(state.needsProcessing[i]);
-                }
-            }
-            const modList = state.modList;
-            modList.push(MOD);
-            return {
-                ...state,
-                modList: modList,
-                needsProcessing: newProcessingList
             };
         }
         case ModManagerActions.ADD_MOD_DETAIL_FROM_DOWNLOAD : {
