@@ -32,7 +32,7 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
             };
         }
         case MainActions.LOAD_STATE_SUCCESS: {
-            console.log(action.tree.payload);
+            // console.log(action.tree.payload);
             const storedState = action.tree.payload;
             const newState = {
                 ...state,
@@ -49,7 +49,7 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
             };
         }
         case MainActions.GET_MHW_DIRECTORY_PATH_SUCCESS: {
-            console.log('SHOULD HIT A FEW TIMES', action.tree.payload);
+            // console.log('SHOULD HIT A FEW TIMES', action.tree.payload);
             return {
                 ...state,
                 loading: true,

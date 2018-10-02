@@ -6,7 +6,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
     switch (action.type) {
         case ModManagerActions.VERIFY_MODS: {
             const zipMods = state.modFolderMap.filter((path) => {
-                console.log(path);
+                // console.log(path);
                 if (path.indexOf('.zip') > -1) {
                     return true;
                 }
@@ -153,7 +153,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 modPictures.push(modDetail.modThumbs[i].replace('/thumbnails/', '/'));
             }
             modDetail['modPictures'] = modPictures;
-            console.log('MOD DETAIL', modDetail);
+            // console.log('MOD DETAIL', modDetail);
             let newState = {
                 ...state
             };
@@ -184,7 +184,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         }
         case ModManagerActions.REMOVE_MOD_DETAIL : {
             const newDownloadedModDetail = [];
-            console.log('REMOVE_MOD_DETAIL', action.payload);
+            // console.log('REMOVE_MOD_DETAIL', action.payload);
             for (let i = 0; i < state.downloadedModDetail.length; i++) {
                 if (action.payload !== state.downloadedModDetail[i].modArchiveName) {
                     newDownloadedModDetail.push(state.downloadedModDetail[i].modArchiveName);

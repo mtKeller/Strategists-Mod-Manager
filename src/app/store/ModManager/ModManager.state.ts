@@ -16,6 +16,7 @@ export interface Mod {
 export interface ModManagerState {
     loading: boolean;
     modList: Array<Mod>;
+    loadOrder: Array<number>;
     nativePcMap: Array<any>;
     modFolderMap: Array<any>;
     ownedPathDict: Object;
@@ -28,6 +29,7 @@ export function InitializeModManagerState() {
     return{
         loading: false,
         modList: [],
+        loadOrder: [],
         nativePcMap: [],
         modFolderMap: [],
         ownedPathDict: {},

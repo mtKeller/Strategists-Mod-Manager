@@ -13,8 +13,8 @@ import { PopoverController } from '@ionic/angular';
 export class HomePage implements OnInit {
   mhwDirectoryPath: any = 'Maybe something';
   mhwDirectoryMap: any = [];
-  downloadManagerItems: any = null;
-  modList: any = null;
+  downloadManagerItems: any = [];
+  modList: any = [];
   downloading = false;
   PlayButton: HTMLElement;
   @ViewChild('playButton')

@@ -38,7 +38,7 @@ function replaceAll(str , search, replacement) {
             this.downloadManagerCurrentFiles = val;
         });
         this.store.select(state => state.ModManagerState.downloadedModDetail).subscribe(val => {
-            console.log('CHANGE TO MOD DETAIL', val);
+            // console.log('CHANGE TO MOD DETAIL', val);
             this.downloadedModDetail = val;
         });
 
@@ -263,7 +263,7 @@ function replaceAll(str , search, replacement) {
                     store: this.store
                 };
                 const ActionTreeProcessZipMod: ActionTree = new ActionTree(ActionTreeParam);
-                console.log('PROCESS_NODE_TREE_ZIP', ActionTreeProcessZipMod);
+                // console.log('PROCESS_NODE_TREE_ZIP', ActionTreeProcessZipMod);
                 return ActionTreeProcessZipMod.begin();
             });
     @Effect()
@@ -295,20 +295,20 @@ function replaceAll(str , search, replacement) {
                 } else {
                     payload = action.tree.payload.filter(path => path.indexOf('/temp/') === -1);
                 }
-                console.log('CHECK PAYLOAD', payload);
+                // console.log('CHECK PAYLOAD', payload);
                 let modExists = false;
                 for (let i = 0; i < payload.length; i++) {
                     modExists = false;
                     for (let j = 0; j < this.downloadManagerCurrentFiles.length; j++) {
                         if (payload[i].indexOf(this.downloadManagerCurrentFiles[j].fileName) > -1) {
-                            console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DOWNLOAD');
+                            // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DOWNLOAD');
                             modExists = true;
                             break;
                         }
                     }
                     for (let j = 0; j < this.downloadedModDetail.length; j++) {
                         if (payload[i].indexOf(this.downloadedModDetail[j].modArchiveName) > -1) {
-                            console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DETAIL');
+                            // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DETAIL');
                             modExists = true;
                             break;
                         }
@@ -316,14 +316,14 @@ function replaceAll(str , search, replacement) {
                     for (let j = 0; j < this.modList.length; j++) {
                         for (let k = 0; k < this.modList[j].archiveNames.length; k++) {
                             if (payload[i].indexOf(this.modList[j].archiveNames[k]) > -1) {
-                                console.log('BROKE INSIDE ARCHIVE NAMES AT MOD LIST');
+                                // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD LIST');
                                 modExists = true;
                                 break;
                             }
                         }
                     }
                     if (!modExists) {
-                        console.log('CHECK PAYLOAD INDEX', payload[i]);
+                        // console.log('CHECK PAYLOAD INDEX', payload[i]);
                         const date = new Date();
                         this.store.dispatch( new ModManagerActions.ProcessMod({
                             authorLink: null,
@@ -339,7 +339,7 @@ function replaceAll(str , search, replacement) {
                           }));
                     }
                 }
-                console.log('HIT OUTSIDE LOOP');
+                // console.log('HIT OUTSIDE LOOP');
                 // Insert Processing of dragged over MODS here
                 // Check against downloadedModDetail and Current MODS
                 // Generates Anon JSON
@@ -350,7 +350,7 @@ function replaceAll(str , search, replacement) {
             .ofType(ModManagerActions.SET_STATE)
             .map(action => {
                 // this.store.dispatch(new ModManagerActions.VerifyMods());
-                console.log('CHECK MOD STATE', action.tree.payload);
+                // console.log('CHECK MOD STATE', action.tree.payload);
                 return action.tree.success();
             });
 }

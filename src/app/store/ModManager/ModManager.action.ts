@@ -107,6 +107,34 @@ export class RemoveModDetail implements Action {
     constructor(public payload: any = null) { }
 }
 
+export const INSERT_TO_FRONT_OF_LOAD_ORDER = '[ModManager] INSERT_TO_FRONT_OF_LOAD_ORDER';
+
+export class InsertToFrontOfLoadOrder implements Action {
+    readonly type = INSERT_TO_FRONT_OF_LOAD_ORDER;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const SHIFT_UP_MOD_OF_LOAD_ORDER = '[ModManager] SHIFT_UP_MOD_OF_LOAD_ORDER';
+
+export class ShiftUpModOfLoadOrder implements Action {
+    readonly type = SHIFT_UP_MOD_OF_LOAD_ORDER;
+    constructor(public payload: number = null) { }
+}
+
+export const SHIFT_DOWN_MOD_OF_LOAD_ORDER = '[ModManager] SHIFT_DOWN_MOD_OF_LOAD_ORDER';
+
+export class ShiftDownModOfLoadOrder implements Action {
+    readonly type = SHIFT_UP_MOD_OF_LOAD_ORDER;
+    constructor(public payload: number = null) { }
+}
+
+export const REMOVE_MOD_FROM_LOAD_ORDER = '[ModManager] REMOVE_MOD_FROM_LOAD_ORDER';
+
+export class RemoveModFromLoadOrder implements Action {
+    readonly type = REMOVE_MOD_FROM_LOAD_ORDER;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const PACK_MOD = '[ModManager] PACK_MOD';
 
 export class PackMod implements Action {

@@ -4,7 +4,6 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Store } from '../../node_modules/@ngrx/store';
-import * as MainActions from './store/Main/Main.actions';
 import {Init, Exit} from './store/FileSystem/FileSystem.actions';
 
 @Component({

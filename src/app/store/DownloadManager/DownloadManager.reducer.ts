@@ -110,7 +110,7 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                 for (let i = 0; i < state.currentFiles.length; i++) {
                     if (action.payload[0] !== state.currentFiles[i].fileName) {
                         newArray.push(state.currentFiles[i]);
-                    } else {
+                    } else if (action.payload[1] > state.currentFiles[i].progress) {
                         newArray.push({
                             fileName: state.currentFiles[i].fileName,
                             progress: action.payload[1],
@@ -118,6 +118,8 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                             processing: false,
                             processingProgress: 0
                         });
+                    } else {
+                        newArray.push(state.currentFiles[i]);
                     }
                 }
                 newState = {
@@ -144,7 +146,7 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                 for (let i = 0; i < state.currentFiles.length; i++) {
                     if (payload[0] !== state.currentFiles[i].fileName) {
                         newArray.push(state.currentFiles[i]);
-                    } else {
+                    } else if (payload[1] > state.currentFiles[i].processingProgress) {
                         newArray.push({
                             fileName: state.currentFiles[i].fileName,
                             progress: state.currentFiles[i].progress,
@@ -152,6 +154,8 @@ export function DownloadManagerReducer(state = InitializeDownloadManagerState(),
                             processing: true,
                             processingProgress: payload[1]
                         });
+                    } else {
+                        newArray.push(state.currentFiles[i]);
                     }
                 }
                 newState = {

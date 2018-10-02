@@ -34,7 +34,6 @@ declare module '@ngrx/store' {
   }
 }
 
-
 declare global {
   interface Window { require: any; }
 }

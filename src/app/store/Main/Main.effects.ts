@@ -31,9 +31,9 @@ const { ipcRenderer } = window.require('electron');
         this.store.select(state => state).subscribe(val => {
             this.appState = val;
         });
-        this.store.select(state => state.ModManagerState.downloadedModDetail).subscribe(val => {
-            console.log('READY TO PROCESS', val);
-        });
+        // this.store.select(state => state.ModManagerState.downloadedModDetail).subscribe(val => {
+        //     console.log('READY TO PROCESS', val);
+        // });
     }
 
     @Effect()
@@ -190,8 +190,8 @@ const { ipcRenderer } = window.require('electron');
         MainLoadStateSuccess$: Observable<any> = this.actions$
             .ofType(MainActions.LOAD_STATE_SUCCESS)
             .map(action => {
-                console.log(this.mainState.mhwDirectoryPath === null, this.mainState.mhwDirectoryPath, action.tree.payload,
-                    action.tree.currentNode);
+                // console.log(this.mainState.mhwDirectoryPath === null, this.mainState.mhwDirectoryPath, action.tree.payload,
+                //     action.tree.currentNode);
                 if (this.mainState.mhwDirectoryPath === null) {
                     this.store.dispatch(action.tree.failed());
                 } else {
@@ -255,10 +255,10 @@ const { ipcRenderer } = window.require('electron');
         MainDirWatchInit$: Observable<any> = this.actions$
             .ofType(MainActions.INIT_DIR_WATCH)
             .map(action => {
-                console.log('DIRS ARE WATCHED');
+                // console.log('DIRS ARE WATCHED');
                 ipcRenderer.send('INIT_DIR_WATCH', this.mainState.mhwDirectoryPath);
                 ipcRenderer.on('DIR_CHANGED', (err, args) => {
-                    console.log('PING');
+                    // console.log('PING');
                     if (args === 'nativePC') {
                         const ActionNodeSaveStateSuccess: ActionNode = {
                             initAction: new MainActions.SaveStateSuccess(),
@@ -415,14 +415,14 @@ const { ipcRenderer } = window.require('electron');
         EndOfActionChain$: Observable<any> = this.actions$
             .ofType(END_OF_ACTION_TREE_PATH)
             .map(action => {
-                console.log(action.tree);
+                // console.log(action.tree);
                 return new MainActions.MainSuccess;
             });
     @Effect()
         ActionChainFailed$: Observable<any> = this.actions$
             .ofType(ACTION_CHAIN_FAILED)
             .map(action => {
-                console.log('CHAIN PASS', action);
+                console.log('CHAIN FAILED', action);
                 return new MainActions.MainFailed(action.tree);
             });
 }

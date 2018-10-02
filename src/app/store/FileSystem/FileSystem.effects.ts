@@ -37,7 +37,7 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.send('READ_FILE', action.tree.payload);
                 ipcRenderer.once('FILE_READ', (event, args) => {
-                    console.log('CHECK ARGS: ', args);
+                    // console.log('CHECK ARGS: ', args);
                     if (args === false) {
                         this.store.dispatch(action.tree.failed(args));
                     } else {
@@ -122,11 +122,11 @@ const { ipcRenderer } = window.require('electron');
                 } else {
                     payload = action.tree.payload;
                 }
-                console.log('TREE HIT PAYLOAD', action.tree.payload);
-                console.log('TREE HIT', payload);
+                // console.log('TREE HIT PAYLOAD', action.tree.payload);
+                // console.log('TREE HIT', payload);
                 ipcRenderer.send('VIEW_ZIPPED_CONTENTS', payload);
                 ipcRenderer.once('VIEWED_ZIPPED_CONTENTS', (err, args) => {
-                    console.log('LIST', args);
+                    // console.log('LIST', args);
                     this.store.dispatch(action.tree.success({
                         ...action.tree.payload,
                         modMap: args
@@ -159,10 +159,10 @@ const { ipcRenderer } = window.require('electron');
                 } else {
                     payload = action.tree.payload;
                 }
-                console.log('UNRAR ACTION', action);
+                // console.log('UNRAR ACTION', action);
                 ipcRenderer.send('UNRAR_FILE', payload);
                 ipcRenderer.once('UNRARED_FILE', (err, args) => {
-                    console.log('UNRARED_FILE', args);
+                    // console.log('UNRARED_FILE', args);
                     if (args === false) {
                         this.store.dispatch(action.tree.failed());
                     } else {
@@ -175,11 +175,11 @@ const { ipcRenderer } = window.require('electron');
         FileSystemGetDirectories$: Observable<any> = this.actions$
             .ofType(FileSystemActions.GET_DIRECTORIES)
             .map(action => {
-                console.log('HIT');
-                console.log(action.tree.payload);
+                // console.log('HIT');
+                // console.log(action.tree.payload);
                 ipcRenderer.send('READ_DIR', action.tree.payload);
                 ipcRenderer.once('DIR_READ', (err, args) => {
-                    console.log('ONCE');
+                    // console.log('ONCE');
                     this.store.dispatch(action.tree.success(args));
                 });
                 return new FileSystemActions.FileSystemSuccess();
@@ -190,7 +190,7 @@ const { ipcRenderer } = window.require('electron');
             .map(action => {
                 ipcRenderer.send('EXEC_PROCESS', action.tree.payload);
                 ipcRenderer.once('EXECUTED_PROCESS', (err, args) => {
-                    console.log('EXECUTED_PROCESS: ', args);
+                    // console.log('EXECUTED_PROCESS: ', args);
                 });
                 return new FileSystemActions.FileSystemSuccess();
             });
@@ -216,7 +216,7 @@ const { ipcRenderer } = window.require('electron');
                 }
                 ipcRenderer.send('MAP_DIRECTORY_THEN_APPEND_PAYLOAD', payload);
                 ipcRenderer.once('MAPPED_DIRECTORY_NOW_APPEND_PAYLOAD', (err, args) => {
-                    console.log('MAPPED', args);
+                    // console.log('MAPPED', args);
                     this.store.dispatch(action.tree.success({
                         ...action.tree.payload,
                         modMap: args
@@ -246,7 +246,7 @@ const { ipcRenderer } = window.require('electron');
                 }
                 ipcRenderer.send('DELETE_DIRECTORY', payload);
                 ipcRenderer.once('DELETED_DIRECTORY', (err, args) => {
-                    console.log('DELETED_DIRECTORY', args);
+                    // console.log('DELETED_DIRECTORY', args);
                     this.store.dispatch(action.tree.success());
                 });
                 return new FileSystemActions.FileSystemSuccess();
