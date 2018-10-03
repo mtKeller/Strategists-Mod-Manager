@@ -1,6 +1,11 @@
+When load order and thus installing mods, keep unpacked directories till install stack
+is cleared then delete.
+When installing copy the mod, create the path if not in path dict or if path exists
+Then copy the mod files to their destinations delete if they have ownership
+
 Then create PATH OWNERSHIP DICT
-DOUBLE CHECK index field in MOD file
-THEN ADD SEPERATE SECTIONS TO MOD MANAGER installed: true/false
+<!-- DOUBLE CHECK index field in MOD file -->
+<!-- THEN ADD SEPERATE SECTIONS TO MOD MANAGER installed: true/false -->
 True on top
 WORK ON DOWNLOAD MANAGER UI
 <!-- ADD IN QUE TO PROCESSING

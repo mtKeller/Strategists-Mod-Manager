@@ -17,79 +17,28 @@
       </button>
       <div class="content-functions">
         <button id='open-dir' #openMhwDirButton class="btn ripple" (click)='openMhwDir($event)'>OPEN GAME FOLDER</button>
-        <button id='open-nexus' #openNexusButton class="btn ripple" (click)='this.openModNexus($event)'>FIND MODS</button>
+        <button id='open-nexus' #openNexusButton class="btn ripple" (click)='this.openModNexus($event)'>MOD NEXUS</button>
       </div>
-      <div class='mod-list-header'>
+      <div class='mod-manager-header'>
         <h2>
           MOD MANAGER
         </h2>
+        <div class="mod-manager-tabs">
+          <h3 [ngClass]="{'active': this.currentManagerTab === 'LOAD_ORDER'}" (click)="this.setTab('LOAD_ORDER')">
+            LOAD ORDER
+          </h3>
+          <h3 [ngClass]="{'active': this.currentManagerTab === 'MOD_LIST'}" (click)="this.setTab('MOD_LIST')">
+            MOD LIST
+          </h3>
+          <h3 [ngClass]="{'active': this.currentManagerTab === 'CATAGORIES'}" (click)="this.setTab('CATAGORIES')">
+            CATAGORIES
+          </h3>
+        </div>
       </div>
       <ion-list>
-        <div class="no-mods" [ngClass]="{'hidden' : this.modList.length !== 0}">
-            <ion-icon name="bonfire"></ion-icon>
-        </div>
-        <div #modManager class="mod" *ngFor='let mod of this.modList'>
-          <div class='img-container'>
-            <img *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
-            <ng-template #question>
-              <div class="question">
-                <ion-icon name="help"></ion-icon>
-              </div>
-            </ng-template>
-          </div>
-          <div class="mod-main">
-            <div class="mod-header">
-              <h3>
-                <a href="{{mod.url}}">{{mod.name}}</a>
-              </h3>
-              <button>
-                <ion-icon name="more"></ion-icon>
-              </button>
-            </div>
-            <div class='mod-info'>
-              <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium doloribus dolorum aspernatur
-                cupiditate odit minima voluptatem praesentium! Rem laborum amet aspernatur accusantium voluptas maiores
-                eveniet, quibusdam sit eum laudantium aut labore sapiente dolores perspiciatis quaerat deleniti
-                dignissimos omnis velit sed rerum a numquam. Sequi, consequatur eaque labore iure recusandae
-                consequuntur aut! Quas temporibus neque quis eum? Sequi quaerat dolorem alias mollitia, beatae ipsa
-                magnam dolore accusantium in quasi consequuntur quos aspernatur odit corporis est minima quis autem ex
-                veritatis illum incidunt laboriosam perferendis magni? Ullam nulla non libero labore distinctio,
-                aspernatur accusantium debitis, autem nesciunt repellat officiis, necessitatibus fugit ipsam!
-              </p>
-              <ul>
-                <li>
-                  Author <a href="{{mod.authorLink}}">{{mod.authorName}}</a>
-                </li>
-                <li>
-                  Published: <span>{{mod.publishDate}}</span>
-                </li>
-                <li>
-                  Updated: <span>{{mod.updateDate}}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="mod-functions">
-            <ul>
-              <li>
-                <button>
-                  <ion-icon name="arrow-dropup"></ion-icon>
-                </button>
-              </li>
-              <li>
-                <button>
-                  <ion-icon class="sm" name="trash"></ion-icon>
-                </button>
-              </li>
-              <li>
-                <button>
-                  <ion-icon name="arrow-dropdown"></ion-icon>
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
+        <div *ngIf="this.currentManagerTab === 'LOAD_ORDER'; then loadOrderTemplate"></div>
+        <div *ngIf="this.currentManagerTab === 'MOD_LIST'; then modListTemplate"></div>
+        <div *ngIf="this.currentManagerTab === 'CATAGORIES'; then catagoriesTemplate"></div>
       </ion-list>
       <div class="downloads">
         <ul *ngIf="this.downloadManagerItems !== null">
@@ -103,3 +52,221 @@
   </div>
   <div class="spotlight"></div>
 </ion-content>
+
+<ng-template #modListTemplate>
+  <div class="no-mods" [ngClass]="{'hidden' : this.modList.length !== 0}">
+    <ion-icon name="bonfire"></ion-icon>
+  </div>
+  <div class="mod" *ngFor='let mod of this.modList; let indexOfMod = index;'>
+    <div class='img-container'>
+      <img *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
+      <ng-template #question>
+        <div class="question">
+          <ion-icon name="help"></ion-icon>
+        </div>
+      </ng-template>
+    </div>
+    <div class="mod-main">
+      <div class="mod-header">
+        <h3>
+          <a href="{{mod.url}}">{{mod.name}}</a>
+        </h3>
+        <span>MOD FILES: {{mod.archivePaths.length}}</span>
+      </div>
+      <div class='mod-info'>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium doloribus dolorum aspernatur
+          cupiditate odit minima voluptatem praesentium! Rem laborum amet aspernatur accusantium voluptas maiores
+          eveniet, quibusdam sit eum laudantium aut labore sapiente dolores perspiciatis quaerat deleniti
+          dignissimos omnis velit sed rerum a numquam. Sequi, consequatur eaque labore iure recusandae
+          consequuntur aut! Quas temporibus neque quis eum? Sequi quaerat dolorem alias mollitia, beatae ipsa
+          magnam dolore accusantium in quasi consequuntur quos aspernatur odit corporis est minima quis autem ex
+          veritatis illum incidunt laboriosam perferendis magni? Ullam nulla non libero labore distinctio,
+          aspernatur accusantium debitis, autem nesciunt repellat officiis, necessitatibus fugit ipsam!
+        </p>
+        <ul>
+          <li>
+            Author <a href="{{mod.authorLink}}">{{mod.authorName}}</a>
+          </li>
+          <li>
+            Published: <span>{{mod.publishDate}}</span>
+          </li>
+          <li>
+            Updated: <span>{{mod.updateDate}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="mod-functions">
+      <ul>
+        <li>
+          <button>
+            <ion-icon class="black" name="arrow-dropup"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button (click)="this.toggleChildExpand(indexOfMod)">
+            <ion-icon class="add" name="more"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button>
+            <ion-icon class="black" name="arrow-dropdown"></ion-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+      <div class="mod-child" [ngClass]="{'hidden-child': !getExpandToggle(indexOfMod)}" *ngFor="let modChild of mod.archiveNames; let indexOfChild = index;">
+        <span class="mod-child-content">
+          <button class="dark" (click)="this.addToLoadOrder([indexOfMod, childIndex])">
+            <ion-icon class="subtract" name="add"></ion-icon>
+            <ion-icon name="open"></ion-icon>
+            <span>Contents</span>
+          </button>
+          <button (click)="this.addToLoadOrder([indexOfMod, childIndex])">
+            <ion-icon class="subtract" name="add"></ion-icon>
+            <ion-icon name="add"></ion-icon>
+            <span>Load Order</span>
+          </button>
+          <span class="mod-child-title">{{this.parseModChildTitle(modChild)}}</span>
+        </span>
+      </div>
+
+  </div>
+</ng-template>
+
+<ng-template #loadOrderTemplate>
+  <div class="no-mods" [ngClass]="{'hidden' : this.loadOrder.length !== 0}">
+    <ion-icon name="bonfire"></ion-icon>
+  </div>
+  <div class="mod" *ngFor='let modIndex of this.loadOrder; let position = index'>
+    <div class='img-container'>
+      <img *ngIf='this.modList[modIndex[0]].thumbs.length > 0; else question' src="{{this.modList[modIndex[0]].thumbs[0]}}" alt="">
+      <ng-template #question>
+        <div class="question">
+          <ion-icon name="help"></ion-icon>
+        </div>
+      </ng-template>
+    </div>
+    <div class="mod-main">
+      <div class="mod-header">
+        <h3>
+          <a href="{{this.modList[modIndex[0]].url}}">{{this.modList[modIndex[0]].name}} - {{this.modList[modIndex[0]].archiveNames[modIndex[1]]}}</a>
+        </h3>
+        <button>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </div>
+      <div class='mod-info'>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium doloribus dolorum aspernatur
+          cupiditate odit minima voluptatem praesentium! Rem laborum amet aspernatur accusantium voluptas maiores
+          eveniet, quibusdam sit eum laudantium aut labore sapiente dolores perspiciatis quaerat deleniti
+          dignissimos omnis velit sed rerum a numquam. Sequi, consequatur eaque labore iure recusandae
+          consequuntur aut! Quas temporibus neque quis eum? Sequi quaerat dolorem alias mollitia, beatae ipsa
+          magnam dolore accusantium in quasi consequuntur quos aspernatur odit corporis est minima quis autem ex
+          veritatis illum incidunt laboriosam perferendis magni? Ullam nulla non libero labore distinctio,
+          aspernatur accusantium debitis, autem nesciunt repellat officiis, necessitatibus fugit ipsam!
+        </p>
+        <ul>
+          <li>
+            Author <a href="{{this.modList[modIndex[0]].authorLink}}">{{this.modList[modIndex[0]].authorName}}</a>
+          </li>
+          <li>
+            Published: <span>{{this.modList[modIndex[0]].publishDate}}</span>
+          </li>
+          <li>
+            Updated: <span>{{this.modList[modIndex[0]].updateDate}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="mod-functions">
+      <ul>
+        <li>
+          <button>
+            <ion-icon name="arrow-dropup"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button>
+            <ion-icon class="sm" name="minus"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button>
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #catagoriesTemplate>
+  <div class="no-mods" [ngClass]="{'hidden' : this.modList.length !== 0}">
+    <ion-icon name="bonfire"></ion-icon>
+  </div>
+  <div class="mod" *ngFor='let mod of this.modList; let indexOfMod = index'>
+    <div class='img-container'>
+      <img *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
+      <ng-template #question>
+        <div class="question">
+          <ion-icon name="help"></ion-icon>
+        </div>
+      </ng-template>
+    </div>
+    <div class="mod-main">
+      <div class="mod-header">
+        <h3>
+          <a href="{{mod.url}}">{{mod.name}}</a>
+        </h3>
+        <button>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </div>
+      <div class='mod-info'>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusantium doloribus dolorum aspernatur
+          cupiditate odit minima voluptatem praesentium! Rem laborum amet aspernatur accusantium voluptas maiores
+          eveniet, quibusdam sit eum laudantium aut labore sapiente dolores perspiciatis quaerat deleniti
+          dignissimos omnis velit sed rerum a numquam. Sequi, consequatur eaque labore iure recusandae
+          consequuntur aut! Quas temporibus neque quis eum? Sequi quaerat dolorem alias mollitia, beatae ipsa
+          magnam dolore accusantium in quasi consequuntur quos aspernatur odit corporis est minima quis autem ex
+          veritatis illum incidunt laboriosam perferendis magni? Ullam nulla non libero labore distinctio,
+          aspernatur accusantium debitis, autem nesciunt repellat officiis, necessitatibus fugit ipsam!
+        </p>
+        <ul>
+          <li>
+            Author <a href="{{mod.authorLink}}">{{mod.authorName}}</a>
+          </li>
+          <li>
+            Published: <span>{{mod.publishDate}}</span>
+          </li>
+          <li>
+            Updated: <span>{{mod.updateDate}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="mod-functions">
+      <ul>
+        <li>
+          <button>
+            <ion-icon name="arrow-dropup"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button>
+            <ion-icon class="sm" name="trash"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button>
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>

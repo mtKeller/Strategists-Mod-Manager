@@ -16,7 +16,7 @@ export interface Mod {
 export interface ModManagerState {
     loading: boolean;
     modList: Array<Mod>;
-    loadOrder: Array<number>;
+    loadOrder: Array<Array<number>>;
     nativePcMap: Array<any>;
     modFolderMap: Array<any>;
     ownedPathDict: Object;

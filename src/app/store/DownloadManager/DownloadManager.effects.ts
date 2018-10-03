@@ -39,7 +39,7 @@ const { ipcRenderer } = window.require('electron');
             .ofType(DownloadManagerActions.ADD_DOWNLOAD_ITEM)
             .debounceTime(500)
             .map(action => {
-                console.log('ADD TO MOD DETAIL', action.payload);
+                // console.log('ADD TO MOD DETAIL', action.payload);
                 return new AddModDetailFromDownload(action.payload);
             });
     @Effect()

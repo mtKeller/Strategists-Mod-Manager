@@ -2,6 +2,7 @@ import { Component, Input, ChangeDetectorRef, OnInit, ViewChild, Renderer2, Elem
 import { Store } from '@ngrx/store';
 import * as MainActions from '../../store/Main/Main.actions';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
+import * as ModManagerActions from '../../store/ModManager/ModManager.action';
 import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree.class';
 import { PopoverController } from '@ionic/angular';
 
@@ -15,7 +16,11 @@ export class HomePage implements OnInit {
   mhwDirectoryMap: any = [];
   downloadManagerItems: any = [];
   modList: any = [];
+  modListChildExpand: any = [];
+  loadOrder: any = [];
+  currentManagerTab = 'MOD_LIST';
   downloading = false;
+
   PlayButton: HTMLElement;
   @ViewChild('playButton')
   set playButton(ele) {
@@ -58,7 +63,16 @@ export class HomePage implements OnInit {
       this.cdr.detectChanges();
     });
     this.store.select(state => state.ModManagerState.modList).subscribe(val => {
+      const newChildExpand = [];
       this.modList = val;
+      for (let i = 0; i < val.length; i++) {
+        newChildExpand.push(false);
+      }
+      this.modListChildExpand = newChildExpand;
+      this.cdr.detectChanges();
+    });
+    this.store.select(state => state.ModManagerState.loadOrder).subscribe(val => {
+      this.loadOrder = val;
       this.cdr.detectChanges();
     });
   }
@@ -125,5 +139,51 @@ export class HomePage implements OnInit {
   }
   testUnrar() {
     this.store.dispatch(new FileSystemActions.UnrarFile());
+  }
+  setTab(target) {
+    this.currentManagerTab = target;
+    this.cdr.detectChanges();
+  }
+  toggleChildExpand(index) {
+    if (index !== null) {
+      console.log(index, this.modListChildExpand[index]);
+      this.modListChildExpand[index] = !this.modListChildExpand[index];
+      console.log(index, this.modListChildExpand[index]);
+    }
+  }
+  getExpandToggle(index) {
+    // console.log(index, this.modListChildExpand[index]);
+    if (index !== null || index !== undefined) {
+      return this.modListChildExpand[index];
+    }
+    return false;
+  }
+  addToLoadOrder(arrOfIndexes) {
+    const ActionNodeAddToLoadOrder: ActionNode = {
+      initAction: new ModManagerActions.InsertToFrontOfLoadOrder(),
+      successNode: null,
+    };
+    const ActionTreeParam: ActionTreeParams = {
+      actionNode: ActionNodeAddToLoadOrder,
+      payload: arrOfIndexes,
+      store: this.store
+    };
+    const ActionTreeAddToLoadOrder: ActionTree = new ActionTree(ActionTreeParam);
+    ActionTreeAddToLoadOrder.init();
+    console.log('ADD TO LOAD ORDER TREE', ActionTreeAddToLoadOrder);
+  }
+  parseModChildTitle(str: string) {
+    function replaceAll(st , search, replacement) {
+      const target = st;
+      return target.split(search).join(replacement);
+    }
+    // console.log(str.replace(/[0-9]/g, ''));
+    let newStr = str.replace(/[0-9]/g, '');
+    newStr = replaceAll(newStr, '_', '');
+    newStr = replaceAll(newStr, '-', '');
+    newStr = newStr.replace('.zip', '');
+    newStr = newStr.replace('.rar', '');
+    newStr = newStr.replace('.7z', '');
+    return newStr;
   }
 }

@@ -67,10 +67,10 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             }
             let modExists = false;
             for (let i = 0; i < state.modList.length; i++) {
-                if (MOD.modTitle === state.modList[i].modTitle) {
+                if (MOD.modTitle === state.modList[i].name) {
                     let modPathExists;
                     for (let j = 0; j < state.modList[i].archivePaths.length; j++) {
-                        if (state.modList[i].archivePaths[j] === MOD.archivePaths[0]) {
+                        if (state.modList[i].archiveNames[j] === MOD.modArchiveName) {
                             modPathExists = true;
                             break;
                         }
@@ -104,7 +104,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                         };
                         const newModList = [];
                         for (let j = 0; j < state.modList.length; j++) {
-                            if (mutatedMOD.name === state.modList[j]) {
+                            if (mutatedMOD.name === state.modList[j].name) {
                                 newModList.push(mutatedMOD);
                             } else {
                                 newModList.push(state.modList[j]);
@@ -193,6 +193,69 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             return {
                 ...state,
                 downloadedModDetail: newDownloadedModDetail
+            };
+        }
+        case ModManagerActions.INSERT_TO_FRONT_OF_LOAD_ORDER : {
+            const newLoadOrder = [action.payload];
+            for (let i = 0; i < state.loadOrder.length; i++) {
+                newLoadOrder.push(state.loadOrder[i]);
+            }
+            return {
+                ...state,
+                loadOrder: newLoadOrder
+            };
+        }
+        case ModManagerActions.SHIFT_UP_MOD_OF_LOAD_ORDER : {
+            const newLoadOrder = state.loadOrder;
+            let indexOfTarget: number;
+            for (let i = 0; i < newLoadOrder.length; i++) {
+                if (action.payload[0] === state.loadOrder[i][0] && action.payload[1] === state.loadOrder[i][1]) {
+                    indexOfTarget = i;
+                    break;
+                }
+            }
+            let tempHolder: number;
+            if (indexOfTarget - 1 !== -1) {
+                tempHolder = newLoadOrder[indexOfTarget];
+                newLoadOrder[indexOfTarget] = newLoadOrder[indexOfTarget - 1];
+                newLoadOrder[indexOfTarget - 1] = tempHolder;
+            }
+            return {
+                ...state,
+                loadOrder: newLoadOrder
+            };
+        }
+        case ModManagerActions.SHIFT_DOWN_MOD_OF_LOAD_ORDER : {
+            const newLoadOrder = state.loadOrder;
+            let indexOfTarget: number;
+            for (let i = 0; i < newLoadOrder.length; i++) {
+                if (action.payload[0] === state.loadOrder[i][0] && action.payload[1] === state.loadOrder[i][1]) {
+                    indexOfTarget = i;
+                    break;
+                }
+            }
+            let tempHolder: number;
+            if (indexOfTarget + 1 < newLoadOrder.length) {
+                tempHolder = newLoadOrder[indexOfTarget];
+                newLoadOrder[indexOfTarget] = newLoadOrder[indexOfTarget + 1];
+                newLoadOrder[indexOfTarget + 1] = tempHolder;
+            }
+            return {
+                ...state,
+                loadOrder: newLoadOrder
+            };
+        }
+        case ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER : {
+            const newLoadOrder = [];
+            for (let i = 0; i < state.loadOrder[i].length; i++) {
+                if (action.payload[0] !== state.loadOrder[i][0] && action.payload[1] !== state.loadOrder[i][1]) {
+                    newLoadOrder.push(state.loadOrder[i]);
+                    break;
+                }
+            }
+            return {
+                ...state,
+                loadOrder: newLoadOrder
             };
         }
         case ModManagerActions.SET_MOD_FOLDER_MAP: {

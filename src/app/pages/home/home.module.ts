@@ -5,9 +5,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { ComponentsModule } from '../../component/components.module';
+// import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
+    // MatTooltipModule,
     ComponentsModule,
     IonicModule,
     CommonModule,

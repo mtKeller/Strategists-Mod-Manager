@@ -118,14 +118,14 @@ export const SHIFT_UP_MOD_OF_LOAD_ORDER = '[ModManager] SHIFT_UP_MOD_OF_LOAD_ORD
 
 export class ShiftUpModOfLoadOrder implements Action {
     readonly type = SHIFT_UP_MOD_OF_LOAD_ORDER;
-    constructor(public payload: number = null) { }
+    constructor(public payload: Array<number> = null) { }
 }
 
 export const SHIFT_DOWN_MOD_OF_LOAD_ORDER = '[ModManager] SHIFT_DOWN_MOD_OF_LOAD_ORDER';
 
 export class ShiftDownModOfLoadOrder implements Action {
-    readonly type = SHIFT_UP_MOD_OF_LOAD_ORDER;
-    constructor(public payload: number = null) { }
+    readonly type = SHIFT_DOWN_MOD_OF_LOAD_ORDER;
+    constructor(public payload: Array<number> = null) { }
 }
 
 export const REMOVE_MOD_FROM_LOAD_ORDER = '[ModManager] REMOVE_MOD_FROM_LOAD_ORDER';
@@ -165,4 +165,5 @@ export class ModManagerSuccess implements Action {
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
-    AddModToProcessingQue;
+    AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
+    RemoveModFromLoadOrder;
