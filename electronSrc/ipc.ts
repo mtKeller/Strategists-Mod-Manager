@@ -361,6 +361,21 @@ export function initIPC(win, ele) {
         });
     });
 
+    ipcMain.on('VIEW_7ZIPPED_CONTENTS', (event, args) => {
+        fileSystemManager.io({
+            type: 'VIEW_7ZIPPED_CONTENTS',
+            payload: args
+        }, (action) => {
+            switch (action.type) {
+                case 'VIEWED_7ZIPPED_CONTENTS' : {
+                    event.sender.send('VIEWED_7ZIPPED_CONTENTS', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
+
     ipcMain.on('UNZIP_FILE', (event, args) => {
         fileSystemManager.io({
                 type: 'UNZIP_FILE',
@@ -399,7 +414,7 @@ export function initIPC(win, ele) {
         });
     });
 
-    let modDetails;
+    let modDetails = null;
 
     function downloadFile(file_url , targetPath, fileName) {
         fileSystemManager.io({
@@ -479,7 +494,10 @@ export function initIPC(win, ele) {
 
 
     ipcMain.on('STORE_MOD_DETAILS', (event, args) => {
-        modDetails = args;
+        // console.log(args);
+        if (args !== null && args !== undefined) {
+            modDetails = args;
+        }
     });
 
     return {

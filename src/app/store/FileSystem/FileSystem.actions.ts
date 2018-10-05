@@ -70,6 +70,13 @@ export class ViewZippedContents implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const VIEW_7ZIPPED_CONTENTS = '[FILE_SYSTEM] VIEW_7ZIPPED_CONTENTS';
+
+export class View7ZippedContents implements Action {
+    readonly type = VIEW_7ZIPPED_CONTENTS;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const EXEC_PROCESS = '[FileSystem] EXEC_PROCESS';
 
 export class ExecProcess implements Action {
@@ -164,4 +171,4 @@ export type All =
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
     CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile |
     Init | Exit | ViewZippedContents | UnrarFile | MapDirectory | DeleteDirectory |
-    MapDirectoryThenAppendPayload;
+    MapDirectoryThenAppendPayload | View7ZippedContents;

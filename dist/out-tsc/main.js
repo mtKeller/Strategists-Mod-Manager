@@ -6,8 +6,8 @@ require('events').EventEmitter.prototype._maxListeners = 500;
 var win;
 function createWindow() {
     win = new electron_1.BrowserWindow({
-        width: 900,
-        height: 700,
+        width: 1000,
+        height: 900,
         darkTheme: true,
         resizable: false,
         show: false,

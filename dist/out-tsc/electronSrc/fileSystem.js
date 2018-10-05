@@ -10,6 +10,7 @@ var glob = require('glob');
 var extract = require('extract-zip');
 var AdmZip = require('adm-zip');
 var rimraf = require('rimraf');
+var execFile = require('child_process').execFile;
 process.on('message', function (action) {
     switch (action.type) {
         case 'READ_FILE': {
@@ -68,6 +69,10 @@ process.on('message', function (action) {
         }
         case 'VIEW_ZIPPED_CONTENTS': {
             viewZippedContents(action.payload);
+            break;
+        }
+        case 'VIEW_7ZIPPED_CONTENTS': {
+            view7ZippedContents(action.payload);
             break;
         }
         case 'UNZIP_FILE': {
@@ -401,6 +406,26 @@ function viewZippedContents(payload) {
     process.send({
         type: 'VIEWED_ZIPPED_CONTENTS',
         payload: zippedPaths
+    });
+}
+function view7ZippedContents(payload) {
+    var pathTo7z = __dirname.split('dist\\')[0] + '\\7-Zip\\7z.exe';
+    console.log(pathTo7z, payload);
+    execFile(pathTo7z, ['l', payload], function (err, data) {
+        var processDataArray = data.split('------------------- ----- ------------ ------------  ------------------------')[1]
+            .split('------------------- ----- ------------ ------------  ------------------------')[0]
+            .split('\n');
+        var processedArray = [];
+        for (var i = 0; i < processDataArray.length; i++) {
+            var newItem = processDataArray[i].substring(53, processDataArray[i].length).replace('\r', '');
+            if (newItem.length >= 1) {
+                processedArray.push(newItem);
+            }
+        }
+        process.send({
+            type: 'VIEWED_7ZIPPED_CONTENTS',
+            payload: processedArray
+        });
     });
 }
 function unzipFile(payload) {

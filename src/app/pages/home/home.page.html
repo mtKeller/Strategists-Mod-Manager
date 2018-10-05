@@ -8,6 +8,11 @@
       <ion-icon name="remove" (click)='this.minimizeWindow()'></ion-icon>
     </button>
   </div>
+  <div (click)="this.closeGallery($event)" class="gallery-container" [ngClass]="{'gallery-hidden': this.isGalleryOpen() === false}">
+    <div class="gallery" *ngIf="this.galleryContent !== null">
+      <img (click)="this.incrementGallery($event)" src="{{this.galleryContent[this.galleryContentIndex]}}" alt="?">
+    </div>
+  </div>
   <div class="container">
     <div class="content">
       <div class="block"></div>
@@ -24,13 +29,22 @@
           MOD MANAGER
         </h2>
         <div class="mod-manager-tabs">
-          <h3 [ngClass]="{'active': this.currentManagerTab === 'LOAD_ORDER'}" (click)="this.setTab('LOAD_ORDER')">
+          <h3 id="load-order-tab" class="ripple"
+            [ngClass]="{'active': this.currentManagerTab === 'LOAD_ORDER', 'blink': this.loadOrderBlink}"
+            (click)="this.setTab($event, 'load-order-tab', 'LOAD_ORDER')"
+          >
             LOAD ORDER
           </h3>
-          <h3 [ngClass]="{'active': this.currentManagerTab === 'MOD_LIST'}" (click)="this.setTab('MOD_LIST')">
+          <h3 id="mod-list-tab" class="ripple"
+            [ngClass]="{'active': this.currentManagerTab === 'MOD_LIST'}" 
+            (click)="this.setTab($event, 'mod-list-tab', 'MOD_LIST')"
+          >
             MOD LIST
           </h3>
-          <h3 [ngClass]="{'active': this.currentManagerTab === 'CATAGORIES'}" (click)="this.setTab('CATAGORIES')">
+          <h3 id="catagories-tab" class="ripple"
+            [ngClass]="{'active': this.currentManagerTab === 'CATAGORIES'}" 
+            (click)="this.setTab($event,'catagories-tab' ,'CATAGORIES')"
+          >
             CATAGORIES
           </h3>
         </div>
@@ -59,7 +73,7 @@
   </div>
   <div class="mod" *ngFor='let mod of this.modList; let indexOfMod = index;'>
     <div class='img-container'>
-      <img *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
+      <img (click)="this.openGallery(mod.pictures)" *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
       <ng-template #question>
         <div class="question">
           <ion-icon name="help"></ion-icon>
@@ -97,7 +111,7 @@
         </ul>
       </div>
     </div>
-    <div class="mod-functions">
+    <div class="mod-functions ripple" id="expand-{{indexOfMod}}" (click)="this.toggleChildExpand($event, indexOfMod, 'expand-')">
       <ul>
         <li>
           <button>
@@ -105,7 +119,7 @@
           </button>
         </li>
         <li>
-          <button (click)="this.toggleChildExpand(indexOfMod)">
+          <button>
             <ion-icon class="add" name="more"></ion-icon>
           </button>
         </li>
@@ -116,21 +130,25 @@
         </li>
       </ul>
     </div>
-      <div class="mod-child" [ngClass]="{'hidden-child': !getExpandToggle(indexOfMod)}" *ngFor="let modChild of mod.archiveNames; let indexOfChild = index;">
-        <span class="mod-child-content">
-          <button class="dark" (click)="this.addToLoadOrder([indexOfMod, childIndex])">
-            <ion-icon class="subtract" name="add"></ion-icon>
-            <ion-icon name="open"></ion-icon>
-            <span>Contents</span>
-          </button>
-          <button (click)="this.addToLoadOrder([indexOfMod, childIndex])">
-            <ion-icon class="subtract" name="add"></ion-icon>
-            <ion-icon name="add"></ion-icon>
-            <span>Load Order</span>
-          </button>
-          <span class="mod-child-title">{{this.parseModChildTitle(modChild)}}</span>
-        </span>
-      </div>
+    <div class="mod-child" [ngClass]="{'hidden-child': !getExpandToggle(indexOfMod)}" *ngFor="let modChild of mod.archiveNames; let indexOfChild = index;">
+      <span class="mod-child-content">
+        <button class="mod-func trash ripple" id="lo-trash-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-trash-', indexOfMod, indexOfChild)">
+          <ion-icon class="subtract" name="trash"></ion-icon>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        <button class="mod-func dark ripple" id="lo-contents-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-contents-', indexOfMod, indexOfChild)">
+            <ion-icon class="subtract" name="open"></ion-icon>
+          <ion-icon name="open"></ion-icon>
+          <span>Contents</span>
+        </button>
+        <button class="mod-func ripple" id="lo-add-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-add-', indexOfMod, indexOfChild)">
+          <ion-icon class="subtract" name="add"></ion-icon>
+          <ion-icon name="add"></ion-icon>
+          <span>Load Order</span>
+        </button>
+        <span class="mod-child-title">{{this.parseModChildTitle(modChild)}}</span>
+      </span>
+    </div>
 
   </div>
 </ng-template>
@@ -139,9 +157,10 @@
   <div class="no-mods" [ngClass]="{'hidden' : this.loadOrder.length !== 0}">
     <ion-icon name="bonfire"></ion-icon>
   </div>
-  <div class="mod" *ngFor='let modIndex of this.loadOrder; let position = index'>
+  <div class="mod" *ngFor='let modIndex of this.loadOrder'>
     <div class='img-container'>
-      <img *ngIf='this.modList[modIndex[0]].thumbs.length > 0; else question' src="{{this.modList[modIndex[0]].thumbs[0]}}" alt="">
+      <img *ngIf='this.modList[modIndex[0]].thumbs.length > 0; else question' src="{{this.modList[modIndex[0]].thumbs[0]}}"
+        alt="">
       <ng-template #question>
         <div class="question">
           <ion-icon name="help"></ion-icon>
@@ -151,7 +170,8 @@
     <div class="mod-main">
       <div class="mod-header">
         <h3>
-          <a href="{{this.modList[modIndex[0]].url}}">{{this.modList[modIndex[0]].name}} - {{this.modList[modIndex[0]].archiveNames[modIndex[1]]}}</a>
+          <a href="{{this.modList[modIndex[0]].url}}">{{this.modList[modIndex[0]].name}} -
+            {{this.modList[modIndex[0]].archiveNames[modIndex[1]]}}</a>
         </h3>
         <button>
           <ion-icon name="more"></ion-icon>

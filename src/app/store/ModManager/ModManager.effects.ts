@@ -59,7 +59,7 @@ function replaceAll(str , search, replacement) {
             if (!this.modProcessing && this.processingQue.length !== 0) {
                 this.store.dispatch(this.processingQue[0].tree.success());
             }
-        }, 500);
+        }, 1000);
     }
     @Effect()
         ModManagerBeginProcessingMod$: Observable<any> = this.actions$
@@ -113,14 +113,14 @@ function replaceAll(str , search, replacement) {
                     initAction: new ModManagerActions.ModProcessed(),
                     successNode: null,
                 };
-                const ActionNodeDeleteModDetailFromDownload: ActionNode = {
-                    initAction: new ModManagerActions.RemoveModDetail(),
-                    successNode: ActionNodeModProcessed,
-                    payload: action.payload.modArchiveName
-                };
+                // const ActionNodeDeleteModDetailFromDownload: ActionNode = {
+                //     initAction: new ModManagerActions.RemoveModDetail(),
+                //     successNode: ActionNodeModProcessed,
+                //     payload: action.payload.modArchiveName
+                // };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
                     initAction: new DownloadManagerActions.RemoveDownloadItem(),
-                    successNode: ActionNodeDeleteModDetailFromDownload,
+                    successNode: ActionNodeModProcessed,
                     payload: action.payload.modArchiveName
                 };
                 const ActionNodeUpdateProgress100: ActionNode = {
@@ -215,14 +215,14 @@ function replaceAll(str , search, replacement) {
                     initAction: new ModManagerActions.ModProcessed(),
                     successNode: null,
                 };
-                const ActionNodeDeleteModDetailFromDownload: ActionNode = {
-                    initAction: new ModManagerActions.RemoveModDetail(),
-                    successNode: ActionNodeModProcessed,
-                    payload: action.payload.modArchiveName
-                };
+                // const ActionNodeDeleteModDetailFromDownload: ActionNode = {
+                //     initAction: new ModManagerActions.RemoveModDetail(),
+                //     successNode: ActionNodeModProcessed,
+                //     payload: action.payload.modArchiveName
+                // };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
                     initAction: new DownloadManagerActions.RemoveDownloadItem(),
-                    successNode: ActionNodeDeleteModDetailFromDownload,
+                    successNode: ActionNodeModProcessed,
                     payload: action.payload.modArchiveName
                 };
                 // UPDATE PROGRESS TO 100
@@ -270,12 +270,59 @@ function replaceAll(str , search, replacement) {
         ModManagerProcess7ZipMod$: Observable<any> = this.actions$
             .ofType(ModManagerActions.PROCESS_7_ZIP_MOD)
             .map(action => {
+                const ActionNodeModProcessed: ActionNode = {
+                    initAction: new ModManagerActions.ModProcessed(),
+                    successNode: null,
+                };
+                // const ActionNodeDeleteModDetailFromDownload: ActionNode = {
+                //     initAction: new ModManagerActions.RemoveModDetail(),
+                //     successNode: ActionNodeModProcessed,
+                //     payload: action.payload.modArchiveName
+                // };
+                const ActionNodeDeleteDownloadItem: ActionNode = {
+                    initAction: new DownloadManagerActions.RemoveDownloadItem(),
+                    successNode: ActionNodeModProcessed,
+                    payload: action.payload.modArchiveName
+                };
                 // UPDATE PROGRESS TO 100
+                const ActionNodeUpdateProgress100: ActionNode = {
+                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    successNode: ActionNodeDeleteDownloadItem,
+                    payload: 100
+                };
                 // Tier 1 Add Payload to Mod list
+                const ActionNodeAddModToModList: ActionNode = {
+                    initAction: new ModManagerActions.AddModToModList(),
+                    successNode: ActionNodeUpdateProgress100,
+                };
                 // UPDATE PROGRESS TO 50
-                // Tier 0 get 7ZIP LIST of Payload add to payload
-                console.log(action);
-                return new ModManagerActions.ModManagerSuccess();
+                const ActionNodeUpdateProgress50: ActionNode = {
+                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    successNode: ActionNodeAddModToModList,
+                    payload: 50
+                };
+                const ActionNodeView7ZipContents: ActionNode = {
+                    initAction: new FileSystemActions.View7ZippedContents(),
+                    successNode: ActionNodeUpdateProgress50,
+                    payload: action.payload.modArchivePath
+                };
+                const ActionNodeBeginModProcessing: ActionNode = {
+                    initAction: new ModManagerActions.BeginModProcessing(),
+                    successNode: ActionNodeView7ZipContents,
+                };
+                const ActionNodeAddModToProcessingQue: ActionNode = {
+                    initAction: new ModManagerActions.AddModToProcessingQue(),
+                    successNode: ActionNodeBeginModProcessing,
+                    payload: action.payload.modArchiveName
+                };
+                const ActionTreeParam: ActionTreeParams = {
+                    actionNode: ActionNodeAddModToProcessingQue,
+                    payload: action.payload,
+                    store: this.store
+                };
+                const ActionTreeProcess7ZipMod: ActionTree = new ActionTree(ActionTreeParam);
+                console.log('PROCESS_NODE_TREE_7ZIP', ActionTreeProcess7ZipMod);
+                return ActionTreeProcess7ZipMod.begin();
             });
     @Effect()
         ModManagerSetNativePcMap$: Observable<any> = this.actions$
@@ -289,61 +336,61 @@ function replaceAll(str , search, replacement) {
         ModManagerSetModFolderMap$: Observable<any> = this.actions$
             .ofType(ModManagerActions.SET_MOD_FOLDER_MAP)
             .map(action => {
-                let payload;
-                if (action.payload) {
-                    payload = action.payload.filter(path => path.indexOf('/temp/') > -1);
-                } else {
-                    payload = action.tree.payload.filter(path => path.indexOf('/temp/') === -1);
-                }
-                // console.log('CHECK PAYLOAD', payload);
-                let modExists = false;
-                for (let i = 0; i < payload.length; i++) {
-                    modExists = false;
-                    for (let j = 0; j < this.downloadManagerCurrentFiles.length; j++) {
-                        if (payload[i].indexOf(this.downloadManagerCurrentFiles[j].fileName) > -1) {
-                            // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DOWNLOAD');
-                            modExists = true;
-                            break;
-                        }
+                if (!this.modProcessing) {
+                        let payload;
+                    if (action.payload) {
+                        payload = action.payload.filter(path => path.indexOf('/temp/') > -1);
+                    } else {
+                        payload = action.tree.payload.filter(path => path.indexOf('/temp/') === -1);
                     }
-                    for (let j = 0; j < this.downloadedModDetail.length; j++) {
-                        if (payload[i].indexOf(this.downloadedModDetail[j].modArchiveName) > -1) {
-                            // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DETAIL');
-                            modExists = true;
-                            break;
-                        }
-                    }
-                    for (let j = 0; j < this.modList.length; j++) {
-                        for (let k = 0; k < this.modList[j].archiveNames.length; k++) {
-                            if (payload[i].indexOf(this.modList[j].archiveNames[k]) > -1) {
-                                // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD LIST');
+                    // console.log('CHECK PAYLOAD', payload);
+                    let modExists = false;
+                    for (let i = 0; i < payload.length; i++) {
+                        modExists = false;
+                        for (let j = 0; j < this.downloadManagerCurrentFiles.length; j++) {
+                            if (payload[i].indexOf(this.downloadManagerCurrentFiles[j].fileName) > -1) {
+                                // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD DOWNLOAD');
                                 modExists = true;
                                 break;
                             }
                         }
+                        for (let j = 0; j < this.modList.length; j++) {
+                            for (let k = 0; k < this.modList[j].archiveNames.length; k++) {
+                                if (payload[i].indexOf(this.modList[j].archiveNames[k]) > -1) {
+                                    // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD LIST');
+                                    modExists = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!modExists) {
+                            // console.log('CHECK PAYLOAD INDEX', payload[i]);
+                            const date = new Date();
+                            this.store.dispatch( new ModManagerActions.ProcessMod({
+                                authorLink: null,
+                                authorName: 'Anonymous',
+                                modArchiveName: payload[i].split('/modFolder/')[1],
+                                modArchivePath: payload[i],
+                                modPictures: [],
+                                modPublishDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
+                                modThumbs: [],
+                                modTitle: payload[i].split('/modFolder/')[1].split('.')[0],
+                                modUpdateDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
+                                modUrl: null
+                            }));
+                        }
                     }
-                    if (!modExists) {
-                        // console.log('CHECK PAYLOAD INDEX', payload[i]);
-                        const date = new Date();
-                        this.store.dispatch( new ModManagerActions.ProcessMod({
-                            authorLink: null,
-                            authorName: 'Anonymous',
-                            modArchiveName: payload[i].split('/modFolder/')[1],
-                            modArchivePath: payload[i],
-                            modPictures: [],
-                            modPublishDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
-                            modThumbs: [],
-                            modTitle: payload[i].split('/modFolder/')[1].split('.')[0],
-                            modUpdateDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
-                            modUrl: null
-                          }));
-                    }
+                    // console.log('HIT OUTSIDE LOOP');
+                    // Insert Processing of dragged over MODS here
+                    // Check against downloadedModDetail and Current MODS
+                    // Generates Anon JSON
+                    return action.tree.success();
                 }
                 // console.log('HIT OUTSIDE LOOP');
                 // Insert Processing of dragged over MODS here
                 // Check against downloadedModDetail and Current MODS
                 // Generates Anon JSON
-                return action.tree.success();
+                return action.tree.failed();
             });
     @Effect()
         ModManagerSetState$: Observable<any> = this.actions$

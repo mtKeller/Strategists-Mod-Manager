@@ -135,6 +135,28 @@ const { ipcRenderer } = window.require('electron');
                 return new FileSystemActions.FileSystemSuccess();
             });
     @Effect()
+        FileSystemView7ZippedContents$: Observable<any> = this.actions$
+            .ofType(FileSystemActions.VIEW_7ZIPPED_CONTENTS)
+            .map(action => {
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                // console.log('TREE HIT PAYLOAD', action.tree.payload);
+                console.log('TREE HIT', payload);
+                ipcRenderer.send('VIEW_7ZIPPED_CONTENTS', payload);
+                ipcRenderer.once('VIEWED_7ZIPPED_CONTENTS', (err, args) => {
+                    console.log('LIST', args);
+                    this.store.dispatch(action.tree.success({
+                        ...action.tree.payload,
+                        modMap: args
+                    }));
+                });
+                return new FileSystemActions.FileSystemSuccess();
+            });
+    @Effect()
         FileSystemUnzipFile$: Observable<any> = this.actions$
             .ofType(FileSystemActions.UNZIP_FILE)
             .map(action => {

@@ -1,6 +1,14 @@
 {
   "DownloadManagerState": {
-    "currentFiles": [],
+    "currentFiles": [
+      {
+        "complete": true,
+        "fileName": "Live Hunt Damage-134-1-0.exe",
+        "processing": false,
+        "processingProgress": 0,
+        "progress": 100
+      }
+    ],
     "ready": true
   },
   "FileSystemState": {
@@ -27,11 +35,162 @@
     "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World"
   },
   "ModManagerState": {
-    "downloadedModDetail": [],
+    "downloadedModDetail": [
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/15611829",
+        "authorName": "alphagamer753",
+        "modArchiveName": "Nostalgia Music Replacement-137-1-0.zip",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Nostalgia Music Replacement-137-1-0.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/137/137-1536357832-613502487.jpeg"
+        ],
+        "modPublishDate": "07 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/137/137-1536357832-613502487.jpeg"
+        ],
+        "modTitle": "Nostalgia Music Replacement",
+        "modUpdateDate": "07 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/137"
+      },
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
+        "authorName": "2hh8899",
+        "modArchiveName": "Souvenir's Light Pillar-112-1-1.zip",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Light Pillar-112-1-1.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
+        ],
+        "modPublishDate": "03 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
+        ],
+        "modTitle": "Souvenir's Light Pillar",
+        "modUpdateDate": "05 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+      },
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
+        "authorName": "2hh8899",
+        "modArchiveName": "Souvenir's Green Light Pillar-112-1-0.zip",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Green Light Pillar-112-1-0.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
+        ],
+        "modPublishDate": "03 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
+        ],
+        "modTitle": "Souvenir's Light Pillar",
+        "modUpdateDate": "05 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+      },
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
+        "authorName": "2hh8899",
+        "modArchiveName": "(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
+        ],
+        "modPublishDate": "03 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
+        ],
+        "modTitle": "Souvenir's Light Pillar",
+        "modUpdateDate": "05 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+      },
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
+        "authorName": "2hh8899",
+        "modArchiveName": "(Optional) Slinger's Magenta Light Pillar-112-1-0.zip",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Slinger's Magenta Light Pillar-112-1-0.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
+        ],
+        "modPublishDate": "03 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
+        ],
+        "modTitle": "Souvenir's Light Pillar",
+        "modUpdateDate": "05 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+      },
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57984866",
+        "authorName": "osutea120",
+        "modArchiveName": "One-Handed Sword Effect-270-1.zip",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\One-Handed Sword Effect-270-1.zip",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/270/270-1538693289-1401911525.gif",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/270/270-1538693299-828560332.gif"
+        ],
+        "modPublishDate": "04 October 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/270/270-1538693289-1401911525.gif",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/270/270-1538693299-828560332.gif"
+        ],
+        "modTitle": "One Handed Sword Effect Replace",
+        "modUpdateDate": "04 October 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/270"
+      },
+      {
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/58549326",
+        "authorName": "jenderwiggin",
+        "modArchiveName": "Live Hunt Damage-134-1-0.exe",
+        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Live Hunt Damage-134-1-0.exe",
+        "modPictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/134/134-1536303098-641019779.jpeg"
+        ],
+        "modPublishDate": "06 September 2018",
+        "modThumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/134/134-1536303098-641019779.jpeg"
+        ],
+        "modTitle": "Live Damage Meter",
+        "modUpdateDate": "06 September 2018",
+        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/134"
+      }
+    ],
     "loadOrder": [],
     "loading": false,
     "modFolderMap": [
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/(Optional) Slinger's Magenta Light Pillar-112-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Live Hunt Damage-134-1-0.exe",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Nostalgia Music Replacement-137-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/One-Handed Sword Effect-270-1.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Souvenir's Green Light Pillar-112-1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Souvenir's Light Pillar-112-1-1.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/temp"
@@ -65,21 +224,33 @@
             "nativePC/vfx/efx/gm/gm000/",
             "nativePC/vfx/efx/gm/gm000/gm000_120/",
             "nativePC/vfx/efx/gm/gm000/gm000_120/gm000_120_00.efx"
+          ],
+          [
+            "nativePC/",
+            "nativePC/vfx/",
+            "nativePC/vfx/efx/",
+            "nativePC/vfx/efx/gm/",
+            "nativePC/vfx/efx/gm/gm000/",
+            "nativePC/vfx/efx/gm/gm000/gm000_030/",
+            "nativePC/vfx/efx/gm/gm000/gm000_030/gm000_030_00.efx"
           ]
         ],
         "archiveNames": [
           "Souvenir's Light Pillar-112-1-1.zip",
           "Souvenir's Green Light Pillar-112-1-0.zip",
-          "(Optional) Bandit's Yellow Light Pillar-112-1-0.zip"
+          "(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
+          "(Optional) Slinger's Magenta Light Pillar-112-1-0.zip"
         ],
         "archivePaths": [
           "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Light Pillar-112-1-1.zip",
           "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Green Light Pillar-112-1-0.zip",
-          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Bandit's Yellow Light Pillar-112-1-0.zip"
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Slinger's Magenta Light Pillar-112-1-0.zip"
         ],
         "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
         "authorName": "2hh8899",
         "enabled": [
+          false,
           false,
           false,
           false
@@ -102,6 +273,75 @@
         ],
         "updateDate": "05 September 2018",
         "url": "https://www.nexusmods.com/monsterhunterworld/mods/112"
+      },
+      {
+        "archiveMaps": [
+          [
+            "One-Handed Sword/",
+            "One-Handed Sword/nativePC/",
+            "One-Handed Sword/nativePC/vfx/",
+            "One-Handed Sword/nativePC/vfx/efx/",
+            "One-Handed Sword/nativePC/vfx/efx/wp/",
+            "One-Handed Sword/nativePC/vfx/efx/wp/wp01/",
+            "One-Handed Sword/nativePC/vfx/efx/wp/wp01/wp01_000.efx",
+            "One-Handed Sword/nativePC/vfx/efx/wp/wp01/wp01_001.efx",
+            "One-Handed Sword/nativePC/vfx/efx/wp/wp01/wp01_099.efx"
+          ]
+        ],
+        "archiveNames": [
+          "One-Handed Sword Effect-270-1.zip"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\One-Handed Sword Effect-270-1.zip"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57984866",
+        "authorName": "osutea120",
+        "enabled": [
+          false
+        ],
+        "name": "One Handed Sword Effect Replace",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/270/270-1538693289-1401911525.gif",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/270/270-1538693299-828560332.gif"
+        ],
+        "publishDate": "04 October 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/270/270-1538693289-1401911525.gif",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/270/270-1538693299-828560332.gif"
+        ],
+        "updateDate": "04 October 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/270"
+      },
+      {
+        "archiveMaps": [
+          [
+            "sound/",
+            "sound/wwise/",
+            "sound/wwise/Windows/",
+            "sound/wwise/Windows/bgm_ingame_pg.npck"
+          ]
+        ],
+        "archiveNames": [
+          "Nostalgia Music Replacement-137-1-0.zip"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Nostalgia Music Replacement-137-1-0.zip"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/15611829",
+        "authorName": "alphagamer753",
+        "enabled": [
+          false
+        ],
+        "name": "Nostalgia Music Replacement",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/137/137-1536357832-613502487.jpeg"
+        ],
+        "publishDate": "07 September 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/137/137-1536357832-613502487.jpeg"
+        ],
+        "updateDate": "07 September 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/137"
       }
     ],
     "modProcessing": false,

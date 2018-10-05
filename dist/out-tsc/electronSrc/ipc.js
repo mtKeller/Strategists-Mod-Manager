@@ -315,6 +315,20 @@ function initIPC(win, ele) {
             }
         });
     });
+    electron_1.ipcMain.on('VIEW_7ZIPPED_CONTENTS', function (event, args) {
+        fileSystemManager.io({
+            type: 'VIEW_7ZIPPED_CONTENTS',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'VIEWED_7ZIPPED_CONTENTS': {
+                    event.sender.send('VIEWED_7ZIPPED_CONTENTS', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
     electron_1.ipcMain.on('UNZIP_FILE', function (event, args) {
         fileSystemManager.io({
             type: 'UNZIP_FILE',
@@ -349,7 +363,7 @@ function initIPC(win, ele) {
             }
         });
     });
-    var modDetails;
+    var modDetails = null;
     function downloadFile(file_url, targetPath, fileName) {
         fileSystemManager.io({
             type: 'DOWNLOAD_FILE',
@@ -421,7 +435,10 @@ function initIPC(win, ele) {
         }
     });
     electron_1.ipcMain.on('STORE_MOD_DETAILS', function (event, args) {
-        modDetails = args;
+        // console.log(args);
+        if (args !== null && args !== undefined) {
+            modDetails = args;
+        }
     });
     return {
         getChildWindow: function () {

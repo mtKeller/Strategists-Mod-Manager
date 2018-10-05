@@ -23,9 +23,12 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             };
         }
         case ModManagerActions.BEGIN_MOD_PROCESSING : {
+            console.log('BEGIN MOD PROCESSING', action.tree.payload);
             const newProcessingQue = [];
             for (let i = 1; i < state.processingQue.length; i++) {
-                newProcessingQue.push(state.processingQue[i]);
+                if (action.tree.payload.modArchiveName !== state.processingQue[i].modArchiveName) {
+                    newProcessingQue.push(state.processingQue[i]);
+                }
             }
             return {
                 ...state,
@@ -34,6 +37,11 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             };
         }
         case ModManagerActions.MOD_PROCESSED : {
+            // const newProcessingQue = [];
+            // for (let i = 0; i < state.processingQue.length; i++) {
+            //     if(state.processingQue[i].archi)
+            //     newProcessingQue.push(state.processingQue[i]);
+            // }
             return {
                 ...state,
                 modProcessing: false
@@ -148,6 +156,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         case ModManagerActions.ADD_MOD_DETAIL_FROM_DOWNLOAD : {
             const modDetail = action.payload[1];
             modDetail['modArchiveName'] = action.payload[0];
+            console.log('CHECK', modDetail.modArchiveName, modDetail, action);
             const modPictures = [];
             for (let i = 0; i < modDetail.modThumbs.length; i++) {
                 modPictures.push(modDetail.modThumbs[i].replace('/thumbnails/', '/'));
@@ -167,7 +176,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             } else {
                 let exists = false;
                 for (let i = 0; i < state.downloadedModDetail.length; i++) {
-                    if (modDetail.modTitle === state.downloadedModDetail[i].modTitle) {
+                    if (modDetail.modArchiveName === state.downloadedModDetail[i].modArchiveName) {
                         exists = true;
                     }
                 }
@@ -196,13 +205,27 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             };
         }
         case ModManagerActions.INSERT_TO_FRONT_OF_LOAD_ORDER : {
-            const newLoadOrder = [action.payload];
-            for (let i = 0; i < state.loadOrder.length; i++) {
-                newLoadOrder.push(state.loadOrder[i]);
+            console.log(action.tree.payload);
+            if (action.tree.payload[0] !== undefined || action.tree.payload[1] !== undefined) {
+                let modExists = false;
+                for (let i = 0; i < state.loadOrder.length; i++) {
+                    if (action.tree.payload[0] === state.loadOrder[i][0] && action.tree.payload[1] === state.loadOrder[i][1]) {
+                        modExists = true;
+                    }
+                }
+                if (!modExists) {
+                    const newLoadOrder = [action.tree.payload];
+                    for (let i = 0; i < state.loadOrder.length; i++) {
+                        newLoadOrder.push(state.loadOrder[i]);
+                    }
+                    return {
+                        ...state,
+                        loadOrder: newLoadOrder
+                    };
+                }
             }
             return {
                 ...state,
-                loadOrder: newLoadOrder
             };
         }
         case ModManagerActions.SHIFT_UP_MOD_OF_LOAD_ORDER : {
@@ -277,7 +300,6 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 nativePcMap: action.tree.payload.ModManagerState.nativePcMap,
                 modFolderMap: action.tree.payload.ModManagerState.modFolderMap,
                 ownedPathDict: action.tree.payload.ModManagerState.ownedPathDict,
-                downloadedModDetail: action.tree.payload.ModManagerState.downloadedModDetail
             };
         }
         default: {

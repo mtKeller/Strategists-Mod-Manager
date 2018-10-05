@@ -61,6 +61,52 @@
     background: -webkit-gradient(radial, center center, 400, center center, 1000, from(rgba(0, 0, 0, 0)), to(black));
 }
 
+.gallery-container {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background: rgba(20,20,20,0.7);
+    cursor: pointer;
+}
+.gallery {
+    width: 90%;
+    height: auto;
+    margin: 0 auto;
+    padding-top: 15vh;
+    animation: bounce 0.4s ease-in;
+    img {
+        // width: 100%;
+        max-height: 600px;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(0);
+        opacity: 0.4;
+    }
+    65% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    85% {
+        transform: scale(0.95);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.gallery-hidden {
+    display: none;
+    pointer-events: none;
+}
+
 .container {
     width: 100%;
     height: 100%;
@@ -81,7 +127,7 @@
         }
         .btn {
             position: relative;
-            transition: 1s ease-in;
+            transition: 0.4s ease-in;
             display: inline-block;
             vertical-align: top;
             width: 120.5px;
@@ -94,7 +140,7 @@
             box-shadow: 0 1px 1px black;
         }
         .btn:hover {
-            transition: 1s ease-in;
+            transition: 0.4s ease-in;
             font-size: 13.2px;
             background-image: url('assets/flagtile_light.png');
             box-shadow: 0 12px 4px -8px darker(darkcyan, 25%);
@@ -149,6 +195,7 @@
                 width: 462px;
                 margin: 0 auto;
                 h3 {
+                    position: relative;
                     letter-spacing: 1px;
                     background: linear-gradient(180deg, darken(darkgrey,15%), darken(darkgrey,25%), darken(darkgrey,25%), lighten(black, 10%));
                     text-shadow: 0px 3px 3px black;
@@ -164,6 +211,7 @@
                     // transform: translateY(4px);
                 }
                 h3.active {
+                    // transition: 0.4 ease-in;
                     background: linear-gradient(180deg, lighten(#10dc60, 10%),#10dc60, #10dc60, lighten(black, 10%));
                 }
                 h3:hover {
@@ -172,6 +220,9 @@
                 }
                 h3.active:hover {
                     background: linear-gradient(180deg, rgb(0,255,185), lighten(#10dc60, 5%), lighten(#10dc60, 5%), lighten(black, 10%));
+                }
+                h3.blink {
+                    background: linear-gradient(180deg, rgb(0,255,185),cyan, cyan, lighten(black, 10%)) !important;
                 }
             }
         }
@@ -330,8 +381,10 @@
             }
             .no-mods {
                 background-image: url('assets/stars.svg');
-                background-position-y: -40px;
+                // background-position-y: -50px;
+                background-position-x: -80px;
                 // background-size: cover;
+                background-size: 120%;
                 transition: 1s ease-out;
                 position: absolute;
                 width: 100%;
@@ -339,6 +392,7 @@
                 font-size: 128px;
                 text-align: center;
                 padding-top: 175px;
+                transform: translateY(-8px);
             }
             .hidden-child{
                 height: 0 !important;
@@ -352,8 +406,8 @@
                 background: black;
                 overflow: hidden;
                 text-align: center;
-                width: 614.453px;
-                margin-left: 160px;
+                width: 682.453px;
+                margin-left: 178px;
                 padding-right: 8px;
                 height: 36px;
                 transition: 0.3s ease-in;
@@ -368,7 +422,7 @@
                         float: right;
                         margin-right: 8px;
                     }
-                    button {
+                    .mod-func {
                         position: relative;
                         float: right;
                         font-size: 14px;
@@ -402,23 +456,38 @@
                             // width: 100%;
                         }
                     }
+                    .mod-func:hover {
+                       background: lighten(#10dc60, 15%); 
+                    }
                     .dark {
                         margin-left: 8px;
                         background: darkcyan;
+                        // background: linear-gradient(220deg, darkcyan, lighten(darkcyan, 30%), darkcyan, darkcyan, lighten(darkcyan, 50%) , lighten(darkcyan, 50%), darkcyan, darkcyan, darkcyan, darkcyan);
                         width: 90px;
                         span {
                             left: 14px;
                         }
                     }
+                    .dark:hover {
+                        background: darken(cyan, 15%);
+                    }
+                    .trash {
+                        background: #8017b5;
+                        width: 26px;
+                        margin-left: 8px;
+                    }
+                    .trash:hover {
+                        background: lighten(#8017b5, 10%);
+                    }
                 }
             }
             overflow-y: scroll;
-            height: 368px;
+            height: 470px;
             width: 90%;
             margin: 0 auto;
             border-bottom-left-radius: 9px;
             border-bottom-right-radius: 9px;
-            background: linear-gradient(180deg,rgba(70,70,70,.7), rgba(100,100,100,.7), rgba(80,80,80,.7)) !important;
+            background: linear-gradient(180deg,rgba(80,80,80,.7), rgba(100,100,100,.7), rgba(80,80,80,.7)) !important;
             // border: 1.5px solid black;
             // box-shadow: 0 -1px 2px darkgrey;
         }

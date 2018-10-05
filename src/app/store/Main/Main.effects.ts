@@ -159,6 +159,7 @@ const { ipcRenderer } = window.require('electron');
         MainOpenMhwDirectory$: Observable<any> = this.actions$
             .ofType(MainActions.OPEN_MHW_DIRECTORY)
             .map(action => {
+                console.log(ipcRenderer.on('test', () => {}));
                 ipcRenderer.send('OPEN_DIRECTORY', this.mainState.mhwDirectoryPath);
                 ipcRenderer.once('OPENED_DIRECTORY', (err, args) => {
                     console.log('OPENED DIR', args);

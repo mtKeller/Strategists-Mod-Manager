@@ -1,6 +1,7 @@
+**Install stack**
 When load order and thus installing mods, keep unpacked directories till install stack
 is cleared then delete.
-When installing copy the mod, create the path if not in path dict or if path exists
+When installing copy the mod files, create the path if not in path dict or if path exists
 Then copy the mod files to their destinations delete if they have ownership
 
 Then create PATH OWNERSHIP DICT
@@ -11,7 +12,7 @@ WORK ON DOWNLOAD MANAGER UI
 <!-- ADD IN QUE TO PROCESSING
 ONE AT A TIME MF -->
 
-**MAKE SURE ONLY ONE MOD NEXUS IS OPEN AT A TIME IF ONE IS OPEN THEN FOCUS ON IT ***
+<!-- **MAKE SURE ONLY ONE MOD NEXUS IS OPEN AT A TIME IF ONE IS OPEN THEN FOCUS ON IT *** -->
 IN IPCMAIN ADD IN BLOCKER FOR WHEN A MOD IS BEING MODIFIED AND INCLUDE A FILTER 
 
 TO GET FILES FROM MAPPED DIRS LOOK FOR PATH THAT HAS A . THEN LOOP DOWN TILL YOU GET A /

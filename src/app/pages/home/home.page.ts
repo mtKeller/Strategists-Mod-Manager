@@ -14,12 +14,21 @@ import { PopoverController } from '@ionic/angular';
 export class HomePage implements OnInit {
   mhwDirectoryPath: any = 'Maybe something';
   mhwDirectoryMap: any = [];
+
   downloadManagerItems: any = [];
+
   modList: any = [];
   modListChildExpand: any = [];
+
   loadOrder: any = [];
+  loadOrderBlink = false;
+
   currentManagerTab = 'MOD_LIST';
   downloading = false;
+
+  galleryContent: Array<string> = null;
+  galleryContentIndex = 0;
+  galleryOpen = false;
 
   PlayButton: HTMLElement;
   @ViewChild('playButton')
@@ -85,19 +94,24 @@ export class HomePage implements OnInit {
   ripple($event, elem, id) {
     const pageX = $event.clientX;
     const pageY = $event.clientY;
-    const buttonY = pageY - elem.offsetTop;
-    const buttonX = pageX - elem.offsetLeft;
+    // const buttonY = pageY - elem.offsetTop;
+    // const buttonX = pageX - elem.offsetLeft;
+    const buttonY = elem.getBoundingClientRect().top;
+    const buttonX = elem.getBoundingClientRect().left;
     const eleRef = document.getElementById(id);
+    // console.log(elem.getBoundingClientRect().left,
+    // elem.getBoundingClientRect().top, $event.clientX, $event.clientY);
     const ripplePlay = this.renderer.createElement('div');
     this.renderer.addClass(ripplePlay, 'ripple-effect');
     this.renderer.setStyle(ripplePlay, 'height', `${40}px`);
     this.renderer.setStyle(ripplePlay, 'width', `${40}px`);
-    this.renderer.setStyle(ripplePlay, 'top', `${buttonY - 20}px`);
-    this.renderer.setStyle(ripplePlay, 'left', `${buttonX - 20}px`);
-    this.renderer.setStyle(ripplePlay, 'background', 'white');
+    this.renderer.setStyle(ripplePlay, 'top', `${pageY - buttonY - 20}px`);
+    this.renderer.setStyle(ripplePlay, 'left', `${pageX - buttonX - 20}px`);
+    this.renderer.setStyle(ripplePlay, 'background', 'cyan');
     this.renderer.appendChild(eleRef, ripplePlay);
 
     setTimeout(() => {
+      // console.log(document.getElementsByClassName('ripple-effect'));
       this.renderer.setStyle(ripplePlay, 'background', 'none');
       this.renderer.removeChild(eleRef, ripplePlay);
     }, 1000);
@@ -111,7 +125,8 @@ export class HomePage implements OnInit {
   }
   play($event) {
     this.ripple($event, this.PlayButton, 'play-button');
-    this.store.dispatch(new MainActions.Play());
+    // this.store.dispatch(new MainActions.Play());
+    console.log(this.galleryOpen);
   }
   launchWideScreenFix() {
     const ExecWideScreenFix: ActionNode = {
@@ -140,11 +155,15 @@ export class HomePage implements OnInit {
   testUnrar() {
     this.store.dispatch(new FileSystemActions.UnrarFile());
   }
-  setTab(target) {
+  setTab($event, id , target) {
+    const elem = this.el.nativeElement.querySelector('#' + id);
+    this.ripple($event, elem, id);
     this.currentManagerTab = target;
     this.cdr.detectChanges();
   }
-  toggleChildExpand(index) {
+  toggleChildExpand($event, index, idStr) {
+    const elem = this.el.nativeElement.querySelector('#' + idStr + index);
+    this.ripple($event, elem, idStr + index);
     if (index !== null) {
       console.log(index, this.modListChildExpand[index]);
       this.modListChildExpand[index] = !this.modListChildExpand[index];
@@ -158,7 +177,12 @@ export class HomePage implements OnInit {
     }
     return false;
   }
-  addToLoadOrder(arrOfIndexes) {
+  addToLoadOrder($event, arrOfIndexes, idStr, modIndex, indexOfChild) {
+    const elem = this.el.nativeElement.querySelector('#' + idStr + modIndex + indexOfChild);
+    console.log(elem);
+    console.log(document.getElementById(idStr + modIndex + indexOfChild));
+    this.ripple($event, elem, idStr + modIndex + indexOfChild);
+    this.blinkLoadOrder();
     const ActionNodeAddToLoadOrder: ActionNode = {
       initAction: new ModManagerActions.InsertToFrontOfLoadOrder(),
       successNode: null,
@@ -183,7 +207,38 @@ export class HomePage implements OnInit {
     newStr = replaceAll(newStr, '-', '');
     newStr = newStr.replace('.zip', '');
     newStr = newStr.replace('.rar', '');
-    newStr = newStr.replace('.7z', '');
+    newStr = newStr.replace('.z', '');
+    newStr = replaceAll(newStr, '.', '');
     return newStr;
+  }
+  openGallery(content) {
+    this.galleryContent = content;
+    this.galleryOpen = true;
+    this.galleryContentIndex = 0;
+  }
+  closeGallery($event) {
+    $event.stopPropagation();
+    this.galleryContent = null;
+    this.galleryOpen = false;
+  }
+  incrementGallery($event) {
+    $event.stopPropagation();
+    if (this.galleryContentIndex + 1 !== this.galleryContent.length) {
+      this.galleryContentIndex += 1;
+    } else {
+      this.galleryContentIndex = 0;
+    }
+  }
+  isGalleryOpen () {
+    // console.log(this.galleryOpen);
+    return this.galleryOpen;
+  }
+  blinkLoadOrder() {
+    this.loadOrderBlink = true;
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      this.loadOrderBlink = false;
+      this.cdr.detectChanges();
+    }, 50);
   }
 }
