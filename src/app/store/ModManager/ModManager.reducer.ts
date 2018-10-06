@@ -26,11 +26,17 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             console.log('BEGIN MOD PROCESSING', action.tree.payload);
             const newProcessingQue = [];
             let target;
+            let name;
+            if (action.hasOwnProperty('payload')) { // Preprocessed
+                name = action.payload;
+            } else {
+                name = action.tree.payload.modArchiveName; // Raw
+            }
             for (let i = 1; i < state.processingQue.length; i++) {
-                if (action.tree.payload.modArchiveName !== state.processingQue[i].modArchiveName) {
-                    newProcessingQue.push(state.processingQue[i]);
-                } else {
+                if (state.processingQue[i].name === name) {
                     target = state.processingQue[i];
+                } else {
+                    newProcessingQue.push(state.processingQue[i]);
                 }
             }
             return {
@@ -41,6 +47,37 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             };
         }
         case ModManagerActions.UPDATE_PROCESSING_PROGRESS : {
+            let name;
+            const newProcessingQue = [];
+            if (action.tree.payload.hasOwnProperty('mod')) {
+                name = action.tree.payload.mod.modArchiveNames[action.tree.payload.modIndex];
+                for (let i = 0;  i < state.processingQue.length; i++) {
+                    // const archiveName = action.payload.
+                    if (state.processingQue[i].name === name) {
+                        newProcessingQue.push({
+                            name : name,
+                            action: action,
+                            progress: action.payload.progress
+                        });
+                    } else {
+                        newProcessingQue.push(state.processingQue[i]);
+                    }
+                }
+            } else {
+                name = action.tree.payload.modArchiveName; // Raw
+                for (let i = 0;  i < state.processingQue.length; i++) {
+                    // const archiveName = action.payload.
+                    if (state.processingQue[i].name === name) {
+                        newProcessingQue.push({
+                            name: name,
+                            action : action,
+                            progress: action.payload
+                        });
+                    } else {
+                        newProcessingQue.push(state.processingQue[i]);
+                    }
+                }
+            }
             return {
                 ...state
             };
@@ -53,20 +90,36 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             // }
             return {
                 ...state,
-                modProcessing: false
+                modProcessing: false,
+                target: null
             };
         }
         case ModManagerActions.ADD_MOD_TO_PROCESSING_QUE : {
             const newProcessingQue = [];
+            let name;
+            if (action.hasOwnProperty('payload')) { // Raw
+                name = action.payload;
+            } else {
+                name = action.tree.payload.modArchiveNames[action.tree.payload.modIndex]; // Pre
+            }
             if (state.processingQue.length === 0) {
                 return {
                     ...state,
-                    processingQue: [action]
+                    processingQue: [{
+                        name: name,
+                        action: action,
+                        progress: 0
+                    }]
                 };
             } else {
                 for (let i = 0;  i < state.processingQue.length; i++) {
-                    if (state.processingQue[i].payload !== action.payload) {
-                        newProcessingQue.push(action);
+                    // const archiveName = action.payload.
+                    if (state.processingQue[i].name !== name) {
+                        newProcessingQue.push({
+                            name: name,
+                            action: action,
+                            progress: 0
+                        });
                     }
                 }
                 return {

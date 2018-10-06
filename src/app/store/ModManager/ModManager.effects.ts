@@ -58,7 +58,7 @@ function replaceAll(str , search, replacement) {
         });
         setInterval(() => {
             if (!this.modProcessing && this.processingQue.length !== 0) {
-                this.store.dispatch(this.processingQue[0].tree.success());
+                this.store.dispatch(this.processingQue[0].action.tree.success());
             }
         }, 1000);
     }
@@ -125,7 +125,7 @@ function replaceAll(str , search, replacement) {
                     payload: action.payload.modArchiveName
                 };
                 const ActionNodeUpdateProgress100: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeDeleteDownloadItem,
                     payload: 100
                 };
@@ -137,7 +137,7 @@ function replaceAll(str , search, replacement) {
                 };
                 // TIER 3 DELETE OWN DIR
                 const ActionNodeUpdateProgress75: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeDeleteDir,
                     payload: 75
                 };
@@ -149,7 +149,7 @@ function replaceAll(str , search, replacement) {
                 // TIER 2 ADD MAP TO PAYLOAD THEN ADD MOD TO MOD LIST
                 // UPDATE PROGRESS TO 66
                 const ActionNodeUpdateProgress50: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeAddModToModList,
                     payload: 50
                 };
@@ -161,7 +161,7 @@ function replaceAll(str , search, replacement) {
                 };
                 // UPDATE PROGRESS TO 33
                 const ActionNodeUpdateProgress25: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeMapDirectory,
                     payload: 25
                 };

@@ -19,6 +19,7 @@ export function PrepInstallation(store: Store<any>, mod: Mod, modIndex: number) 
     const ActionNodeBeginModProcessing: ActionNode = {
         initAction: new ModManagerActions.BeginModProcessing(),
         successNode: ActionNodeFilterModMap,
+        payload: mod.archiveNames[modIndex]
     };
     const ActionNodeAddModToProcessingQue: ActionNode = {
         initAction: new ModManagerActions.AddModToProcessingQue(),

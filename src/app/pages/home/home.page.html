@@ -78,18 +78,18 @@
       </div>
       <div class="que downloads">
         <h1>Processing</h1>
-        <ol *ngIf="this.processingQue !== null">
+        <ol *ngIf="this.processingQue.length !== 0">
           <li *ngFor="let item of this.processingQue">
-            {{item[0].tree.payload.fileName}} {{item[1]}}%
+            {{item.name}} {{item.progress}}%
             <button *ngIf="item.complete">Complete</button>
           </li>
         </ol>
       </div>
       <div class="que downloads">
         <h1>Installation</h1>
-        <ol *ngIf="this.installationQue !== null">
+        <ol *ngIf="this.installationQue.length !== 0">
           <li *ngFor="let item of this.installationQue">
-              {{item[0].tree.payload.fileName}} {{item[1]}}%
+              {{item.name}} {{item.progress}}%
             <button *ngIf="item.complete">Complete</button>
           </li>
         </ol>
