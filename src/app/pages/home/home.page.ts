@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectorRef, OnInit, ViewChild, Renderer2, Elem
 import { Store } from '@ngrx/store';
 import * as MainActions from '../../store/Main/Main.actions';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
-import * as ModManagerActions from '../../store/ModManager/ModManager.action';
+import * as ModManagerActions from '../../store/ModManager/ModManager.actions';
 import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree.class';
 import { PopoverController } from '@ionic/angular';
 
@@ -17,18 +17,24 @@ export class HomePage implements OnInit {
 
   downloadManagerItems: any = [];
 
+  processingQue: any = [];
+  installationQue: any = [];
+
   modList: any = [];
   modListChildExpand: any = [];
 
   loadOrder: any = [];
   loadOrderBlink = false;
 
-  currentManagerTab = 'MOD_LIST';
+  currentManagerTab = 'LOAD_ORDER';
   downloading = false;
 
-  galleryContent: Array<string> = null;
+  galleryContent: any = null;
   galleryContentIndex = 0;
   galleryOpen = false;
+
+  activeLoadOrderItem = null;
+  activeLoadOrderIndex = 0;
 
   PlayButton: HTMLElement;
   @ViewChild('playButton')
@@ -82,6 +88,15 @@ export class HomePage implements OnInit {
     });
     this.store.select(state => state.ModManagerState.loadOrder).subscribe(val => {
       this.loadOrder = val;
+      this.cdr.detectChanges();
+    });
+
+    this.store.select(state => state.ModManagerState.installationQue).subscribe(val => {
+      this.processingQue = val;
+      this.cdr.detectChanges();
+    });
+    this.store.select(state => state.ModManagerState.processingQue).subscribe(val => {
+      this.processingQue = val;
       this.cdr.detectChanges();
     });
   }
@@ -223,7 +238,7 @@ export class HomePage implements OnInit {
   }
   incrementGallery($event) {
     $event.stopPropagation();
-    if (this.galleryContentIndex + 1 !== this.galleryContent.length) {
+    if (this.galleryContentIndex + 1 !== this.galleryContent.pictures.length) {
       this.galleryContentIndex += 1;
     } else {
       this.galleryContentIndex = 0;
@@ -240,5 +255,53 @@ export class HomePage implements OnInit {
       this.loadOrderBlink = false;
       this.cdr.detectChanges();
     }, 50);
+  }
+  log(element) {
+    console.log(element);
+  }
+  getAcronym(str) {
+    const first = str.substring(0, 1);
+    const splitString = str.split(' ');
+    let newString = first;
+    for (let i = 1; i < splitString.length; i++) {
+      newString += splitString[i].substring(0, 1);
+    }
+    return newString.substring(0, 4);
+  }
+  limitChar(str) {
+    const newStr = this.parseModChildTitle(str);
+    if (newStr.length > 30) {
+      return newStr.substring(0, 30) + '...';
+    } else {
+      return this.parseModChildTitle(str);
+    }
+  }
+  getStatus(bool) {
+    if (bool) {
+      return 'INSTALLED';
+    } else {
+      return 'PENDING';
+    }
+  }
+  setLoadOrderItemIndex(ind, ) {
+    this.activeLoadOrderIndex = ind;
+    this.cdr.detectChanges();
+  }
+  getLoadOrderPicture() {
+    if (this.modList[0] !== undefined) {
+      return this.modList[0].pictures[0];
+    }
+  }
+  moveDownLoadOrder() {
+    if (this.activeLoadOrderIndex !== this.loadOrder.length - 1) {
+      this.store.dispatch(new ModManagerActions.ShiftDownModOfLoadOrder(this.loadOrder[this.activeLoadOrderIndex]));
+      this.activeLoadOrderIndex += 1;
+    }
+  }
+  moveUpLoadOrder() {
+    if (this.activeLoadOrderIndex !== 0) {
+      this.activeLoadOrderIndex -= 1;
+      this.store.dispatch(new ModManagerActions.ShiftDownModOfLoadOrder(this.loadOrder[this.activeLoadOrderIndex]));
+    }
   }
 }

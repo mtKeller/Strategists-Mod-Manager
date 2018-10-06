@@ -87,6 +87,13 @@ export class AddModToProcessingQue implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const UPDATE_PROCESSING_PROGRESS = '[ModManager] UPDATE_PROCESSING_PROGRESS';
+
+export class UpdateProcessingProgress implements Action {
+    readonly type = UPDATE_PROCESSING_PROGRESS;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const MOD_PROCESSED = '[ModManager] MOD_PROCESSED';
 
 export class ModProcessed implements Action {
@@ -135,6 +142,20 @@ export class RemoveModFromLoadOrder implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const FILTER_MOD_MAP = '[ModManager] FILTER_MOD_MAP';
+
+export class FilterModMap implements Action {
+    readonly type = FILTER_MOD_MAP;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const VERIFY_AGAINST_OWNERSHIP_DICT = '[ModManager] VERIFY_AGAINST_OWNERSHIP_DICT';
+
+export class VerifyAgainstOwnershipDict implements Action {
+    readonly type = VERIFY_AGAINST_OWNERSHIP_DICT;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const PACK_MOD = '[ModManager] PACK_MOD';
 
 export class PackMod implements Action {
@@ -166,4 +187,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
-    RemoveModFromLoadOrder;
+    RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress;

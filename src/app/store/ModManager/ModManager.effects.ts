@@ -7,11 +7,12 @@ import { ActionTree,
     ActionNode,
     ActionTreeParams
 } from '../../model/ActionTree.class';
-import * as ModManagerActions from './ModManager.action';
+import * as ModManagerActions from './ModManager.actions';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
 import { SaveStateTree } from '../Main/Main.tree';
 import { map } from 'rxjs-compat/operator/map';
+import { Mod } from './ModManager.state';
 
 function replaceAll(str , search, replacement) {
     const target = str;
@@ -391,6 +392,32 @@ function replaceAll(str , search, replacement) {
                 // Check against downloadedModDetail and Current MODS
                 // Generates Anon JSON
                 return action.tree.failed();
+            });
+    @Effect()
+        ModManagerFilterModMaps$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.FILTER_MOD_MAP)
+            .map(action => {
+                const mod: Mod = action.tree.payload.mod;
+                const modIndex = action.tree.payload.modIndex;
+                const newArchivePaths = mod.archiveMaps[modIndex].filter(path => {
+                    return (path.indexOf('.') > - 1);
+                });
+                console.log(newArchivePaths);
+
+                return new ModManagerActions.ModManagerSuccess();
+            });
+    @Effect()
+        ModManagerVerifyAgainstOwnershipDict$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT)
+            .map(action => {
+                let payload;
+                if (action.payload) {
+                    payload = action.payload;
+                } else {
+                    payload = action.tree.payload;
+                }
+                console.log(action.payload);
+                return new ModManagerActions.ModManagerSuccess();
             });
     @Effect()
         ModManagerSetState$: Observable<any> = this.actions$

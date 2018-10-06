@@ -21,6 +21,9 @@ export interface ModManagerState {
     modFolderMap: Array<any>;
     ownedPathDict: Object;
     processingQue: Array<any>;
+    installationQue: Array<any>;
+    processingTarget: any;
+    installationTarget: any;
     modProcessing: boolean;
     downloadedModDetail: Array<any>;
 }
@@ -34,6 +37,9 @@ export function InitializeModManagerState() {
         modFolderMap: [],
         ownedPathDict: {},
         processingQue: [],
+        installationQue: [],
+        processingTarget: null,
+        installationTarget: null,
         modProcessing: false,
         downloadedModDetail: []
     };

@@ -9,7 +9,7 @@ import '../../helpers/rxjs-operators';
 import * as MainActions from './Main.actions';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
-import * as ModManagerActions from '../ModManager/ModManager.action';
+import * as ModManagerActions from '../ModManager/ModManager.actions';
 
 import { ActionTree,
          ActionNode,

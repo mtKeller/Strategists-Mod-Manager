@@ -1,14 +1,6 @@
 {
   "DownloadManagerState": {
-    "currentFiles": [
-      {
-        "complete": true,
-        "fileName": "Live Hunt Damage-134-1-0.exe",
-        "processing": false,
-        "processingProgress": 0,
-        "progress": 100
-      }
-    ],
+    "currentFiles": [],
     "ready": true
   },
   "FileSystemState": {
@@ -35,159 +27,39 @@
     "mhwDirectoryPath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World"
   },
   "ModManagerState": {
-    "downloadedModDetail": [
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/15611829",
-        "authorName": "alphagamer753",
-        "modArchiveName": "Nostalgia Music Replacement-137-1-0.zip",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Nostalgia Music Replacement-137-1-0.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/137/137-1536357832-613502487.jpeg"
-        ],
-        "modPublishDate": "07 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/137/137-1536357832-613502487.jpeg"
-        ],
-        "modTitle": "Nostalgia Music Replacement",
-        "modUpdateDate": "07 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/137"
-      },
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
-        "authorName": "2hh8899",
-        "modArchiveName": "Souvenir's Light Pillar-112-1-1.zip",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Light Pillar-112-1-1.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
-        ],
-        "modPublishDate": "03 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
-        ],
-        "modTitle": "Souvenir's Light Pillar",
-        "modUpdateDate": "05 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
-      },
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
-        "authorName": "2hh8899",
-        "modArchiveName": "Souvenir's Green Light Pillar-112-1-0.zip",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Souvenir's Green Light Pillar-112-1-0.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
-        ],
-        "modPublishDate": "03 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
-        ],
-        "modTitle": "Souvenir's Light Pillar",
-        "modUpdateDate": "05 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
-      },
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
-        "authorName": "2hh8899",
-        "modArchiveName": "(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
-        ],
-        "modPublishDate": "03 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
-        ],
-        "modTitle": "Souvenir's Light Pillar",
-        "modUpdateDate": "05 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
-      },
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57953941",
-        "authorName": "2hh8899",
-        "modArchiveName": "(Optional) Slinger's Magenta Light Pillar-112-1-0.zip",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\(Optional) Slinger's Magenta Light Pillar-112-1-0.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/112/112-1536001331-1801773083.png"
-        ],
-        "modPublishDate": "03 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1535999329-885894933.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001296-1802197297.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536146088-1877274654.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001313-1085345002.png",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/112/112-1536001331-1801773083.png"
-        ],
-        "modTitle": "Souvenir's Light Pillar",
-        "modUpdateDate": "05 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/112"
-      },
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/57984866",
-        "authorName": "osutea120",
-        "modArchiveName": "One-Handed Sword Effect-270-1.zip",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\One-Handed Sword Effect-270-1.zip",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/270/270-1538693289-1401911525.gif",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/270/270-1538693299-828560332.gif"
-        ],
-        "modPublishDate": "04 October 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/270/270-1538693289-1401911525.gif",
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/270/270-1538693299-828560332.gif"
-        ],
-        "modTitle": "One Handed Sword Effect Replace",
-        "modUpdateDate": "04 October 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/270"
-      },
-      {
-        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/58549326",
-        "authorName": "jenderwiggin",
-        "modArchiveName": "Live Hunt Damage-134-1-0.exe",
-        "modArchivePath": "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Live Hunt Damage-134-1-0.exe",
-        "modPictures": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/134/134-1536303098-641019779.jpeg"
-        ],
-        "modPublishDate": "06 September 2018",
-        "modThumbs": [
-          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/134/134-1536303098-641019779.jpeg"
-        ],
-        "modTitle": "Live Damage Meter",
-        "modUpdateDate": "06 September 2018",
-        "modUrl": "https://www.nexusmods.com/monsterhunterworld/mods/134"
-      }
+    "downloadedModDetail": [],
+    "loadOrder": [
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        0
+      ]
     ],
-    "loadOrder": [],
     "loading": false,
     "modFolderMap": [
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/(Optional) Bandit's Yellow Light Pillar-112-1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/(Optional) Slinger's Magenta Light Pillar-112-1-0.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Cuter Handler Face Model - Halloween Full Makeup-247-1-02.zip",
+      "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Final Fantasy YAY-271-1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Live Hunt Damage-134-1-0.exe",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/Nostalgia Music Replacement-137-1-0.zip",
       "D:/SteamLibrary/SteamApps/common/Monster Hunter World/modFolder/One-Handed Sword Effect-270-1.zip",
@@ -342,6 +214,156 @@
         ],
         "updateDate": "07 September 2018",
         "url": "https://www.nexusmods.com/monsterhunterworld/mods/137"
+      },
+      {
+        "archiveMaps": [
+          [
+            "nativePC/sound/",
+            "nativePC/sound/wwise/",
+            "nativePC/sound/wwise/Windows/",
+            "nativePC/sound/wwise/Windows/bgm_ingame_pg.npck"
+          ]
+        ],
+        "archiveNames": [
+          "Final Fantasy YAY-271-1-0.zip"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Final Fantasy YAY-271-1-0.zip"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/16651044",
+        "authorName": "lokiyh",
+        "enabled": [
+          false
+        ],
+        "name": "Final Fantasy Victory Fanfare",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/271/271-1538707305-921490207.jpeg"
+        ],
+        "publishDate": "04 October 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/271/271-1538707305-921490207.jpeg"
+        ],
+        "updateDate": "04 October 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/271"
+      },
+      {
+        "archiveMaps": [
+          [
+            "nativePC/",
+            "nativePC/npc/",
+            "nativePC/npc/npc002/",
+            "nativePC/npc/npc002/mod/",
+            "nativePC/npc/npc002/mod/npc002_060/",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_face.mod3",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_face.mrl3",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_face_BM.tex",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_face_NM.tex",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_hair.mod3",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_hair.mrl3",
+            "nativePC/npc/npc002/mod/npc002_060/npc002_060_hair_BM.tex"
+          ]
+        ],
+        "archiveNames": [
+          "Cuter Handler Face Model - Halloween Full Makeup-247-1-02.zip"
+        ],
+        "archivePaths": [
+          "D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\Cuter Handler Face Model - Halloween Full Makeup-247-1-02.zip"
+        ],
+        "authorLink": "https://www.nexusmods.com/monsterhunterworld/users/3124030",
+        "authorName": "UberGrainy",
+        "enabled": [
+          false
+        ],
+        "name": "Cuter Handler Face Model",
+        "pictures": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538732678-1556320526.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538185727-368351039.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129611-576482.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129479-260022103.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129269-1026579036.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129489-77255862.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129379-1411928025.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129538-213469183.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129464-1789776940.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129472-1865871136.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129603-1464094464.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129497-713523538.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129505-985355653.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129511-2125290666.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129518-141604912.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129525-729719125.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129532-2120234869.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129544-935494049.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129552-385850411.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129564-1703403522.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129571-1141692256.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129579-958204461.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129585-1670220996.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129593-1388923518.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132765-875582285.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133340-1430211957.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132775-8955386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133217-1577657590.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132785-7691386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538133329-1027220758.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129626-849394591.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129643-421160144.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132755-1870215320.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132793-1531124814.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132940-1678486790.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132807-1592925328.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132800-103429824.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132924-87541309.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538132816-280585687.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538129618-2093651050.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/247/247-1538128898-247404294.jpeg"
+        ],
+        "publishDate": "28 September 2018",
+        "thumbs": [
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538732678-1556320526.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538185727-368351039.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129611-576482.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129479-260022103.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129269-1026579036.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129489-77255862.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129379-1411928025.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129538-213469183.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129464-1789776940.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129472-1865871136.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129603-1464094464.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129497-713523538.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129505-985355653.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129511-2125290666.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129518-141604912.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129525-729719125.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129532-2120234869.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129544-935494049.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129552-385850411.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129564-1703403522.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129571-1141692256.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129579-958204461.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129585-1670220996.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129593-1388923518.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132765-875582285.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133340-1430211957.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132775-8955386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133217-1577657590.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132785-7691386.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538133329-1027220758.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129626-849394591.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129643-421160144.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132755-1870215320.png",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132793-1531124814.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132940-1678486790.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132807-1592925328.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132800-103429824.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132924-87541309.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538132816-280585687.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538129618-2093651050.jpeg",
+          "https://staticdelivery.nexusmods.com/mods/2531/images/thumbnails/247/247-1538128898-247404294.jpeg"
+        ],
+        "updateDate": "05 October 2018",
+        "url": "https://www.nexusmods.com/monsterhunterworld/mods/247"
       }
     ],
     "modProcessing": false,

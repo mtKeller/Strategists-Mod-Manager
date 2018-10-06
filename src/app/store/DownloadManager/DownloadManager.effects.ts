@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 
 import * as DownloadManagerActions from './DownloadManager.actions';
-import { AddModDetailFromDownload, ProcessModByName } from '../ModManager/ModManager.action';
+import { AddModDetailFromDownload, ProcessModByName } from '../ModManager/ModManager.actions';
 import { SaveStateTree } from '../Main/Main.tree';
 import { empty } from 'rxjs';
 

@@ -1,5 +1,5 @@
 import { InitializeModManagerState, Mod } from './ModManager.state';
-import * as ModManagerActions from './ModManager.action';
+import * as ModManagerActions from './ModManager.actions';
 import {Action} from '@ngrx/store';
 
 export function ModManagerReducer(state = InitializeModManagerState(), action: Action) {
@@ -25,15 +25,24 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         case ModManagerActions.BEGIN_MOD_PROCESSING : {
             console.log('BEGIN MOD PROCESSING', action.tree.payload);
             const newProcessingQue = [];
+            let target;
             for (let i = 1; i < state.processingQue.length; i++) {
                 if (action.tree.payload.modArchiveName !== state.processingQue[i].modArchiveName) {
                     newProcessingQue.push(state.processingQue[i]);
+                } else {
+                    target = state.processingQue[i];
                 }
             }
             return {
                 ...state,
                 modProcessing: true,
-                processingQue: newProcessingQue
+                processingQue: newProcessingQue,
+                processingTarget: target
+            };
+        }
+        case ModManagerActions.UPDATE_PROCESSING_PROGRESS : {
+            return {
+                ...state
             };
         }
         case ModManagerActions.MOD_PROCESSED : {
@@ -300,6 +309,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 nativePcMap: action.tree.payload.ModManagerState.nativePcMap,
                 modFolderMap: action.tree.payload.ModManagerState.modFolderMap,
                 ownedPathDict: action.tree.payload.ModManagerState.ownedPathDict,
+                loadOrder: action.tree.payload.ModManagerState.loadOrder
             };
         }
         default: {

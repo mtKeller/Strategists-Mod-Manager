@@ -1,11 +1,10 @@
 // THIS WILL BECOME A GENERATED FILE AFTER THIS PROJECT
 import * as MainActions from './Main.actions';
+import {Action, Store} from '@ngrx/store';
 import { ActionTree,
     ActionNode,
     ActionTreeParams,
 } from '../../model/ActionTree.class';
-import { Store } from '../../../../node_modules/@ngrx/store';
-
 
 export function SaveStateTree(store: Store<any>) {
     const ActionNodeSaveStateSuccess: ActionNode = {
