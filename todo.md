@@ -1,4 +1,5 @@
-ADD IN PROCESSING TYPE
+REPLACE ENTRY IN OWNERSHIP ARRAY THEN SORT LOWEST TO HIGHEST
+<!-- ADD IN PROCESSING TYPE -->
 **Install stack**
 When load order and thus installing mods, keep unpacked directories till install stack
 is cleared then delete.

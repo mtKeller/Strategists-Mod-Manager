@@ -118,7 +118,7 @@ export const INSERT_TO_FRONT_OF_LOAD_ORDER = '[ModManager] INSERT_TO_FRONT_OF_LO
 
 export class InsertToFrontOfLoadOrder implements Action {
     readonly type = INSERT_TO_FRONT_OF_LOAD_ORDER;
-    constructor(public tree: ActionTree = null) { }
+    constructor(public payload: Array<number> = null) { }
 }
 
 export const SHIFT_UP_MOD_OF_LOAD_ORDER = '[ModManager] SHIFT_UP_MOD_OF_LOAD_ORDER';
@@ -139,7 +139,7 @@ export const REMOVE_MOD_FROM_LOAD_ORDER = '[ModManager] REMOVE_MOD_FROM_LOAD_ORD
 
 export class RemoveModFromLoadOrder implements Action {
     readonly type = REMOVE_MOD_FROM_LOAD_ORDER;
-    constructor(public tree: ActionTree = null) { }
+    constructor(public payload: Array<number> = null) { }
 }
 
 export const FILTER_MOD_MAP = '[ModManager] FILTER_MOD_MAP';
@@ -153,6 +153,13 @@ export const VERIFY_AGAINST_OWNERSHIP_DICT = '[ModManager] VERIFY_AGAINST_OWNERS
 
 export class VerifyAgainstOwnershipDict implements Action {
     readonly type = VERIFY_AGAINST_OWNERSHIP_DICT;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const PREP_DEPENDENCIES = '[ModManager] PREP_DEPENDENCIES';
+
+export class PrepDependencies implements Action {
+    readonly type = PREP_DEPENDENCIES;
     constructor(public tree: ActionTree = null) { }
 }
 
@@ -187,4 +194,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
-    RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress;
+    RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies;

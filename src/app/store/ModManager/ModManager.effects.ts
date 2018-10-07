@@ -11,8 +11,7 @@ import * as ModManagerActions from './ModManager.actions';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
 import { SaveStateTree } from '../Main/Main.tree';
-import { map } from 'rxjs-compat/operator/map';
-import { Mod } from './ModManager.state';
+import { PrepInstallation } from './ModManager.tree';
 
 function replaceAll(str , search, replacement) {
     const target = str;
@@ -394,30 +393,32 @@ function replaceAll(str , search, replacement) {
                 return action.tree.failed();
             });
     @Effect()
+        ModManagerInsertToFrontOfLoadOrder$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.INSERT_TO_FRONT_OF_LOAD_ORDER)
+            .map(action => {
+                console.log('PREP', action.payload, this.modList);
+                const preppedInstallationTree = PrepInstallation(
+                    this.store,
+                    this.modList[action.payload[0]],
+                    action.payload,
+                    0
+                );
+                return preppedInstallationTree.begin();
+            });
+    @Effect()
         ModManagerFilterModMaps$: Observable<any> = this.actions$
             .ofType(ModManagerActions.FILTER_MOD_MAP)
             .map(action => {
-                const mod: Mod = action.tree.payload.mod;
-                const modIndex = action.tree.payload.modIndex;
-                const newArchivePaths = mod.archiveMaps[modIndex].filter(path => {
-                    return (path.indexOf('.') > - 1);
-                });
-                console.log(newArchivePaths);
+                console.log('Check action', action);
 
-                return new ModManagerActions.ModManagerSuccess();
+                return action.tree.success();
             });
     @Effect()
         ModManagerVerifyAgainstOwnershipDict$: Observable<any> = this.actions$
             .ofType(ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT)
             .map(action => {
-                let payload;
-                if (action.payload) {
-                    payload = action.payload;
-                } else {
-                    payload = action.tree.payload;
-                }
-                console.log(action.payload);
-                return new ModManagerActions.ModManagerSuccess();
+                console.log(action.tree.payload);
+                return action.tree.success();
             });
     @Effect()
         ModManagerSetState$: Observable<any> = this.actions$

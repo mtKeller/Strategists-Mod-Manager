@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
 
   processingQue: any = [];
   installationQue: any = [];
+  modProcessing: false;
 
   modList: any = [];
   modListChildExpand: any = [];
@@ -97,6 +98,10 @@ export class HomePage implements OnInit {
     });
     this.store.select(state => state.ModManagerState.processingQue).subscribe(val => {
       this.processingQue = val;
+      this.cdr.detectChanges();
+    });
+    this.store.select(state => state.ModManagerState.modProcessing).subscribe(val => {
+      this.modProcessing = val;
       this.cdr.detectChanges();
     });
   }
@@ -198,18 +203,7 @@ export class HomePage implements OnInit {
     console.log(document.getElementById(idStr + modIndex + indexOfChild));
     this.ripple($event, elem, idStr + modIndex + indexOfChild);
     this.blinkLoadOrder();
-    const ActionNodeAddToLoadOrder: ActionNode = {
-      initAction: new ModManagerActions.InsertToFrontOfLoadOrder(),
-      successNode: null,
-    };
-    const ActionTreeParam: ActionTreeParams = {
-      actionNode: ActionNodeAddToLoadOrder,
-      payload: arrOfIndexes,
-      store: this.store
-    };
-    const ActionTreeAddToLoadOrder: ActionTree = new ActionTree(ActionTreeParam);
-    ActionTreeAddToLoadOrder.init();
-    console.log('ADD TO LOAD ORDER TREE', ActionTreeAddToLoadOrder);
+    this.store.dispatch(new ModManagerActions.InsertToFrontOfLoadOrder(arrOfIndexes));
   }
   parseModChildTitle(str: string) {
     function replaceAll(st , search, replacement) {
