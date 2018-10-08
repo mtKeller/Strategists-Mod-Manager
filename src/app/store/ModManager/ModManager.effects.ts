@@ -83,6 +83,12 @@ function replaceAll(str , search, replacement) {
                 }
             });
     @Effect()
+        ModManagerUpdateProcessingProgress$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.UPDATE_PROCESSING_PROGRESS)
+            .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
         ModManagerProcessModByName$: Observable<any> = this.actions$
             .ofType(ModManagerActions.PROCESS_MOD_BY_NAME)
             .map(action => {
@@ -227,7 +233,7 @@ function replaceAll(str , search, replacement) {
                 };
                 // UPDATE PROGRESS TO 100
                 const ActionNodeUpdateProgress100: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeDeleteDownloadItem,
                     payload: 100
                 };
@@ -238,7 +244,7 @@ function replaceAll(str , search, replacement) {
                 };
                 // UPDATE PROGRESS TO 50
                 const ActionNodeUpdateProgress50: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeAddModToModList,
                     payload: 50
                 };
@@ -286,7 +292,7 @@ function replaceAll(str , search, replacement) {
                 };
                 // UPDATE PROGRESS TO 100
                 const ActionNodeUpdateProgress100: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeDeleteDownloadItem,
                     payload: 100
                 };
@@ -297,7 +303,7 @@ function replaceAll(str , search, replacement) {
                 };
                 // UPDATE PROGRESS TO 50
                 const ActionNodeUpdateProgress50: ActionNode = {
-                    initAction: new DownloadManagerActions.UpdateDownloadItemProcessingProgress(),
+                    initAction: new ModManagerActions.UpdateProcessingProgress(),
                     successNode: ActionNodeAddModToModList,
                     payload: 50
                 };
@@ -396,7 +402,33 @@ function replaceAll(str , search, replacement) {
         ModManagerInsertToFrontOfLoadOrder$: Observable<any> = this.actions$
             .ofType(ModManagerActions.INSERT_TO_FRONT_OF_LOAD_ORDER)
             .map(action => {
-                console.log('PREP', action.payload, this.modList);
+                console.log('INSERT TO FRONT', action.payload, this.modList);
+                const preppedInstallationTree = PrepInstallation(
+                    this.store,
+                    this.modList[action.payload[0]],
+                    action.payload,
+                    0
+                );
+                return preppedInstallationTree.begin();
+            });
+    @Effect()
+        ModManagerShiftUpLoadOrder$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.SHIFT_UP_MOD_OF_LOAD_ORDER)
+            .map(action => {
+                console.log('SHIFT UP', action.payload, this.modList);
+                const preppedInstallationTree = PrepInstallation(
+                    this.store,
+                    this.modList[action.payload[0]],
+                    action.payload,
+                    0
+                );
+                return preppedInstallationTree.begin();
+            });
+    @Effect()
+        ModManagerShiftDownLoadOrder$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.SHIFT_DOWN_MOD_OF_LOAD_ORDER)
+            .map(action => {
+                console.log('SHIFT DOWN', action.payload, this.modList);
                 const preppedInstallationTree = PrepInstallation(
                     this.store,
                     this.modList[action.payload[0]],

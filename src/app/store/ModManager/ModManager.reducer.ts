@@ -3,15 +3,18 @@ import * as ModManagerActions from './ModManager.actions';
 import {Action} from '@ngrx/store';
 
 function bubbleSortByLoadOrderPos(arr) {
+    console.log('bubble', arr);
     let sorted = false;
     while (!sorted) {
         sorted = true;
         arr.forEach(function (element, index, array) {
-        if (element.loadOrderPos > array[index + 1].loadOrderPos) {
-            array[index] = array[index + 1];
-            array[index + 1] = element;
-            sorted = false;
-        }
+            if (index < array.length - 1) {
+                if (element.loadOrderPos > array[index + 1].loadOrderPos) {
+                    array[index] = array[index + 1];
+                    array[index + 1] = element;
+                    sorted = false;
+                }
+            }
         });
     }
     return arr;
@@ -115,7 +118,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             if (action.hasOwnProperty('payload')) { // Raw
                 name = action.payload;
             } else {
-                name = action.tree.payload.mod.archiveNames[action.tree.payload.modIndex]; // Pre
+                name = action.tree.payload.archiveName; // Pre
             }
             if (state.processingQue.length === 0) {
                 return {
@@ -360,8 +363,8 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         }
         case ModManagerActions.FILTER_MOD_MAP : {
             const mod: Mod = action.tree.payload.mod;
-            const modIndex = action.tree.payload.modIndex;
-            const newArchivePaths = mod.archiveMaps[modIndex].filter(path => {
+            const modIndexes = action.tree.payload.modIndexes;
+            const newArchivePaths = mod.archiveMaps[modIndexes[1]].filter(path => {
                 return (path.indexOf('.') > - 1);
             });
             console.log(newArchivePaths);
@@ -380,64 +383,90 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             const installArr = [];
             const removeArr = [];
             const paths = action.tree.payload.modPaths;
+            const pathKeys = Object.keys(newOwnershipDict);
+            for (let i = 0; i < pathKeys.length; i++) {
+                const targetPathDef = newOwnershipDict[pathKeys[i]];
+                for (let j = 0; j < targetPathDef.length; j++) {
+                    for (let k = 0; k < state.loadOrder.length; k++) {
+                        if (targetPathDef[j].modIndexes[0] === state.loadOrder[k][0] &&
+                            targetPathDef[j].modIndexes[1] === state.loadOrder[k][1] &&
+                            targetPathDef[j].loadOrderPos !== k) {
+                            newOwnershipDict[pathKeys[i]][j].loadOrderPos = k;
+                        }
+                        // console.log(targetPathDef);
+                        if (state.loadOrder[k][0] === action.tree.payload.modIndexes[0] &&
+                            state.loadOrder[k][1] === action.tree.payload.modIndexes[1] &&
+                        k !== action.tree.payload.loadOrderPos) {
+                            action.tree.payload.loadOrderPos = k;
+                        }
+                    }
+                }
+            }
             for (let i = 0; i < paths.length; i++) {
                 if (newOwnershipDict.hasOwnProperty(paths[i])) {
                     // IF PAYLOAD IS NEW OWNER
-                    if (newOwnershipDict[paths[i]][0].owner !== action.tree.payload.archiveName &&
-                        newOwnershipDict[paths[i]][0].loadOrderPos > action.tree.payload.loadOrderPos) {
-                        const newOwnership = [{
-                            owner: action.tree.payload.modIndex,
-                            loadOrderPos: action.tree.payload.loadOrderPos,
-                            modIndexes: action.tree.payload.modIndexes
-                        }];
-                        removeArr.push({
-                            path : paths[i],
-                            owner : newOwnershipDict[paths[i]][0].owner,
-                            modIndexes : newOwnershipDict[paths[i]][0].modIndexes,
-                        });
-                        installArr.push({
-                            path : paths[i],
-                            owner : action.tree.payload.archiveName,
-                            modIndexes: action.tree.payload.modIndexes
-                        });
-                        for (let j = 0; j < newOwnershipDict[paths[i]]; j++) {
-                            if (newOwnershipDict[paths[i]][j].owner !== newOwnership[0].owner) {
-                                newOwnership.push(newOwnershipDict[paths[i]][j]);
-                            }
-                        }
-                        newOwnershipDict[paths[i]] = newOwnership;
-                    } else if (newOwnershipDict[paths[i]][0].owner === action.tree.payload.archiveName && // IF SAME OWNER AND POS
-                        newOwnershipDict[paths[i]][0].loadOrderPos === action.tree.payload.loadOrderPos) { // DO JACK SHIT
-                    } else { // IF PAYLOAD OWNS PATH BUT IS NOT CURRENT OWNER
-                        for (let j = 0; j < newOwnershipDict[paths[j]].length; j++) { // AND IF CHANGE IN LOAD ORDER POS
-                            if (newOwnershipDict[paths[i]][j].owner === action.tree.payload.archiveName && // SAME OWNER
-                                newOwnershipDict[paths[i]][j].loadOrderPos !== action.tree.payload.loadOrderPos) {
-                                const newOwnership = newOwnershipDict[paths[i]];
-                                let newOwnershipDictEntry = [];
-                                for (let k = 0; k < newOwnership.length; k++) {
-                                    if (newOwnership[k].owner !== action.tree.payload.archiveName) {
-                                        newOwnershipDictEntry.push(newOwnership[k]);
-                                    }
+                    // if (newOwnershipDict[paths[i]][0].owner !== action.tree.payload.archiveName &&
+                    //     newOwnershipDict[paths[i]][0].loadOrderPos > action.tree.payload.loadOrderPos) {
+                    //     console.log('ENTRY');
+                    //     const newOwnership = [{
+                    //         owner: action.tree.payload.archiveName,
+                    //         loadOrderPos: action.tree.payload.loadOrderPos,
+                    //         modIndexes: action.tree.payload.modIndexes
+                    //     }];
+                    //     for (let j = 0; j < newOwnershipDict[paths[i]]; j++) {
+                    //         if (newOwnershipDict[paths[i]][j].owner !== newOwnership[0].owner) {
+                    //             newOwnership.push(newOwnershipDict[paths[i]][j]);
+                    //         }
+                    //     }
+                    //     newOwnershipDict[paths[i]] = newOwnership;
+                    // } else if (newOwnershipDict[paths[i]][0].owner === action.tree.payload.archiveName && // IF SAME OWNER AND POS
+                    //     newOwnershipDict[paths[i]][0].loadOrderPos === action.tree.payload.loadOrderPos) { // DO JACK SHIT
+                    //         console.log('JACK SHIT');
+                    // } else { // IF PAYLOAD OWNS PATH BUT IS NOT CURRENT OWNER
+                        for (let j = 0; j < newOwnershipDict[paths[i]].length; j++) { // AND IF CHANGE IN LOAD ORDER POS
+                            const currentOwnershipEntry = newOwnershipDict[paths[i]];
+                            let newOwnershipDictEntry = [];
+                            for (let k = 0; k < currentOwnershipEntry.length; k++) {
+                                if (currentOwnershipEntry[k].owner !== action.tree.payload.archiveName) {
+                                    newOwnershipDictEntry.push(currentOwnershipEntry[k]);
                                 }
-                                newOwnershipDictEntry.push({
-                                    owner: action.tree.payload.archiveName,
-                                    loadOrderPos: action.tree.payload.loadOrderPos,
-                                    modIndexes: action.tree.payload.modIndexes
-                                });
-                                newOwnershipDictEntry = bubbleSortByLoadOrderPos(newOwnershipDictEntry);
-                                newOwnershipDict[paths[i]] = newOwnershipDictEntry;
-                                break;
                             }
+                            newOwnershipDictEntry.push({
+                                owner: action.tree.payload.archiveName,
+                                loadOrderPos: action.tree.payload.loadOrderPos,
+                                modIndexes: action.tree.payload.modIndexes
+                            });
+                            console.log('DICT', newOwnershipDict);
+                            newOwnershipDictEntry = bubbleSortByLoadOrderPos(newOwnershipDictEntry);
+                            newOwnershipDict[paths[i]] = newOwnershipDictEntry;
                         }
-                    }
+                    // }
                 } else { // IF OWNERSHIP DICT DOES NOT HAVE PATH
+                    console.log('NO PATH');
                     newOwnershipDict[paths[i]] = [{
-                        owner: action.tree.payload.modIndex,
-                        loadOrderPos: action.tree.payload.loadOrderPos
+                        owner: action.tree.payload.archiveName,
+                        loadOrderPos: action.tree.payload.loadOrderPos,
+                        modIndexes: action.tree.payload.modIndexes
                     }];
                     installArr.push({
                         path: paths[i],
-                        owner: action.tree.payload.modIndex
+                        owner: action.tree.payload.modIndex,
+                        modIndexes: action.tree.payload.modIndexes
+                    });
+                }
+            }
+            const previousKeys = Object.keys(state.ownedPathDict);
+            for (let j = 0; j < previousKeys.length; j++) {
+                if (newOwnershipDict[previousKeys[j]][0].owner !== state.ownedPathDict[previousKeys[j]][0].owner) {
+                    removeArr.push({
+                        path : previousKeys[j],
+                        owner : state.ownedPathDict[previousKeys[j]][0].owner,
+                        modIndexes : state.ownedPathDict[previousKeys[j]][0].modIndexes,
+                    });
+                    installArr.push({
+                        path : previousKeys[j],
+                        owner : newOwnershipDict[previousKeys[j]][0].owner,
+                        modIndexes: newOwnershipDict[previousKeys[j]][0].modIndexes
                     });
                 }
             }

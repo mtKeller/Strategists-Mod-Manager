@@ -1,4 +1,7 @@
-REPLACE ENTRY IN OWNERSHIP ARRAY THEN SORT LOWEST TO HIGHEST
+Handle installation
+<!-- TEST OWNERSHIP DICT -->
+<!-- THEN ADD CHANGE OF OWNERSHIP IF MOD IS PUSHED BACK IN OWNERSHIP QUE -->
+<!-- REPLACE ENTRY IN OWNERSHIP ARRAY THEN SORT LOWEST TO HIGHEST -->
 <!-- ADD IN PROCESSING TYPE -->
 **Install stack**
 When load order and thus installing mods, keep unpacked directories till install stack

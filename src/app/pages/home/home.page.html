@@ -71,16 +71,16 @@
         <h1>Downloads</h1>
         <ol *ngIf="this.downloadManagerItems !== null">
           <li *ngFor="let item of this.downloadManagerItems">
-            {{item.fileName}} {{item.progress.toFixed(2)}}%
+            {{this.parseModChildTitle(item.fileName)}} {{item.progress.toFixed(2)}}%
             <button *ngIf="item.complete">Complete</button>
           </li>
         </ol>
       </div>
       <div class="que downloads">
-        <h1>Processing {{this.modProcessing}}</h1>
+        <h1>Processing</h1>
         <ol *ngIf="this.processingQue.length !== 0">
           <li *ngFor="let item of this.processingQue">
-            {{item.name}} {{item.progress}}%
+            {{this.parseModChildTitle(item.name)}} {{item.progress}}%
             <button *ngIf="item.complete">Complete</button>
           </li>
         </ol>
@@ -89,7 +89,7 @@
         <h1>Installation</h1>
         <ol *ngIf="this.installationQue.length !== 0">
           <li *ngFor="let item of this.installationQue">
-              {{item.name}} {{item.progress}}%
+              {{this.parseModChildTitle(item.name)}} {{item.progress}}%
             <button *ngIf="item.complete">Complete</button>
           </li>
         </ol>
@@ -223,9 +223,6 @@
       <div class="update bottom top">
         UPDATED
       </div>
-      <div class="category bottom top">
-        CATEGORY
-      </div>
       <div class="status bottom top">
         STATUS
       </div>
@@ -244,9 +241,6 @@
       </div>
       <div class="update">
         {{this.modList[modIndex[0]].updateDate}}
-      </div>
-      <div class="category">
-        {{"CATEGORY"}}
       </div>
       <div class="status">
         {{this.getStatus(this.modList[modIndex[0]].enabled[modIndex[1]])}}

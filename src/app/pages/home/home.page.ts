@@ -264,8 +264,8 @@ export class HomePage implements OnInit {
   }
   limitChar(str) {
     const newStr = this.parseModChildTitle(str);
-    if (newStr.length > 30) {
-      return newStr.substring(0, 30) + '...';
+    if (newStr.length > 42) {
+      return newStr.substring(0, 42) + '...';
     } else {
       return this.parseModChildTitle(str);
     }
