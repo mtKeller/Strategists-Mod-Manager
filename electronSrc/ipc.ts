@@ -209,21 +209,55 @@ export function initIPC(win, ele) {
         );
     });
 
-    ipcMain.on('DELETE_DIRECTORY', (event, args) => {
-        fileSystemManager.io({
-            type: 'DELETE_DIRECTORY',
-            payload: args
-        },
-        (action) => {
-            switch (action.type) {
-                case 'DELETED_DIRECTORY' : {
-                    event.sender.send('DELETED_DIRECTORY', action.payload);
-                    break;
+    ipcMain.on('COPY_MOVE_FILE', (event, args) => {
+            fileSystemManager.io({
+                type: 'COPY_MOVE_FILE',
+                payload: args
+            },
+            (action) => {
+                switch (action.type) {
+                    case 'COPY_MOVED_FILE' : {
+                        event.sender.send('COPY_MOVED_FILE', action.payload);
+                        break;
+                    }
+                    default: { }
                 }
-                default: { }
             }
-        }
-    );
+        );
+    });
+
+    ipcMain.on('DELETE_FILE', (event, args) => {
+            fileSystemManager.io({
+                type: 'DELETE_FILE',
+                payload: args
+            },
+            (action) => {
+                switch (action.type) {
+                    case 'DELETED_FILE' : {
+                        event.sender.send('DELETED_FILE', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
+            }
+        );
+    });
+
+    ipcMain.on('DELETE_DIRECTORY', (event, args) => {
+            fileSystemManager.io({
+                type: 'DELETE_DIRECTORY',
+                payload: args
+            },
+            (action) => {
+                switch (action.type) {
+                    case 'DELETED_DIRECTORY' : {
+                        event.sender.send('DELETED_DIRECTORY', action.payload);
+                        break;
+                    }
+                    default: { }
+                }
+            }
+        );
     });
 
     ipcMain.on('MAP_DIRECTORY', (event, args) => {
@@ -403,13 +437,26 @@ export function initIPC(win, ele) {
 
     ipcMain.on('UNRAR_FILE', (event, args) => {
         const pathToUnrar = __dirname.split('\\dist\\')[0] + '\\UnRAR.exe';
-        console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        // console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
         execFile(pathToUnrar, ['x', args[0], args[1]], function(err, data) {
             console.log('MADE IT INSIDE OF CB');
             if (err) {
                 event.sender.send('UNRARED_FILE', false);
             } else {
                 event.sender.send('UNRARED_FILE', true);
+            }
+        });
+    });
+
+    ipcMain.on('UN7ZIP_FILE', (event, args) => {
+        const pathToUnrar = __dirname.split('\\dist\\')[0] + '\\7-Zip\\7z.exe';
+        // console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        execFile(pathToUnrar, ['x', args[0], args[1]], function(err, data) {
+            console.log('MADE IT INSIDE OF CB');
+            if (err) {
+                event.sender.send('UN7ZIPPED_FILE', false);
+            } else {
+                event.sender.send('UN7ZIPPED_FILE', true);
             }
         });
     });

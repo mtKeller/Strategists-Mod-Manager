@@ -149,6 +149,13 @@ export class FilterModMap implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const FILTER_INSTALLED_DEPENDENCY = '[ModManager] FILTER_INSTALLED_DEPENDENCY';
+
+export class FilterInstalledDependency implements Action {
+    readonly type = FILTER_INSTALLED_DEPENDENCY;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const VERIFY_AGAINST_OWNERSHIP_DICT = '[ModManager] VERIFY_AGAINST_OWNERSHIP_DICT';
 
 export class VerifyAgainstOwnershipDict implements Action {
@@ -160,6 +167,13 @@ export const PREP_DEPENDENCIES = '[ModManager] PREP_DEPENDENCIES';
 
 export class PrepDependencies implements Action {
     readonly type = PREP_DEPENDENCIES;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const ADD_TO_INSTALL_QUE = '[ModManager] ADD_TO_INSTALL_QUE';
+
+export class AddToInstallQue implements Action {
+    readonly type = ADD_TO_INSTALL_QUE;
     constructor(public tree: ActionTree = null) { }
 }
 
@@ -194,4 +208,5 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
-    RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies;
+    RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
+    AddToInstallQue | FilterInstalledDependency;

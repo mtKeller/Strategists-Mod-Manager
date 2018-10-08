@@ -17,10 +17,10 @@ export function PrepInstallation(
         initAction: new ModManagerActions.ModProcessed(),
         successNode: null
     };
-    // const ActionNodePrepDependencies: ActionNode = {
-    //     initAction: null,
-    //     successNode: null
-    // };
+    const ActionNodePrepDependencies: ActionNode = {
+        initAction: null,
+        successNode: null
+    };
     const ActionNodeCheckAgainstOwnedDict: ActionNode = {
         initAction: new ModManagerActions.VerifyAgainstOwnershipDict(),
         successNode: ActionNodeEndProcessing,
@@ -44,7 +44,9 @@ export function PrepInstallation(
             mod: mod,
             loadOrderPos: loadOrderPos,
             archiveName: mod.archiveNames[modIndexes[1]],
-            modIndexes: modIndexes
+            modIndexes: modIndexes,
+            installPaths: [],
+            removePaths: []
         },
         store: store
     };
@@ -52,35 +54,70 @@ export function PrepInstallation(
     return ActionTreePrepInstallation;
 }
 
-export function PrepDependencies(store: Store<any>, mods: Array<Mod>) {
-    // Then repeat
-    // Else Unpack Mod
-    // If Mod archive is unpacked exit
-    // Check if Mod archive is unpacked
-    const ActionNodeVerifyArchiveFolders: ActionNode = {
+export function PrepDependencies(
+        store: Store<any>,
+        archiveNames: Array<string>,
+        installPaths: Array<string>,
+        removePaths: Array<string>,
+        gameDir: string) {
+    const ActionNodeEndInstallation: ActionNode = {
         initAction: null,
-        successNode: null,
-        failureNode: null
+        successNode: null
     };
+    const ActionNodeCopyMoveFiles: ActionNode = {
+        initAction: new FileSystemActions.CopyMoveFiles(),
+        successNode: ActionNodeEndInstallation,
+    };
+    const ActionNodeDeleteFiles: ActionNode = {
+        initAction: new FileSystemActions.DeleteFiles(),
+        successNode: ActionNodeCopyMoveFiles,
+    };
+    const ActionNodeUnpackFiles: ActionNode = {
+        initAction: new FileSystemActions.UnpackFiles(),
+        successNode: ActionNodeDeleteFiles,
+    };
+    const ActionNodeFilterPreexisting
     // Map temp folder
     const ActionNodeMapTemp: ActionNode = {
         initAction: new FileSystemActions.MapDirectoryThenAppendPayload(),
-        successNode: null
+        successNode: ActionNodeUnpackFiles,
+        payload: gameDir + '\\modFolder\\temp'
+    };
+    const ActionNodeBeginInstallation: ActionNode = {
+        initAction: null,
+        successNode: ActionNodeMapTemp
+    };
+    const ActionNodeAddToInstallationQue: ActionNode = {
+        initAction: null,
+        successNode: ActionNodeBeginInstallation,
     };
     const ActionTreeParam: ActionTreeParams = {
-        actionNode: ActionNodeMapTemp,
+        actionNode: ActionNodeAddToInstallationQue,
         store: store,
         payload: {
-            mods
+            archiveNames: archiveNames,
+            installPaths: installPaths,
+            removePaths: removePaths,
+            gameDir: gameDir,
+            modMap: null
         }
     };
+    const ActionTreeInstallDependencies: ActionTree = new ActionTree(ActionTreeParam);
+    return ActionTreeInstallDependencies;
 }
 
-export function Installation() {
-
-    // TIER 1
-    // IF ARCHIVE IS UNPACKED
-    // TIER 0 CHECK TEMP MAP FILTER TO SEE IF ARCHIVES ARE UNPACKED
+export function InstallDependencies() {
+    // Loop to start if none dispatch previous tree success
+    // Remove archiveName from payload
+    // Tier 0 Unpack dir
+    const ActionTreeParam: ActionTreeParams = {
+        actionNode: null,
+        store: null,
+        payload: {
+            archiveNames: null,
+            gameDir: null
+        }
+    };
     return null;
 }
 // Return beginning and end

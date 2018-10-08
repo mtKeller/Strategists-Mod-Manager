@@ -133,6 +133,27 @@ export class UnrarFile implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const UNPACK_FILES = '[FileSystem] UNPACK_FILES';
+
+export class UnpackFiles implements Action {
+    readonly type = UNPACK_FILES;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const COPY_MOVE_FILES = '[FileSystem] COPY_MOVE_FILES';
+
+export class CopyMoveFiles implements Action {
+    readonly type = COPY_MOVE_FILES;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const DELETE_FILES = '[FileSystem] DELETE_FILES';
+
+export class DeleteFiles implements Action {
+    readonly type = DELETE_FILES;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const DELETE_DIRECTORY = '[FileSystem] DELETE DIRECTORY';
 
 export class DeleteDirectory implements Action {
@@ -171,4 +192,5 @@ export type All =
     FileSystemSuccess | FileSystemFailure | ZipDir | ExecProcess |
     CreateModdingDirectories | GetNativePcMap | GetModFolderMap | UnzipFile |
     Init | Exit | ViewZippedContents | UnrarFile | MapDirectory | DeleteDirectory |
-    MapDirectoryThenAppendPayload | View7ZippedContents;
+    MapDirectoryThenAppendPayload | View7ZippedContents | UnpackFiles | CopyMoveFiles |
+    DeleteFiles;

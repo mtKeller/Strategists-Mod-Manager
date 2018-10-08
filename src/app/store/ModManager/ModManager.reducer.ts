@@ -472,8 +472,8 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             }
             action.tree.payload = {
                 ...action.tree.payload,
-                install: installArr,
-                remove: removeArr
+                installPaths: installArr,
+                removePaths: removeArr
             };
             return {
                 ...state,

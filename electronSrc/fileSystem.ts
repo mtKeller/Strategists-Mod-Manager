@@ -34,8 +34,16 @@ process.on('message', (action) => {
             readDir(action.payload);
             break;
         }
+        case 'DELETE_FILE' : {
+            deleteFile(action.payload);
+            break;
+        }
         case 'DELETE_DIRECTORY' : {
             deleteDirectory(action.payload);
+            break;
+        }
+        case 'COPY_MOVE_FILE' : {
+            copyMoveFile(action.payload);
             break;
         }
         case 'MAP_DIRECTORY' : {
@@ -223,6 +231,41 @@ function readDir(payload) {
             payload: [newMap, nativePcExists, modFolderExists
         ]});
     }
+}
+
+function copyFile(src, dest) {
+
+    const readStream = fs.createReadStream(src);
+
+    readStream.once('error', (err) => {
+        process.send('COPY_MOVED_FILE', false);
+    });
+
+    readStream.once('end', () => {
+        process.send('COPY_MOVED_FILE', true);
+    });
+
+    readStream.pipe(fs.createWriteStream(dest));
+}
+
+function copyMoveFile(payload) {
+    fs.access(payload[1], (err) => {
+        if (err) {
+            fs.mkdirSync(payload[1]);
+        }
+
+        copyFile(payload[0] + '\\' + payload[2], payload[1] + '\\' + payload[2]);
+    });
+}
+
+function deleteFile(payload) {
+    fs.unlink(payload, (err) => {
+        if (err) {
+            process.send('DELETED_FILE', false);
+        } else {
+            process.send('DELETED_FILE', true);
+        }
+    });
 }
 
 function getDirContents(src, cb) {
@@ -445,7 +488,7 @@ function view7ZippedContents(payload) {
 }
 
 function unzipFile(payload) {
-    const targetDir = payload[1] + '\\modFolder\\temp\\' + payload[2].split('.')[0] + '\\';
+    const targetDir = payload[0] + '\\modFolder\\temp\\' + payload[1].split('.')[0] + '\\';
     extract(payload[0], { dir: targetDir }, (err) => {
         if (err) {
             process.send({

@@ -11,7 +11,7 @@ import * as ModManagerActions from './ModManager.actions';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
 import { SaveStateTree } from '../Main/Main.tree';
-import { PrepInstallation } from './ModManager.tree';
+import { PrepInstallation, PrepDependencies } from './ModManager.tree';
 
 function replaceAll(str , search, replacement) {
     const target = str;
@@ -397,6 +397,30 @@ function replaceAll(str , search, replacement) {
                 // Check against downloadedModDetail and Current MODS
                 // Generates Anon JSON
                 return action.tree.failed();
+            });
+    @Effect()
+        ModManagerPrepDependencies$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.PREP_DEPENDENCIES)
+            .map(action => {
+                function onlyUnique(value, index, self) {
+                    return self.indexOf(value) === index;
+                }
+                const dependencies = [];
+                const installPaths = action.tree.payload.installPaths;
+                const removePaths = action.tree.payload.removePaths;
+                installPaths.map(path => dependencies.push(path));
+                removePaths.map(path => dependencies.push(path));
+                const archiveNames = dependencies.filter(onlyUnique);
+
+                const ActionTreeInstall: ActionTree = PrepDependencies(
+                    this.store,
+                    archiveNames,
+                    action.tree.payload.installPaths,
+                    action.tree.payload.removePaths,
+                    action.tree.payload.gameDir
+                );
+                ActionTreeInstall.init();
+                return action.tree.success();
             });
     @Effect()
         ModManagerInsertToFrontOfLoadOrder$: Observable<any> = this.actions$
