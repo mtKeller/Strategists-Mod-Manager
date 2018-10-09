@@ -93,7 +93,7 @@ export class HomePage implements OnInit {
     });
 
     this.store.select(state => state.ModManagerState.installationQue).subscribe(val => {
-      this.processingQue = val;
+      this.installationQue = val;
       this.cdr.detectChanges();
     });
     this.store.select(state => state.ModManagerState.processingQue).subscribe(val => {

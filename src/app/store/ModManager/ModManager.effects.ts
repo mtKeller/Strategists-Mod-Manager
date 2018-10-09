@@ -26,6 +26,7 @@ function replaceAll(str , search, replacement) {
     downloadedModDetail: Array<any>;
     mhwDIR: string;
     processingQue: Array<any>;
+    installationQue: Array<any>;
     modProcessing: boolean;
 
     constructor(private actions$: Actions, private store: Store<any> ) {
@@ -52,12 +53,19 @@ function replaceAll(str , search, replacement) {
         this.store.select(state => state.ModManagerState.processingQue).subscribe(val => {
             this.processingQue = val;
         });
+        this.store.select(state => state.ModManagerState.installationQue).subscribe(val => {
+            this.installationQue = val;
+        });
         this.store.select(state => state.ModManagerState.modProcessing).subscribe(val => {
             this.modProcessing = val;
         });
         setInterval(() => {
             if (!this.modProcessing && this.processingQue.length !== 0) {
                 this.store.dispatch(this.processingQue[0].action.tree.success());
+            } else if (!this.modProcessing && this.processingQue.length === 0 &&
+                this.installationQue.length !== 0
+                ) {
+                this.store.dispatch(this.installationQue[0].tree.success());
             }
         }, 1000);
     }
@@ -138,7 +146,7 @@ function replaceAll(str , search, replacement) {
                 const ActionNodeDeleteDir: ActionNode = {
                     initAction: new FileSystemActions.DeleteDirectory(),
                     successNode: ActionNodeUpdateProgress100,
-                    payload: this.mhwDIR + `\\modFolder\\temp\\${action.payload.modTitle}\\`
+                    payload: this.mhwDIR + `\\modFolder\\temp\\${action.payload.modArchiveName.split('.')[0]}\\`
                 };
                 // TIER 3 DELETE OWN DIR
                 const ActionNodeUpdateProgress75: ActionNode = {
@@ -162,7 +170,7 @@ function replaceAll(str , search, replacement) {
                 const ActionNodeMapDirectory: ActionNode = {
                     initAction: new FileSystemActions.MapDirectoryThenAppendPayload(),
                     successNode: ActionNodeUpdateProgress50,
-                    payload: this.mhwDIR + `\\modFolder\\temp\\${action.payload.modTitle}\\`
+                    payload: this.mhwDIR + `\\modFolder\\temp\\${action.payload.modArchiveName.split('.')[0]}\\`
                 };
                 // UPDATE PROGRESS TO 33
                 const ActionNodeUpdateProgress25: ActionNode = {
@@ -176,7 +184,7 @@ function replaceAll(str , search, replacement) {
                     successNode: ActionNodeUpdateProgress25,
                     failureNode: null,
                     payload: [replaceAll(action.payload.modArchivePath, '/', '\\'),
-                        this.mhwDIR + `\\modFolder\\temp\\${action.payload.modTitle}\\`]
+                        this.mhwDIR + `\\modFolder\\temp\\${action.payload.modArchiveName.split('.')[0]}\\`]
                 };
                 const ActionNodeBeginModProcessing: ActionNode = {
                     initAction: new ModManagerActions.BeginModProcessing(),
@@ -408,8 +416,8 @@ function replaceAll(str , search, replacement) {
                 const dependencies = [];
                 const installPaths = action.tree.payload.installPaths;
                 const removePaths = action.tree.payload.removePaths;
-                installPaths.map(path => dependencies.push(path));
-                removePaths.map(path => dependencies.push(path));
+                installPaths.map(path => dependencies.push(path.owner));
+                removePaths.map(path => dependencies.push(path.owner));
                 const archiveNames = dependencies.filter(onlyUnique);
 
                 const ActionTreeInstall: ActionTree = PrepDependencies(
@@ -417,7 +425,7 @@ function replaceAll(str , search, replacement) {
                     archiveNames,
                     action.tree.payload.installPaths,
                     action.tree.payload.removePaths,
-                    action.tree.payload.gameDir
+                    this.mhwDIR
                 );
                 ActionTreeInstall.init();
                 return action.tree.success();
@@ -433,6 +441,7 @@ function replaceAll(str , search, replacement) {
                     action.payload,
                     0
                 );
+                console.log(preppedInstallationTree);
                 return preppedInstallationTree.begin();
             });
     @Effect()
@@ -446,6 +455,7 @@ function replaceAll(str , search, replacement) {
                     action.payload,
                     0
                 );
+                console.log(preppedInstallationTree);
                 return preppedInstallationTree.begin();
             });
     @Effect()
@@ -459,7 +469,45 @@ function replaceAll(str , search, replacement) {
                     action.payload,
                     0
                 );
+                console.log(preppedInstallationTree);
                 return preppedInstallationTree.begin();
+            });
+    @Effect()
+        ModManagerFilterUnpackedDependencies$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.FILTER_UNPACKED_DEPENDENCIES)
+            .map(action => {
+                const archiveNames = action.tree.payload.archiveNames;
+                const modMap = action.tree.payload.modMap;
+                const filteredDependencies = [];
+                if (archiveNames.length !== 0) {
+                    console.log('BEFORE', archiveNames[0].split('.')[0], modMap);
+                    if (modMap.length === 0) {
+                        for (let i = 0; i < archiveNames.length; i++) {
+                            filteredDependencies.push(archiveNames[i]);
+                        }
+                    } else {
+                        for (let i = 0; i < archiveNames.length; i++) {
+                            let exists = false;
+                            for (let j = 0; j < modMap.length; j++) {
+                                if (modMap[j].indexOf(archiveNames[i].split('.')[0]) > -1) {
+                                    exists = true;
+                                    break;
+                                }
+                            }
+                            if (!exists) {
+                                filteredDependencies.push(archiveNames[i]);
+                                exists = false;
+                            }
+                        }
+                    }
+                    console.log('after', filteredDependencies);
+                    return action.tree.success({
+                        ...action.tree.payload,
+                        archiveNames: filteredDependencies
+                    });
+                } else {
+                    return action.tree.success();
+                }
             });
     @Effect()
         ModManagerFilterModMaps$: Observable<any> = this.actions$
@@ -474,6 +522,24 @@ function replaceAll(str , search, replacement) {
             .ofType(ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT)
             .map(action => {
                 console.log(action.tree.payload);
+                return action.tree.success();
+            });
+    @Effect()
+        ModManagerBeginInstallation$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.BEGIN_INSTALLATION)
+            .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
+        ModManagerAddToInstallationQue$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.ADD_TO_INSTALL_QUE)
+            .map(action => {
+                return new ModManagerActions.ModManagerSuccess();
+            });
+    @Effect()
+        ModManagerEndInstallation$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.END_INSTALLATION)
+            .map(action => {
                 return action.tree.success();
             });
     @Effect()

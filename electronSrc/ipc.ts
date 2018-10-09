@@ -413,7 +413,7 @@ export function initIPC(win, ele) {
     ipcMain.on('UNZIP_FILE', (event, args) => {
         fileSystemManager.io({
                 type: 'UNZIP_FILE',
-                payload: [args[0], mhwDIR, args[1]]
+                payload: [args[0], args[1]]
             },
             (action) => {
                 switch (action.type) {
@@ -438,11 +438,14 @@ export function initIPC(win, ele) {
     ipcMain.on('UNRAR_FILE', (event, args) => {
         const pathToUnrar = __dirname.split('\\dist\\')[0] + '\\UnRAR.exe';
         // console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        console.log('UNRAR_FILE', args);
         execFile(pathToUnrar, ['x', args[0], args[1]], function(err, data) {
             console.log('MADE IT INSIDE OF CB');
             if (err) {
+                console.log('send false', err);
                 event.sender.send('UNRARED_FILE', false);
             } else {
+                console.log('SEND');
                 event.sender.send('UNRARED_FILE', true);
             }
         });
@@ -454,6 +457,7 @@ export function initIPC(win, ele) {
         execFile(pathToUnrar, ['x', args[0], args[1]], function(err, data) {
             console.log('MADE IT INSIDE OF CB');
             if (err) {
+                console.log(err);
                 event.sender.send('UN7ZIPPED_FILE', false);
             } else {
                 event.sender.send('UN7ZIPPED_FILE', true);

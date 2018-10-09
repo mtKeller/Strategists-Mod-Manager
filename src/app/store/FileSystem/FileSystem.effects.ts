@@ -181,7 +181,7 @@ const { ipcRenderer } = window.require('electron');
                 } else {
                     payload = action.tree.payload;
                 }
-                // console.log('UNRAR ACTION', action);
+                console.log('UNRAR ACTION', action);
                 ipcRenderer.send('UNRAR_FILE', payload);
                 ipcRenderer.once('UNRARED_FILE', (err, args) => {
                     // console.log('UNRARED_FILE', args);
@@ -200,10 +200,12 @@ const { ipcRenderer } = window.require('electron');
                 function filterArchiveName(arr, name) {
                     return arr.filter(item => item !== name);
                 }
+                console.log('UNPACK', action);
                 if (action.tree.payload.archiveNames.length !== 0) {
                     const gameDir = action.tree.payload.gameDir;
                     const archiveName = action.tree.payload.archiveNames[0];
                     if (archiveName.indexOf('.zip') > -1) {
+                        console.log('UNZIP', [gameDir, archiveName]);
                         ipcRenderer.send('UNZIP_FILE', [gameDir, archiveName]);
                         ipcRenderer.once('UNZIPPED_FILE', (err, args) => {
                             if (args === false) {
@@ -214,20 +216,27 @@ const { ipcRenderer } = window.require('electron');
                                     ...action.tree.payload,
                                     archiveNames: filterArchiveName(action.tree.payload.archiveNames, archiveName)
                                 };
+                                newAction.tree = action.tree;
                                 this.store.dispatch(newAction);
                             }
                         });
                     } else if (archiveName.indexOf('.rar') > - 1) {
                         ipcRenderer.send('UNRAR_FILE', [
                             gameDir + '\\modFolder\\' + archiveName,
-                            gameDir + '\\modFolder\\temp\\' + archiveName.split('.')[0]
+                            (gameDir + '\\modFolder\\temp\\' + archiveName.split('.')[0] + '\\')
                         ]);
                         ipcRenderer.once('UNRARED_FILE', (err, args) => {
                             // console.log('UNRARED_FILE', args);
                             if (args === false) {
                                 this.store.dispatch(action.tree.failed());
                             } else {
-                                this.store.dispatch(action.tree.success());
+                                const newAction = new FileSystemActions.UnpackFiles();
+                                action.tree.payload = {
+                                    ...action.tree.payload,
+                                    archiveNames: filterArchiveName(action.tree.payload.archiveNames, archiveName)
+                                };
+                                newAction.tree = action.tree;
+                                this.store.dispatch(newAction);
                             }
                         });
                     } else if (archiveName.indexOf('.7z') > -1) {
@@ -235,12 +244,18 @@ const { ipcRenderer } = window.require('electron');
                             gameDir + '\\modFolder\\' + archiveName,
                             '-o' + gameDir + '\\modFolder\\temp\\' + archiveName.split('.')[0]
                         ]);
-                        ipcRenderer.once('UNRARED_FILE', (err, args) => {
+                        ipcRenderer.once('UN7ZIPPED_FILE', (err, args) => {
                             // console.log('UNRARED_FILE', args);
                             if (args === false) {
                                 this.store.dispatch(action.tree.failed());
                             } else {
-                                this.store.dispatch(action.tree.success());
+                                const newAction = new FileSystemActions.UnpackFiles();
+                                action.tree.payload = {
+                                    ...action.tree.payload,
+                                    archiveNames: filterArchiveName(action.tree.payload.archiveNames, archiveName)
+                                };
+                                newAction.tree = action.tree;
+                                this.store.dispatch(newAction);
                             }
                         });
                     }
@@ -253,26 +268,34 @@ const { ipcRenderer } = window.require('electron');
         FileSystemCopyMoveFiles$: Observable<any> = this.actions$
             .ofType(FileSystemActions.COPY_MOVE_FILES)
             .map(action => {
+                console.log('RAN');
                 function filterPathName(arr, name) {
-                    return arr.filter(item => item !== name);
+                    return arr.filter(item => item.path !== name);
                 }
                 if (action.tree.payload.installPaths.length !== 0) {
                     const gameDir = action.tree.payload.gameDir;
-                    const sourcePath = action.tree.payload.installPaths[0].path
-                        .substring(0, action.tree.payload.installPaths[0].path.lastIndexOf('\\'));
-                    const destinationPath = action.payload.tree.gameDir + '\\' + action.tree.payload.installPaths[0].path
-                        .split(`\\modFolder\\temp\\${action.tree.payload.installPaths[0].owner.split('.')[0]}\\`);
-                    const fileName = action.tree.payload.installPaths[0].split('\\').pop();
+                    const destinationPath = gameDir + '\\' + (action.tree.payload.installPaths[0].path
+                        .substring(0, action.tree.payload.installPaths[0].path.lastIndexOf('\\')));
+                    const sourcePath = action.tree.payload.gameDir + '\\' +
+                        `modFolder\\temp\\${action.tree.payload.installPaths[0].owner.split('.')[0]}\\` +
+                        action.tree.payload.installPaths[0].path;
+                    const fileName = action.tree.payload.installPaths[0].path.split('\\').pop();
+                    console.log('source', sourcePath, 'src', action.tree.payload.installPaths[0].path,
+                        action.tree.payload.installPaths[0].path.lastIndexOf('\\'));
+                    console.log('dest', destinationPath);
+                    console.log('fileName', fileName);
                     ipcRenderer.send('COPY_MOVE_FILE', [sourcePath, destinationPath, fileName]);
                     ipcRenderer.once('COPY_MOVED_FILE', (err, args) => {
+                        console.log('MOVED_FILE', args);
                         if (args === false) {
                             this.store.dispatch(action.tree.failed());
                         } else {
                             const newAction = new FileSystemActions.CopyMoveFiles();
                             action.tree.payload = {
                                 ...action.tree.payload,
-                                installPaths: filterPathName(action.tree.payload.installPaths, action.tree.payload.installPaths[0])
+                                installPaths: filterPathName(action.tree.payload.installPaths, action.tree.payload.installPaths[0].path)
                             };
+                            newAction.tree = action.tree;
                             this.store.dispatch(newAction);
                         }
                     });
@@ -286,10 +309,10 @@ const { ipcRenderer } = window.require('electron');
             .ofType(FileSystemActions.DELETE_FILES)
             .map(action => {
                 function filterPathName(arr, name) {
-                    return arr.filter(item => item !== name);
+                    return arr.filter(item => item.path !== name);
                 }
                 if (action.tree.payload.removePaths.length !== 0) {
-                    const targetFile = action.tree.payload.removePaths[0];
+                    const targetFile = action.tree.payload.gameDir + '\\' + action.tree.payload.removePaths[0].path;
                     ipcRenderer.send('DELETE_FILE', targetFile);
                     ipcRenderer.once('DELETED_FILE', (err, args) => {
                         if (args === false) {
@@ -298,8 +321,9 @@ const { ipcRenderer } = window.require('electron');
                             const newAction = new FileSystemActions.DeleteFiles();
                             action.tree.payload = {
                                 ...action.tree.payload,
-                                removePaths: filterPathName(action.tree.payload.removePaths, action.tree.payload.removePaths[0])
+                                removePaths: filterPathName(action.tree.payload.removePaths, action.tree.payload.removePaths[0].path)
                             };
+                            newAction.tree = action.tree;
                             this.store.dispatch(newAction);
                         }
                     });

@@ -20,6 +20,11 @@ function bubbleSortByLoadOrderPos(arr) {
     return arr;
 }
 
+function replaceAll(str , search, replacement) {
+    const target = str;
+    return target.split(search).join(replacement);
+}
+
 export function ModManagerReducer(state = InitializeModManagerState(), action: Action) {
     switch (action.type) {
         case ModManagerActions.VERIFY_MODS: {
@@ -146,6 +151,36 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 };
             }
         }
+        case ModManagerActions.ADD_TO_INSTALL_QUE : {
+            const newInstallationQue = [];
+            state.installationQue.map(item => newInstallationQue.push(item));
+            newInstallationQue.push(action);
+            return {
+                ...state,
+                installationQue: newInstallationQue,
+            };
+        }
+        case ModManagerActions.BEGIN_INSTALLATION : {
+            return {
+                ...state,
+                modProcessing: false,
+            };
+        }
+        case ModManagerActions.END_INSTALLATION : {
+            let newInstallationQue = [];
+            if (state.installationQue.length === 1) {
+                newInstallationQue = [];
+            } else {
+                for (let i = 1; i < state.installationQue.length; i++) {
+                    newInstallationQue.push(state.installationQue[i]);
+                }
+            }
+            return {
+                ...state,
+                modProcessing: false,
+                installationQue: newInstallationQue
+            };
+        }
         case ModManagerActions.ADD_MOD_TO_MOD_LIST : {
             let MOD;
             if (action.payload) {
@@ -166,7 +201,12 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     if (!modPathExists) {
                         const archiveNames = state.modList[i].archiveNames;
                         archiveNames.push(MOD.modArchiveName);
-
+                        if (MOD.modArchiveName.indexOf('.rar') > -1) {
+                            MOD.modMap = MOD.modMap.map(path => {
+                                return path
+                                    .split(`D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\${MOD.name}\\`)[1];
+                            });
+                        }
                         const archivePaths = state.modList[i].archivePaths;
                         archivePaths.push(MOD.modArchivePath);
 
@@ -208,6 +248,15 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 }
             }
             if (!modExists) {
+                console.log('SEE RAR', MOD.modArchiveName);
+                if (MOD.modArchiveName.indexOf('.rar') > -1) {
+                    console.log('SEE RAR', MOD.modMap);
+                    MOD.modMap = MOD.modMap.map(path => {
+                        return path.split(`${MOD.modArchiveName.split('.')[0]}/`)[1];
+        // .split(`D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\${MOD.modArchiveName.split('.')[0]}\\`)[1];
+                    });
+                }
+                console.log('SEE RAR', MOD.modMap);
                 const mutatedMOD: Mod = {
                     name: MOD.modTitle,
                     authorLink: MOD.authorLink,
@@ -364,9 +413,10 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         case ModManagerActions.FILTER_MOD_MAP : {
             const mod: Mod = action.tree.payload.mod;
             const modIndexes = action.tree.payload.modIndexes;
-            const newArchivePaths = mod.archiveMaps[modIndexes[1]].filter(path => {
+            let newArchivePaths = mod.archiveMaps[modIndexes[1]].filter(path => {
                 return (path.indexOf('.') > - 1);
             });
+            newArchivePaths = newArchivePaths.map(path => replaceAll(path, '/', '\\'));
             console.log(newArchivePaths);
             action.tree.payload = {
                 ...action.tree.payload,
@@ -442,7 +492,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                         }
                     // }
                 } else { // IF OWNERSHIP DICT DOES NOT HAVE PATH
-                    console.log('NO PATH');
+                    console.log('NO PATH', action.tree.payload.archiveName);
                     newOwnershipDict[paths[i]] = [{
                         owner: action.tree.payload.archiveName,
                         loadOrderPos: action.tree.payload.loadOrderPos,
@@ -450,7 +500,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     }];
                     installArr.push({
                         path: paths[i],
-                        owner: action.tree.payload.modIndex,
+                        owner: action.tree.payload.archiveName,
                         modIndexes: action.tree.payload.modIndexes
                     });
                 }

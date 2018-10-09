@@ -188,6 +188,34 @@ function initIPC(win, ele) {
             }
         });
     });
+    electron_1.ipcMain.on('COPY_MOVE_FILE', function (event, args) {
+        fileSystemManager.io({
+            type: 'COPY_MOVE_FILE',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'COPY_MOVED_FILE': {
+                    event.sender.send('COPY_MOVED_FILE', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
+    electron_1.ipcMain.on('DELETE_FILE', function (event, args) {
+        fileSystemManager.io({
+            type: 'DELETE_FILE',
+            payload: args
+        }, function (action) {
+            switch (action.type) {
+                case 'DELETED_FILE': {
+                    event.sender.send('DELETED_FILE', action.payload);
+                    break;
+                }
+                default: { }
+            }
+        });
+    });
     electron_1.ipcMain.on('DELETE_DIRECTORY', function (event, args) {
         fileSystemManager.io({
             type: 'DELETE_DIRECTORY',
@@ -332,7 +360,7 @@ function initIPC(win, ele) {
     electron_1.ipcMain.on('UNZIP_FILE', function (event, args) {
         fileSystemManager.io({
             type: 'UNZIP_FILE',
-            payload: [args[0], mhwDIR, args[1]]
+            payload: [args[0], args[1]]
         }, function (action) {
             switch (action.type) {
                 case 'UNZIPPED_FILE': {
@@ -352,14 +380,31 @@ function initIPC(win, ele) {
     });
     electron_1.ipcMain.on('UNRAR_FILE', function (event, args) {
         var pathToUnrar = __dirname.split('\\dist\\')[0] + '\\UnRAR.exe';
-        console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        // console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        console.log('UNRAR_FILE', args);
         execFile(pathToUnrar, ['x', args[0], args[1]], function (err, data) {
             console.log('MADE IT INSIDE OF CB');
             if (err) {
+                console.log('send false', err);
                 event.sender.send('UNRARED_FILE', false);
             }
             else {
+                console.log('SEND');
                 event.sender.send('UNRARED_FILE', true);
+            }
+        });
+    });
+    electron_1.ipcMain.on('UN7ZIP_FILE', function (event, args) {
+        var pathToUnrar = __dirname.split('\\dist\\')[0] + '\\7-Zip\\7z.exe';
+        // console.log('UNRAR_FILE: ', pathToUnrar, ['x', args[0], args[1]]);
+        execFile(pathToUnrar, ['x', args[0], args[1]], function (err, data) {
+            console.log('MADE IT INSIDE OF CB');
+            if (err) {
+                console.log(err);
+                event.sender.send('UN7ZIPPED_FILE', false);
+            }
+            else {
+                event.sender.send('UN7ZIPPED_FILE', true);
             }
         });
     });

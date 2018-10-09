@@ -238,11 +238,12 @@ function copyFile(src, dest) {
     const readStream = fs.createReadStream(src);
 
     readStream.once('error', (err) => {
-        process.send('COPY_MOVED_FILE', false);
+        console.log(err);
+        process.send({ type: 'COPY_MOVED_FILE', payload: false});
     });
 
     readStream.once('end', () => {
-        process.send('COPY_MOVED_FILE', true);
+        process.send({ type: 'COPY_MOVED_FILE', payload: true});
     });
 
     readStream.pipe(fs.createWriteStream(dest));
@@ -251,19 +252,20 @@ function copyFile(src, dest) {
 function copyMoveFile(payload) {
     fs.access(payload[1], (err) => {
         if (err) {
-            fs.mkdirSync(payload[1]);
+            console.log(payload);
+            mkdirp.sync(payload[1]);
         }
 
-        copyFile(payload[0] + '\\' + payload[2], payload[1] + '\\' + payload[2]);
+        copyFile(payload[0], payload[1] + '\\' + payload[2]);
     });
 }
 
 function deleteFile(payload) {
     fs.unlink(payload, (err) => {
         if (err) {
-            process.send('DELETED_FILE', false);
+            process.send({ type: 'DELETED_FILE', payload:  false});
         } else {
-            process.send('DELETED_FILE', true);
+            process.send({ type: 'DELETED_FILE', payload: true });
         }
     });
 }
@@ -489,18 +491,11 @@ function view7ZippedContents(payload) {
 
 function unzipFile(payload) {
     const targetDir = payload[0] + '\\modFolder\\temp\\' + payload[1].split('.')[0] + '\\';
-    extract(payload[0], { dir: targetDir }, (err) => {
-        if (err) {
-            process.send({
-                type: 'UNZIPPED_FILE',
-                payload: false
-            });
-        } else {
-            process.send({
-                type: 'UNZIPPED_FILE',
-                payload: targetDir
-            });
-        }
+    const zip = new AdmZip(payload[0] + '\\modFolder\\' + payload[1]);
+    zip.extractAllTo(targetDir, true, true);
+    process.send({
+        type: 'UNZIPPED_FILE',
+        payload: true
     });
 }
 

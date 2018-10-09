@@ -35,8 +35,16 @@ process.on('message', function (action) {
             readDir(action.payload);
             break;
         }
+        case 'DELETE_FILE': {
+            deleteFile(action.payload);
+            break;
+        }
         case 'DELETE_DIRECTORY': {
             deleteDirectory(action.payload);
+            break;
+        }
+        case 'COPY_MOVE_FILE': {
+            copyMoveFile(action.payload);
             break;
         }
         case 'MAP_DIRECTORY': {
@@ -222,6 +230,36 @@ function readDir(payload) {
             ]
         });
     }
+}
+function copyFile(src, dest) {
+    var readStream = fs.createReadStream(src);
+    readStream.once('error', function (err) {
+        console.log(err);
+        process.send({ type: 'COPY_MOVED_FILE', payload: false });
+    });
+    readStream.once('end', function () {
+        process.send({ type: 'COPY_MOVED_FILE', payload: true });
+    });
+    readStream.pipe(fs.createWriteStream(dest));
+}
+function copyMoveFile(payload) {
+    fs.access(payload[1], function (err) {
+        if (err) {
+            console.log(payload);
+            mkdirp.sync(payload[1]);
+        }
+        copyFile(payload[0], payload[1] + '\\' + payload[2]);
+    });
+}
+function deleteFile(payload) {
+    fs.unlink(payload, function (err) {
+        if (err) {
+            process.send({ type: 'DELETED_FILE', payload: false });
+        }
+        else {
+            process.send({ type: 'DELETED_FILE', payload: true });
+        }
+    });
 }
 function getDirContents(src, cb) {
     glob(src + '/**/*', cb);
@@ -429,20 +467,12 @@ function view7ZippedContents(payload) {
     });
 }
 function unzipFile(payload) {
-    var targetDir = payload[1] + '\\modFolder\\temp\\' + payload[2].split('.')[0] + '\\';
-    extract(payload[0], { dir: targetDir }, function (err) {
-        if (err) {
-            process.send({
-                type: 'UNZIPPED_FILE',
-                payload: false
-            });
-        }
-        else {
-            process.send({
-                type: 'UNZIPPED_FILE',
-                payload: targetDir
-            });
-        }
+    var targetDir = payload[0] + '\\modFolder\\temp\\' + payload[1].split('.')[0] + '\\';
+    var zip = new AdmZip(payload[0] + '\\modFolder\\' + payload[1]);
+    zip.extractAllTo(targetDir, true, true);
+    process.send({
+        type: 'UNZIPPED_FILE',
+        payload: true
     });
 }
 function showProgress(received, total) {

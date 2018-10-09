@@ -149,13 +149,6 @@ export class FilterModMap implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
-export const FILTER_INSTALLED_DEPENDENCY = '[ModManager] FILTER_INSTALLED_DEPENDENCY';
-
-export class FilterInstalledDependency implements Action {
-    readonly type = FILTER_INSTALLED_DEPENDENCY;
-    constructor(public tree: ActionTree = null) { }
-}
-
 export const VERIFY_AGAINST_OWNERSHIP_DICT = '[ModManager] VERIFY_AGAINST_OWNERSHIP_DICT';
 
 export class VerifyAgainstOwnershipDict implements Action {
@@ -167,6 +160,27 @@ export const PREP_DEPENDENCIES = '[ModManager] PREP_DEPENDENCIES';
 
 export class PrepDependencies implements Action {
     readonly type = PREP_DEPENDENCIES;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const FILTER_UNPACKED_DEPENDENCIES = '[ModManager] FILTER_UNPACKED_DEPENDENCIES';
+
+export class FilterUnpackedDependencies implements Action {
+    readonly type = FILTER_UNPACKED_DEPENDENCIES;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const BEGIN_INSTALLATION = '[ModManager] BEGIN_INSTALLATION';
+
+export class BeginInstallation implements Action {
+    readonly type = BEGIN_INSTALLATION;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const END_INSTALLATION = '[ModManager] END_INSTALLATION';
+
+export class EndInstallation implements Action {
+    readonly type = END_INSTALLATION;
     constructor(public tree: ActionTree = null) { }
 }
 
@@ -209,4 +223,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
-    AddToInstallQue | FilterInstalledDependency;
+    AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation;
