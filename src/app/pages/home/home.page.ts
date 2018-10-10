@@ -12,8 +12,10 @@ import { PopoverController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  mhwDirectoryPath: any = 'Maybe something';
+  mhwDirectoryPath: any = null;
   mhwDirectoryMap: any = [];
+  haltedAction: any = null;
+  ready = false;
 
   downloadManagerItems: any = [];
 
@@ -37,6 +39,13 @@ export class HomePage implements OnInit {
   activeLoadOrderItem = null;
   activeLoadOrderIndex = 0;
 
+  ExplorerButton: HTMLElement;
+  @ViewChild('explorerButton')
+  set explorerButton(ele) {
+    setTimeout(() => {
+      this.ExplorerButton = ele.nativeElement;
+    }, 500);
+  }
   PlayButton: HTMLElement;
   @ViewChild('playButton')
   set playButton(ele) {
@@ -67,6 +76,14 @@ export class HomePage implements OnInit {
     ) {
   }
   ngOnInit(): void {
+    this.store.select(state => state.MainState.ready).subscribe(val => {
+      this.ready = val;
+      this.cdr.detectChanges();
+    });
+    this.store.select(state => state.MainState.haltedAction).subscribe(val => {
+      this.haltedAction = val;
+      this.cdr.detectChanges();
+    });
     this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
       this.mhwDirectoryPath = val;
       this.cdr.detectChanges();
@@ -112,6 +129,7 @@ export class HomePage implements OnInit {
     this.store.dispatch(new MainActions.CloseWindow());
   }
   ripple($event, elem, id) {
+    console.log(elem, id);
     const pageX = $event.clientX;
     const pageY = $event.clientY;
     // const buttonY = pageY - elem.offsetTop;
@@ -136,11 +154,11 @@ export class HomePage implements OnInit {
       this.renderer.removeChild(eleRef, ripplePlay);
     }, 1000);
   }
-  getMhwDirPath() {
-    if (this.mhwDirectoryPath === null) {
-      return 'No game path set.';
-    } else {
-      return this.mhwDirectoryPath;
+  getMhwDirPath($event) {
+    if (this.haltedAction !== null) {
+      this.ripple($event, this.ExplorerButton, 'find-dir');
+      this.store.dispatch(this.haltedAction.tree.success());
+      console.log(this.haltedAction);
     }
   }
   play($event) {

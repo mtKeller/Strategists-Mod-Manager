@@ -109,3 +109,47 @@ export function PrepDependencies(
     console.log(ActionTreeInstallDependencies);
     return ActionTreeInstallDependencies;
 }
+
+export function PrepRemoval(
+    store: Store<any>,
+    mod: Mod,
+    modIndexes: Array<number>) {
+    const ActionNodeEndProcessing: ActionNode = {
+        initAction: new ModManagerActions.ModProcessed(),
+        successNode: null
+    };
+    const ActionNodePrepDependencies: ActionNode = {
+        initAction: new ModManagerActions.PrepDependencies(),
+        successNode: ActionNodeEndProcessing
+    };
+    const ActionNodeRemoveFromOwnershipDict: ActionNode = {
+        initAction: new ModManagerActions.RemoveModFromOwnershipDict(),
+        successNode: ActionNodePrepDependencies,
+    };
+    const ActionNodeFilterModMap: ActionNode = {
+        initAction: new ModManagerActions.FilterModMap(),
+        successNode: ActionNodeRemoveFromOwnershipDict,
+    };
+    const ActionNodeBeginModProcessing: ActionNode = {
+        initAction: new ModManagerActions.BeginModProcessing(),
+        successNode: ActionNodeFilterModMap,
+        payload: mod.archiveNames[modIndexes[1]]
+    };
+    const ActionNodeAddModToProcessingQue: ActionNode = {
+        initAction: new ModManagerActions.AddModToProcessingQue(),
+        successNode: ActionNodeBeginModProcessing,
+    };
+    const ActionTreeParam: ActionTreeParams = {
+        actionNode: ActionNodeAddModToProcessingQue,
+        payload: {
+            mod: mod,
+            archiveName: mod.archiveNames[modIndexes[1]],
+            modIndexes: modIndexes,
+            installPaths: [],
+            removePaths: []
+        },
+        store: store
+    };
+    const ActionTreePrepRemoval: ActionTree = new ActionTree(ActionTreeParam);
+    return ActionTreePrepRemoval;
+}

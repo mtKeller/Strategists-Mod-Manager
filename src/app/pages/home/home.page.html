@@ -96,6 +96,17 @@
       </div>
     </div>
   </div>
+  <div class="no-game-dir" [ngClass]="{'hidden-explorer': this.ready !== false}">
+    <img src="assets/Ripple.svg" alt="loading" [ngClass]="{'hidden-explorer': this.ready !== false && this.mhwDirectoryPath === null}">
+    <div [ngClass]="{'hidden-explorer': this.mhwDirectoryPath !== null}">
+      <h1>FIRST LOAD</h1>
+      <h2>Please find your Monster Hunter World Directory...</h2>
+      <button id="find-dir" class="ripple" #explorerButton (click)='this.getMhwDirPath($event)'>
+        OPEN FILE EXPLORER
+        <ion-icon name="folder"></ion-icon>
+      </button>
+    </div>
+  </div>
   <div class="spotlight"></div>
 </ion-content>
 

@@ -88,16 +88,20 @@ const { ipcRenderer } = window.require('electron');
                     successNode: ActionNodeGetMhwDirPathSuccess,
                     failureNode: null
                 };
+                const ActionNodeHaltAction: ActionNode = {
+                    initAction: new MainActions.HaltAction(),
+                    successNode: ActionNodeGetMhwDirPath
+                };
                 // TIER 3
                 const ActionNodeWriteFileSuccess: ActionNode = {
                     initAction: new FileSystemActions.WriteFileSuccess(),
-                    successNode: ActionNodeGetMhwDirPath,
+                    successNode: ActionNodeHaltAction,
                     failureNode: null
                 };
                 const ActionNodeLoadStateSuccess: ActionNode = {
                     initAction: new MainActions.LoadStateSuccess(),
                     successNode: ActionNodeInitDirWatch,
-                    failureNode: ActionNodeGetMhwDirPath
+                    failureNode: ActionNodeHaltAction
                 };
                 // TIER 2
                 const ActionNodeReadFilesSuccess: ActionNode = {

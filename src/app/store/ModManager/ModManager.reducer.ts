@@ -426,6 +426,62 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 ...state
             };
         }
+        case ModManagerActions.REMOVE_MOD_FROM_OWNERSHIP_DICT : {
+            const payload = action.tree.payload.modIndexes;
+            const OwnershipPaths = Object.keys(state.ownedPathDict);
+            let newOwnedPathDict = {};
+            const installArr = [];
+            const removeArr = [];
+            for (let i = 0; i < OwnershipPaths.length; i++) {
+                const filteredOwners = state.ownedPathDict[OwnershipPaths[i]]
+                    .filter(path => {
+                    if (path.modIndex[0] !== payload[0] && path.modIndex[1] !== payload[1]) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                if (filteredOwners.length !== 0) {
+                    const newEntry = {};
+                    newEntry[OwnershipPaths[i]] = filteredOwners;
+                    newOwnedPathDict = {
+                        ...newOwnedPathDict,
+                        ...newEntry
+                    };
+                }
+            }
+            for (let i = 0; i < OwnershipPaths.length; i++) {
+                if (newOwnedPathDict.hasOwnProperty(OwnershipPaths[i])) {
+                    if (newOwnedPathDict[OwnershipPaths[i]][0].owner !== state.ownedPathDict[OwnershipPaths[i]][0].owner) {
+                        removeArr.push({
+                            path : OwnershipPaths[i],
+                            owner : state.ownedPathDict[OwnershipPaths[i]][0].owner,
+                            modIndexes : state.ownedPathDict[OwnershipPaths[i]][0].modIndexes,
+                        });
+                        installArr.push({
+                            path : OwnershipPaths[i],
+                            owner : newOwnedPathDict[OwnershipPaths[i]][0].owner,
+                            modIndexes: newOwnedPathDict[OwnershipPaths[i]][0].modIndexes
+                        });
+                    }
+                } else {
+                    removeArr.push({
+                        path : OwnershipPaths[i],
+                        owner : state.ownedPathDict[OwnershipPaths[i]][0].owner,
+                        modIndexes : state.ownedPathDict[OwnershipPaths[i]][0].modIndexes,
+                    });
+                }
+            }
+            action.tree.payload = {
+                ...action.tree.payload,
+                installPaths: installArr,
+                removePaths: removeArr
+            };
+            return {
+                ...state,
+                ownedPathDict: newOwnedPathDict
+            };
+        }
         case ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT : {
             const newOwnershipDict = {
                 ...state.ownedPathDict
@@ -454,25 +510,6 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             }
             for (let i = 0; i < paths.length; i++) {
                 if (newOwnershipDict.hasOwnProperty(paths[i])) {
-                    // IF PAYLOAD IS NEW OWNER
-                    // if (newOwnershipDict[paths[i]][0].owner !== action.tree.payload.archiveName &&
-                    //     newOwnershipDict[paths[i]][0].loadOrderPos > action.tree.payload.loadOrderPos) {
-                    //     console.log('ENTRY');
-                    //     const newOwnership = [{
-                    //         owner: action.tree.payload.archiveName,
-                    //         loadOrderPos: action.tree.payload.loadOrderPos,
-                    //         modIndexes: action.tree.payload.modIndexes
-                    //     }];
-                    //     for (let j = 0; j < newOwnershipDict[paths[i]]; j++) {
-                    //         if (newOwnershipDict[paths[i]][j].owner !== newOwnership[0].owner) {
-                    //             newOwnership.push(newOwnershipDict[paths[i]][j]);
-                    //         }
-                    //     }
-                    //     newOwnershipDict[paths[i]] = newOwnership;
-                    // } else if (newOwnershipDict[paths[i]][0].owner === action.tree.payload.archiveName && // IF SAME OWNER AND POS
-                    //     newOwnershipDict[paths[i]][0].loadOrderPos === action.tree.payload.loadOrderPos) { // DO JACK SHIT
-                    //         console.log('JACK SHIT');
-                    // } else { // IF PAYLOAD OWNS PATH BUT IS NOT CURRENT OWNER
                         for (let j = 0; j < newOwnershipDict[paths[i]].length; j++) { // AND IF CHANGE IN LOAD ORDER POS
                             const currentOwnershipEntry = newOwnershipDict[paths[i]];
                             let newOwnershipDictEntry = [];

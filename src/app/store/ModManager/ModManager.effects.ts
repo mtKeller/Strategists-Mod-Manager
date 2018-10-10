@@ -11,7 +11,7 @@ import * as ModManagerActions from './ModManager.actions';
 import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerActions from '../DownloadManager/DownloadManager.actions';
 import { SaveStateTree } from '../Main/Main.tree';
-import { PrepInstallation, PrepDependencies } from './ModManager.tree';
+import { PrepInstallation, PrepDependencies, PrepRemoval } from './ModManager.tree';
 
 function replaceAll(str , search, replacement) {
     const target = str;
@@ -473,6 +473,19 @@ function replaceAll(str , search, replacement) {
                 return preppedInstallationTree.begin();
             });
     @Effect()
+        ModManagerRemoveModFromLoadOrder$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER)
+            .map(action => {
+                console.log('REMOVE FROM LOAD ORDER', action.payload, this.modList);
+                const preppedRemovalTree = PrepRemoval(
+                    this.store,
+                    this.modList[action.payload[0]],
+                    action.payload,
+                );
+                console.log(preppedRemovalTree);
+                return preppedRemovalTree.begin();
+            });
+    @Effect()
         ModManagerFilterUnpackedDependencies$: Observable<any> = this.actions$
             .ofType(ModManagerActions.FILTER_UNPACKED_DEPENDENCIES)
             .map(action => {
@@ -540,6 +553,8 @@ function replaceAll(str , search, replacement) {
         ModManagerEndInstallation$: Observable<any> = this.actions$
             .ofType(ModManagerActions.END_INSTALLATION)
             .map(action => {
+                const SaveState = SaveStateTree(this.store);
+                SaveState.init();
                 return action.tree.success();
             });
     @Effect()

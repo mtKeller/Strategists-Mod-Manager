@@ -20,6 +20,13 @@ export class Play implements Action {
     readonly type = PLAY;
 }
 
+export const HALT_ACTION = '[MAIN] HALT_ACTION';
+
+export class HaltAction implements Action {
+    readonly type = HALT_ACTION;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const OPEN_MOD_NEXUS = '[MAIN] OPEN_MOD_NEXUS';
 
 export class OpenModNexus implements Action {
@@ -135,4 +142,4 @@ export class MainFailed implements Action {
 export type All = InitApp | InitAppSuccess | CloseWindow | SaveState | MainSuccess | MainFailed |
     GetMhwDirectoryPath | GetMhwDirectoryPathSuccess | GetMhwDirectoryPathFailed | InitDirWatch |
     SetMhwMappedDir | DirWatchEmit | Play | OpenModNexus | InitModManager | OpenMhwDirectory |
-    MinimizeWindow;
+    MinimizeWindow | HaltAction;

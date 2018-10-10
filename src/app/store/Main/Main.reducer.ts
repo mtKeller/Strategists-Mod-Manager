@@ -31,6 +31,12 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
                 loading: true
             };
         }
+        case MainActions.HALT_ACTION: {
+            return {
+                ...state,
+                haltedAction: action
+            };
+        }
         case MainActions.LOAD_STATE_SUCCESS: {
             // console.log(action.tree.payload);
             const storedState = action.tree.payload;
@@ -61,6 +67,12 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
                 ...state,
                 loading: false,
                 mhwDirectoryMap: action.tree.payload
+            };
+        }
+        case MainActions.INIT_MOD_MANAGER: {
+            return {
+                ...state,
+                ready: true
             };
         }
         default: {

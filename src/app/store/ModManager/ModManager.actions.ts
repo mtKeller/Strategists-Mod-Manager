@@ -156,6 +156,13 @@ export class VerifyAgainstOwnershipDict implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const REMOVE_MOD_FROM_OWNERSHIP_DICT = '[ModManager] REMOVE_MOD_FROM_OWNERSHIP_DICT';
+
+export class RemoveModFromOwnershipDict implements Action {
+    readonly type = REMOVE_MOD_FROM_OWNERSHIP_DICT;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const PREP_DEPENDENCIES = '[ModManager] PREP_DEPENDENCIES';
 
 export class PrepDependencies implements Action {
@@ -223,4 +230,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
-    AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation;
+    AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict;
