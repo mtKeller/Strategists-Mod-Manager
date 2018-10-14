@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import '../../helpers/rxjs-operators';
 import * as FileSystemActions from './FileSystem.actions';
 import { InitApp } from '../Main/Main.actions';
-import { Observer } from 'rx';
 
 const fs = window.require('mz/fs');
 const { ipcRenderer } = window.require('electron');

@@ -163,7 +163,7 @@ export class HomePage implements OnInit {
   }
   play($event) {
     this.ripple($event, this.PlayButton, 'play-button');
-    // this.store.dispatch(new MainActions.Play());
+    this.store.dispatch(new MainActions.Play());
     console.log(this.galleryOpen);
   }
   launchWideScreenFix() {

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Browser</title>
     <!-- <link rel="stylesheet" href="css/css/font-awesome.css"> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <script src="https://unpkg.com/ionicons@4.4.4/dist/ionicons.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <style>
           webview {
@@ -16,27 +17,19 @@
   <body id="browser">
     <nav id="navigation">
       <div id="back">
-        <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        <ion-icon name="arrow-back"></ion-icon>
       </div>
       <div id="forward">
-        <i class="fa fa-arrow-right" aria-hidden="true"></i>
+        <ion-icon name="arrow-forward"></ion-icon>
       </div>
       <div id="refresh">
-        <i class="fa fa-refresh" aria-hidden="true"></i>
+        <ion-icon name="refresh"></ion-icon>
       </div>
       <div id="omnibox">
         <input onClick="this.setSelectionRange(0, this.value.length)" type="text" id="url" readonly>
       </div>
-      <div id="fave">
-        <i class="fa fa-star" aria-hidden="true"></i>
-      </div>
-      <div id="fave-popup" data-state="closed">
-      </div>
-      <div id="list">
-        <i class="fa fa-list" aria-hidden="true"></i>
-      </div>
       <div id="console">
-        <i class="fa fa-terminal" aria-hidden="true"></i>
+        <ion-icon name="construct"></ion-icon>
       </div>
     </nav>
       <div id="views">

@@ -447,17 +447,16 @@ function initIPC(win, ele) {
                     title: 'Mod Nexus: Monster Hunter World',
                     webPreferences: {
                         nativeWindowOpen: true,
-                        preload: __dirname + '\\scrapeModDetails.js'
                     }
                 });
-                childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
+                // childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
                 // console.log(__dirname);
-                // const pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
-                // childWindow.loadURL(url.format({
-                //     pathname: pathToIndex,
-                //     protocol: 'file:',
-                //     slashes: true
-                // }));
+                var pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
+                childWindow.loadURL(url.format({
+                    pathname: pathToIndex,
+                    protocol: 'file:',
+                    slashes: true
+                }));
                 childWindow.once('ready-to-show', function () {
                     childWindow.show();
                 });
@@ -465,12 +464,17 @@ function initIPC(win, ele) {
                     childWindow = null;
                 });
                 childWindow.webContents.session.on('will-download', function (even, item, webContents) {
-                    item.cancel();
                     childWindow.webContents.send('SCRAPE_MOD_DETAILS', null);
+                    console.log('HIT');
+                    var itemURL = item.getURL();
+                    var itemFileName = item.getFilename();
+                    item.cancel();
                     electron_1.ipcMain.once('STORE_MOD_DETAILS', function (eve, payload) {
-                        if (args !== null && args !== undefined) {
+                        console.log('STORE_MOD_DETAILS TRIGGERED');
+                        if (payload !== null && payload !== undefined) {
+                            console.log('CHECK', payload.modDescription);
                             modDetails = payload;
-                            downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
+                            downloadFile(itemURL, mhwDIR + '\\modFolder\\' + itemFileName, itemFileName);
                         }
                     });
                 });
