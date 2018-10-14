@@ -8,7 +8,8 @@ const glob = require('glob');
 const extract = require('extract-zip');
 const AdmZip = require('adm-zip');
 const rimraf = require('rimraf');
-const { execFile } = require('child_process');
+const { execFile, exec } = require('child_process');
+const copy = require('copy');
 
 process.on('message', (action) => {
     switch (action.type) {
@@ -234,19 +235,57 @@ function readDir(payload) {
 }
 
 function copyFile(src, dest) {
-
-    const readStream = fs.createReadStream(src);
-
-    readStream.once('error', (err) => {
-        console.log(err);
-        process.send({ type: 'COPY_MOVED_FILE', payload: false});
+    console.log(src, dest);
+    fs.copyFile(src, dest, (err) => {
+        if (err) {
+            console.log('ERROR COPYING', src, dest, err);
+            process.send({ type: 'COPY_MOVED_FILE', payload: false});
+        } else {
+            process.send({ type: 'COPY_MOVED_FILE', payload: true});
+        }
     });
+    // copy.one(src, dest, (err, file) => {
+    //     if (err) {
+    //         console.log(err);
+    //         process.send({ type: 'COPY_MOVED_FILE', payload: false});
+    //     } else {
+    //         console.log(file);
+    //         process.send({ type: 'COPY_MOVED_FILE', payload: true});
+    //     }
+    // });
+    // exec(`copy "${src}" "${dest}"`, null, (err, stdout, stderr) => {
+    //     if (err) {
+    //         console.log(stderr);
+    //         process.send({ type: 'COPY_MOVED_FILE', payload: false});
+    //     } else {
+    //         console.log(stdout);
+    //         process.send({ type: 'COPY_MOVED_FILE', payload: true});
+    //     }
+    // });
+    // const readStream = fs.createReadStream(src);
 
-    readStream.once('end', () => {
-        process.send({ type: 'COPY_MOVED_FILE', payload: true});
-    });
+    // readStream.once('error', (err) => {
+    //     console.log(err);
+    //     const fileSize = fs.statSync(dest).size;
+    //     if (fileSize < 100) {
+    //         readStream.close();
+    //         console.log('File has no size', fileSize);
+    //         copyFile(src, dest);
+    //     }
+    // });
 
-    readStream.pipe(fs.createWriteStream(dest));
+    // readStream.once('end', () => {
+    //     const fileSize = fs.statSync(dest).size;
+    //     if (fileSize < 100) {
+    //         readStream.close();
+    //         console.log('File has no size', fileSize);
+    //         copyFile(src, dest);
+    //     } else {
+    //         process.send({ type: 'COPY_MOVED_FILE', payload: true});
+    //     }
+    // });
+
+    // readStream.pipe(fs.createWriteStream(dest));
 }
 
 function copyMoveFile(payload) {
@@ -491,12 +530,26 @@ function view7ZippedContents(payload) {
 
 function unzipFile(payload) {
     const targetDir = payload[0] + '\\modFolder\\temp\\' + payload[1].split('.')[0] + '\\';
-    const zip = new AdmZip(payload[0] + '\\modFolder\\' + payload[1]);
-    zip.extractAllTo(targetDir, true, true);
-    process.send({
-        type: 'UNZIPPED_FILE',
-        payload: true
+    extract(payload[0] + '\\modFolder\\' + payload[1], {dir: targetDir}, function(err) {
+        if (err) {
+            console.log(err);
+            process.send({
+                type: 'UNZIPPED_FILE',
+                payload: false
+            });
+        } else {
+            process.send({
+                type: 'UNZIPPED_FILE',
+                payload: true
+            });
+        }
     });
+    // const zip = new AdmZip(payload[0] + '\\modFolder\\' + payload[1]);
+    // zip.extractAllTo(targetDir, true, true);
+    // process.send({
+    //     type: 'UNZIPPED_FILE',
+    //     payload: true
+    // });
 }
 
 function showProgress(received, total) {

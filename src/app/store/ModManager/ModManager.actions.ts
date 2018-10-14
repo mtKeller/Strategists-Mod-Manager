@@ -184,6 +184,13 @@ export class BeginInstallation implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const DELETE_TEMP = '[ModManager] DELETE_TEMP';
+
+export class DeleteTemp implements Action {
+    readonly type = DELETE_TEMP;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const END_INSTALLATION = '[ModManager] END_INSTALLATION';
 
 export class EndInstallation implements Action {
@@ -230,4 +237,5 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
-    AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict;
+    AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict |
+    DeleteTemp;

@@ -53,7 +53,7 @@ export class ForkFileSystemManager {
             // console.log(adjective);
             forkState.blocked = false;
             cb(adjective);
-            // this.reduce();
+            this.reduce();
         });
     }
     kill() {

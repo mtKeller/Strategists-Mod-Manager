@@ -450,6 +450,7 @@ function initIPC(win, ele) {
                     }
                 });
                 // childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
+                // console.log(__dirname);
                 var pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
                 childWindow.loadURL(url.format({
                     pathname: pathToIndex,
@@ -463,8 +464,19 @@ function initIPC(win, ele) {
                     childWindow = null;
                 });
                 childWindow.webContents.session.on('will-download', function (even, item, webContents) {
-                    downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
+                    childWindow.webContents.send('SCRAPE_MOD_DETAILS', null);
+                    console.log('HIT');
+                    var itemURL = item.getURL();
+                    var itemFileName = item.getFilename();
                     item.cancel();
+                    electron_1.ipcMain.once('STORE_MOD_DETAILS', function (eve, payload) {
+                        console.log('STORE_MOD_DETAILS TRIGGERED');
+                        if (payload !== null && payload !== undefined) {
+                            console.log('CHECK', payload.modDescription);
+                            modDetails = payload;
+                            downloadFile(itemURL, mhwDIR + '\\modFolder\\' + itemFileName, itemFileName);
+                        }
+                    });
                 });
             };
             createChildWindow();

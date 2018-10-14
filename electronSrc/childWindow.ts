@@ -1,5 +1,6 @@
 import { WebviewTag, ipcRenderer } from 'electron';
 
+
 const webView = document.getElementsByTagName('webview')[0];
 console.log(webView, __dirname);
 
@@ -32,9 +33,6 @@ const back = ById('back'),
     refresh = ById('refresh'),
     urlBar = ById('url') as HTMLInputElement,
     dev = ById('console'),
-    fave = ById('fave'),
-    list = ById('list'),
-    popup = ById('fave-popup'),
     view: WebviewTag = ById('view') as WebviewTag;
 
 function reloadView () {
@@ -47,15 +45,6 @@ function backView () {
 
 function forwardView () {
     view.goForward();
-}
-
-function onMouseDown (event) {
-    console.log('MOUSEDOWN', event);
-    if (event.button === 4) {
-        view.goForward();
-    } else if (event.button === 3) {
-        view.goBack();
-    }
 }
 
 function updateURL (event) {
@@ -96,25 +85,19 @@ function updateNav (event) {
     urlBar.value = view.src;
 }
 
-function detectModPage () {
-    // console.log('HIT', urlBar.value.indexOf('/mods/'));
-    if ( urlBar.value.indexOf('/mods/') > -1) {
-        // console.log((urlBar.value.split('/mods/'))[1], (urlBar.value.split('/mods/'))[1].length);
-        if (urlBar.value.split('/mods/')[1].length > 0 && Number(urlBar.value.split('/mods/')[1].split('/')[0]) === NaN
-            || urlBar.value.split('/mods/')[1].indexOf('/') === -1 ) {
-            // console.log('HIT', Number(urlBar.value.split('/mods/')[1].split('/')[0]) === NaN);
-            ipcRenderer.send('FOUND_MOD_PAGE', urlBar.value);
-        }
+setInterval(() => {
+    if (view.src !== undefined) {
+        urlBar.value = 'LOADING';
     }
-}
+    urlBar.value = view.src;
+}, 400);
 
-setInterval(detectModPage, 100);
+// setInterval(detectModPage, 100);
 
 refresh.addEventListener('click', reloadView);
 back.addEventListener('click', backView);
 forward.addEventListener('click', forwardView);
-urlBar.addEventListener('keydown', updateURL);
-popup.addEventListener('click', handleUrl);
+// urlBar.addEventListener('keydown', updateURL);
 dev.addEventListener('click', handleDevtools);
-view.addEventListener('did-finish-load', updateNav);
+// view.addEventListener('did-finish-load', updateNav);
 // view.addEventListener(', onMouseDown);

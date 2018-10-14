@@ -28,7 +28,7 @@ function replaceAll(str , search, replacement) {
     processingQue: Array<any>;
     installationQue: Array<any>;
     modProcessing: boolean;
-
+    tempHasContent = false;
     constructor(private actions$: Actions, private store: Store<any> ) {
         this.store.select(state => state.ModManagerState.modFolderMap).subscribe(val => {
             if (val) {
@@ -60,13 +60,22 @@ function replaceAll(str , search, replacement) {
             this.modProcessing = val;
         });
         setInterval(() => {
-            if (!this.modProcessing && this.processingQue.length !== 0) {
+            if (!this.modProcessing && this.processingQue.length !== 0
+                ) {
                 this.store.dispatch(this.processingQue[0].action.tree.success());
+                this.tempHasContent = true;
             } else if (!this.modProcessing && this.processingQue.length === 0 &&
                 this.installationQue.length !== 0
                 ) {
                 this.store.dispatch(this.installationQue[0].tree.success());
+                this.tempHasContent = true;
             }
+            // } else if (this.processingQue.length === 0 && this.installationQue.length === 0 &&
+            //     this.tempHasContent && !this.modProcessing
+            //     ) {
+            //     this.store.dispatch(new ModManagerActions.DeleteTemp());
+            //     this.tempHasContent = false;
+            // }
         }, 1000);
     }
     @Effect()
@@ -127,14 +136,14 @@ function replaceAll(str , search, replacement) {
                     initAction: new ModManagerActions.ModProcessed(),
                     successNode: null,
                 };
-                // const ActionNodeDeleteModDetailFromDownload: ActionNode = {
-                //     initAction: new ModManagerActions.RemoveModDetail(),
-                //     successNode: ActionNodeModProcessed,
-                //     payload: action.payload.modArchiveName
-                // };
+                const ActionNodeDeleteModDetailFromDownload: ActionNode = {
+                    initAction: new ModManagerActions.RemoveModDetail(),
+                    successNode: ActionNodeModProcessed,
+                    payload: action.payload.modArchiveName
+                };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
                     initAction: new DownloadManagerActions.RemoveDownloadItem(),
-                    successNode: ActionNodeModProcessed,
+                    successNode: ActionNodeDeleteModDetailFromDownload,
                     payload: action.payload.modArchiveName
                 };
                 const ActionNodeUpdateProgress100: ActionNode = {
@@ -229,14 +238,14 @@ function replaceAll(str , search, replacement) {
                     initAction: new ModManagerActions.ModProcessed(),
                     successNode: null,
                 };
-                // const ActionNodeDeleteModDetailFromDownload: ActionNode = {
-                //     initAction: new ModManagerActions.RemoveModDetail(),
-                //     successNode: ActionNodeModProcessed,
-                //     payload: action.payload.modArchiveName
-                // };
+                const ActionNodeDeleteModDetailFromDownload: ActionNode = {
+                    initAction: new ModManagerActions.RemoveModDetail(),
+                    successNode: ActionNodeModProcessed,
+                    payload: action.payload.modArchiveName
+                };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
                     initAction: new DownloadManagerActions.RemoveDownloadItem(),
-                    successNode: ActionNodeModProcessed,
+                    successNode: ActionNodeDeleteModDetailFromDownload,
                     payload: action.payload.modArchiveName
                 };
                 // UPDATE PROGRESS TO 100
@@ -288,14 +297,14 @@ function replaceAll(str , search, replacement) {
                     initAction: new ModManagerActions.ModProcessed(),
                     successNode: null,
                 };
-                // const ActionNodeDeleteModDetailFromDownload: ActionNode = {
-                //     initAction: new ModManagerActions.RemoveModDetail(),
-                //     successNode: ActionNodeModProcessed,
-                //     payload: action.payload.modArchiveName
-                // };
+                const ActionNodeDeleteModDetailFromDownload: ActionNode = {
+                    initAction: new ModManagerActions.RemoveModDetail(),
+                    successNode: ActionNodeModProcessed,
+                    payload: action.payload.modArchiveName
+                };
                 const ActionNodeDeleteDownloadItem: ActionNode = {
                     initAction: new DownloadManagerActions.RemoveDownloadItem(),
-                    successNode: ActionNodeModProcessed,
+                    successNode: ActionNodeDeleteModDetailFromDownload,
                     payload: action.payload.modArchiveName
                 };
                 // UPDATE PROGRESS TO 100
@@ -521,6 +530,26 @@ function replaceAll(str , search, replacement) {
                 } else {
                     return action.tree.success();
                 }
+            });
+    @Effect()
+        ModManagerDeleteTemp = this.actions$
+            .ofType(ModManagerActions.DELETE_TEMP)
+            .map(action => {
+                const ActionNodeCreateModdingDirectories: ActionNode = {
+                    initAction: new FileSystemActions.CreateModdingDirectories(),
+                    successNode: null
+                };
+                const ActionNodeDeleteTemp: ActionNode = {
+                    initAction: new FileSystemActions.DeleteDirectory,
+                    successNode: ActionNodeCreateModdingDirectories
+                };
+                const ActionTreeParam: ActionTreeParams = {
+                    actionNode: ActionNodeDeleteTemp,
+                    store: this.store,
+                    payload: this.mhwDIR + '\\modFolder\\temp\\**\\*'
+                };
+                const ActionTreeRefreshTemp: ActionTree = new ActionTree(ActionTreeParam);
+                return ActionTreeRefreshTemp.begin();
             });
     @Effect()
         ModManagerFilterModMaps$: Observable<any> = this.actions$

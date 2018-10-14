@@ -35,11 +35,12 @@ var ForkFileSystemManager = /** @class */ (function () {
         forked.send(action);
     };
     ForkFileSystemManager.prototype.on = function (forkState, cb) {
+        var _this = this;
         forkState.fork.on('message', function (adjective) {
             // console.log(adjective);
             forkState.blocked = false;
             cb(adjective);
-            // this.reduce();
+            _this.reduce();
         });
     };
     ForkFileSystemManager.prototype.kill = function () {

@@ -509,10 +509,11 @@ export function initIPC(win, ele) {
                     title: 'Mod Nexus: Monster Hunter World',
                     webPreferences : {
                         nativeWindowOpen: true,
-                        // nodeIntegration: false
+                        // preload: __dirname + '\\scrapeModDetails.js'
                     }
                 });
                 // childWindow.loadURL('https://www.nexusmods.com/monsterhunterworld');
+                // console.log(__dirname);
                 const pathToIndex = __dirname.split('\\dist\\')[0] + '\\electronSrc\\index.html';
                 childWindow.loadURL(url.format({
                     pathname: pathToIndex,
@@ -526,8 +527,19 @@ export function initIPC(win, ele) {
                     childWindow = null;
                 });
                 childWindow.webContents.session.on('will-download', (even, item, webContents) => {
-                    downloadFile(item.getURL(), mhwDIR + '\\modFolder\\' + item.getFilename(), item.getFilename());
+                    childWindow.webContents.send('SCRAPE_MOD_DETAILS', null);
+                    console.log('HIT');
+                    const itemURL = item.getURL();
+                    const itemFileName = item.getFilename();
                     item.cancel();
+                    ipcMain.once('STORE_MOD_DETAILS', (eve, payload) => {
+                        console.log('STORE_MOD_DETAILS TRIGGERED');
+                        if (payload !== null && payload !== undefined) {
+                            console.log('CHECK', payload.modDescription);
+                            modDetails = payload;
+                            downloadFile(itemURL, mhwDIR + '\\modFolder\\' + itemFileName, itemFileName);
+                        }
+                    });
                 });
             };
             createChildWindow();

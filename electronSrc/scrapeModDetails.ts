@@ -1,14 +1,25 @@
 import { WebviewTag } from 'electron';
-
+// import $ from 'jquery';
 declare global {
-    interface Window { require: any; }
+    interface Window {
+        require: any;
+        $: any;
+        jQuery: any;
+    }
+    function $(target: any);
 }
 
 const { ipcRenderer } = require('electron');
 
 console.log('SOMETHING HERE');
 
-export function scrapeModDetails(modUrl) {
+// window.addEventListener('load', ()  => {
+//     window.$ = window.jQuery = require('jquery');
+//     console.log('loaded');
+// });
+
+export function scrapeModDetails() {
+    console.log('HIT');
     const pageTitle = document.getElementById('pagetitle') as HTMLElement;
     const fileInfo = document.getElementById('fileinfo') as HTMLElement;
     const pageTitleChildren = pageTitle.children;
@@ -20,43 +31,50 @@ export function scrapeModDetails(modUrl) {
     const authorLink = fileInfoChildren[4].children[1].getAttribute('href');
     const modTitle = pageTitleChildren[1].innerHTML;
     const modThumbs = [];
-
+    let modDescription = null;
     for (let i = 0; i < thumbGalleryChildren.length; i++) {
         modThumbs.push(thumbGalleryChildren[i].children[0].children[0].children[0].getAttribute('src'));
     }
 
-    ipcRenderer.send('STORE_MOD_DETAILS', {
-        modUpdateDate: modUpdateDate,
-        modPublishDate: modPublishDate,
-        authorName: authorName,
-        authorLink: authorLink,
-        modTitle: modTitle,
-        modThumbs: modThumbs,
-        modUrl: modUrl
-    });
+    $($('ul.modtabs li a')[0]).trigger('tap');
 
-    console.log('STORE_MOD_DETAILS', {
-        modUpdateDate: modUpdateDate,
-        modPublishDate: modPublishDate,
-        authorName: authorName,
-        authorLink: authorLink,
-        modTitle: modTitle,
-        modThumbs: modThumbs,
-        modUrl: modUrl
-    });
-    // for (let i = 0; i < fileInfoChildren.length; i++) {
-    //     console.log(i + ': ' + fileInfoChildren[i]);
-    // }
-    // for (let i = 0; i < pageTitleChildren.length; i++) {
-    //     console.log(i + ': ' + pageTitleChildren[i]);
-    // }
+    const intervalDesc = setInterval(() => {
+        if (document.getElementsByClassName('tab-description')[0] !== undefined) {
+            clearInterval(intervalDesc);
+            const descriptionBox = document.getElementsByClassName('tab-description')[0];
+            const descriptionChildren = descriptionBox.children;
+            modDescription = descriptionChildren[2].innerHTML.split('"').join().trim();
+            console.log('TESTING', modDescription);
+            ipcRenderer.send('STORE_MOD_DETAILS', {
+                modUpdateDate: modUpdateDate,
+                modPublishDate: modPublishDate,
+                authorName: authorName,
+                authorLink: authorLink,
+                modTitle: modTitle,
+                modThumbs: modThumbs,
+                modUrl: window.location.href.split('?')[0],
+                modDescription: modDescription
+            });
+            console.log('STORE_MOD_DETAILS', {
+                modUpdateDate: modUpdateDate,
+                modPublishDate: modPublishDate,
+                authorName: authorName,
+                authorLink: authorLink,
+                modTitle: modTitle,
+                modThumbs: modThumbs,
+                modUrl: window.location.href.split('?')[0],
+                modDescription: modDescription
+            });
+        } else {
+            console.log('Does not exist');
+        }
+    }, 400);
 }
 
 ipcRenderer.on('SCRAPE_MOD_DETAILS', (event, args) => {
     console.log('SCRAPE THOSE DETAILS');
-    scrapeModDetails(args);
+    scrapeModDetails();
 });
 
-window['scrapeModDetails'] = scrapeModDetails;
+document['scrapeModDetails'] = scrapeModDetails;
 
-// console.log('MADE IT HERE', ipcRenderer);

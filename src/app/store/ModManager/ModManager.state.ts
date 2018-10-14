@@ -5,6 +5,7 @@ export interface Mod {
     url: string;
     publishDate: string;
     updateDate: string;
+    description: string;
     archiveNames: Array<string>;
     archivePaths: Array<string>;
     archiveMaps: Array<Array<string>>;

@@ -199,7 +199,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                         }
                     }
                     if (!modPathExists) {
-                        const archiveNames = state.modList[i].archiveNames;
+                        const archiveNames = state.modList[i].archiveNames.map(item => item);
                         archiveNames.push(MOD.modArchiveName);
                         if (MOD.modArchiveName.indexOf('.rar') > -1) {
                             MOD.modMap = MOD.modMap.map(path => {
@@ -207,22 +207,23 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                                     .split(`D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\${MOD.name}\\`)[1];
                             });
                         }
-                        const archivePaths = state.modList[i].archivePaths;
+                        const archivePaths = state.modList[i].archivePaths.map(item => item);
                         archivePaths.push(MOD.modArchivePath);
 
-                        const archiveMaps = state.modList[i].archiveMaps;
+                        const archiveMaps = state.modList[i].archiveMaps.map(item => item);
                         archiveMaps.push(MOD.modMap);
 
-                        const enabled = state.modList[i].enabled;
+                        const enabled = state.modList[i].enabled.map(item => item);
                         enabled.push(false);
 
-                        const mutatedMOD = {
+                        const mutatedMOD: Mod = {
                             name: state.modList[i].name,
                             authorLink: state.modList[i].authorLink,
                             authorName: state.modList[i].authorName,
                             url: state.modList[i].url,
                             publishDate: state.modList[i].publishDate,
                             updateDate: state.modList[i].updateDate,
+                            description: state.modList[i].description,
                             archiveNames: archiveNames,
                             archivePaths: archivePaths,
                             archiveMaps: archiveMaps,
@@ -264,6 +265,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     url: MOD.modUrl,
                     publishDate: MOD.modPublishDate,
                     updateDate: MOD.modUpdateDate,
+                    description: MOD.modDescription,
                     archiveNames: [ MOD.modArchiveName ],
                     archivePaths: [ MOD.modArchivePath ],
                     archiveMaps: [ MOD.modMap ],
@@ -304,19 +306,21 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 };
             } else {
                 let exists = false;
+                const newEntry = state.downloadedModDetail;
                 for (let i = 0; i < state.downloadedModDetail.length; i++) {
-                    if (modDetail.modArchiveName === state.downloadedModDetail[i].modArchiveName) {
+                    if (modDetail.modArchiveName !== state.downloadedModDetail[i].modArchiveName) {
+                        newEntry.push(state.downloadedModDetail[i]);
+                    } else {
                         exists = true;
                     }
                 }
                 if (!exists) {
-                    const newEntry = state.downloadedModDetail;
                     newEntry.push(modDetail);
-                    newState = {
-                        ...state,
-                        downloadedModDetail: newEntry
-                    };
                 }
+                newState = {
+                    ...state,
+                    downloadedModDetail: newEntry
+                };
             }
             return newState;
         }
