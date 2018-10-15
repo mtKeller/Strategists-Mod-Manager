@@ -153,3 +153,55 @@ export function PrepRemoval(
     const ActionTreePrepRemoval: ActionTree = new ActionTree(ActionTreeParam);
     return ActionTreePrepRemoval;
 }
+
+export function UpdateInstallationsViaModRemoval(store) {
+    const ActionNodeBeginInstallation: ActionNode = {
+        initAction: new ModManagerActions.BeginModProcessing(),
+        successNode: null
+    };
+    const ActionNodeAddToInstallationQue: ActionNode = {
+        initAction: new ModManagerActions.AddToInstallQue(),
+        successNode: ActionNodeBeginInstallation,
+    };
+    const ActionTreeParam: ActionTreeParams = {
+        actionNode: null,
+        payload: null,
+        store: store
+    };
+    const ActionTreeUpdateInstallations: ActionTree = new ActionTree(ActionTreeParam);
+    return ActionTreeUpdateInstallations;
+}
+
+export function deleteModCascade(store, mod: Mod) {
+    const ActionNodeEndProcessing: ActionNode = {
+        initAction: new ModManagerActions.ModProcessed(),
+        successNode: null
+    };
+    const ActionNodeUpdateOwnershipDict: ActionNode = {
+        initAction: null,
+        successNode: null
+    };
+    const ActionNodeUpdateLoadOrderAndAppendNewModIndexes: ActionNode = {
+        initAction: null,
+        successNode: null
+    };
+    const ActionNodeRemoveModFromModList: ActionNode = {
+        initAction: null,
+        successNode: null,
+    };
+    const ActionNodeBeginProcessing: ActionNode = {
+        initAction: new ModManagerActions.BeginModProcessing(),
+        successNode: null,
+    };
+    const ActionNodeAddToProcessingQue: ActionNode = {
+        initAction: new ModManagerActions.AddModToProcessingQue(),
+        successNode: null,
+    };
+    const ActionTreeParam: ActionTreeParams = {
+        actionNode: null,
+        payload: null,
+        store: store
+    };
+    const ActionTreeDeletionCascade: ActionTree = new ActionTree(ActionTreeParam);
+    return ActionTreeDeletionCascade;
+}

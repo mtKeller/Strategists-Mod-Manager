@@ -552,6 +552,12 @@ function replaceAll(str , search, replacement) {
                 return ActionTreeRefreshTemp.begin();
             });
     @Effect()
+        ModManagerRemoveFromPathOwnershipDict$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.REMOVE_MOD_FROM_OWNERSHIP_DICT)
+            .map(action => {
+                return action.tree.success();
+            });
+    @Effect()
         ModManagerFilterModMaps$: Observable<any> = this.actions$
             .ofType(ModManagerActions.FILTER_MOD_MAP)
             .map(action => {
@@ -564,6 +570,12 @@ function replaceAll(str , search, replacement) {
             .ofType(ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT)
             .map(action => {
                 console.log(action.tree.payload);
+                return action.tree.success();
+            });
+    @Effect()
+        ModManagerRemoveModFromModList$: Observable<any> = this.actions$
+            .ofType(ModManagerActions.REMOVE_MOD_FROM_MOD_LIST)
+            .map(action => {
                 return action.tree.success();
             });
     @Effect()

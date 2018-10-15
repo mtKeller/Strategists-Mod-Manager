@@ -168,7 +168,7 @@
     </div>
     <div class="mod-child" [ngClass]="{'hidden-child': !getExpandToggle(indexOfMod)}" *ngFor="let modChild of mod.archiveNames; let indexOfChild = index;">
       <span class="mod-child-content">
-        <button class="mod-func trash ripple" id="lo-trash-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-trash-', indexOfMod, indexOfChild)">
+        <button class="mod-func trash short ripple" id="lo-trash-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-trash-', indexOfMod, indexOfChild)">
           <ion-icon class="subtract" name="trash"></ion-icon>
           <ion-icon name="trash"></ion-icon>
         </button>
@@ -177,11 +177,23 @@
           <ion-icon name="open"></ion-icon>
           <span>Contents</span>
         </button>
-        <button class="mod-func ripple" id="lo-add-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-add-', indexOfMod, indexOfChild)">
+        <button
+          class="mod-func ripple"
+          id="lo-add-{{indexOfMod}}{{indexOfChild}}"
+          (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-add-', indexOfMod, indexOfChild)"
+          *ngIf="this.getEnabled(indexOfMod, indexOfChild) === false; else removeFromLoadOrder"
+        >
           <ion-icon class="subtract" name="add"></ion-icon>
           <ion-icon name="add"></ion-icon>
           <span>Load Order</span>
         </button>
+        <ng-template #removeFromLoadOrder>
+          <button class="mod-func trash ripple" id="lo-add-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-add-', indexOfMod, indexOfChild)">
+            <ion-icon class="subtract" name="remove"></ion-icon>
+            <ion-icon name="remove"></ion-icon>
+            <span>Load Order</span>
+          </button>
+        </ng-template>
         <span class="mod-child-title">{{this.parseModChildTitle(modChild)}}</span>
       </span>
     </div>
@@ -201,7 +213,7 @@
           </button>
         </li>
         <li>
-          <button>
+          <button (click)="this.removeFromLoadOrder()">
             <ion-icon class="remove" name="remove"></ion-icon>
           </button>
         </li>

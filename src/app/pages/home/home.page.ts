@@ -304,16 +304,25 @@ export class HomePage implements OnInit {
       return this.modList[0].pictures[0];
     }
   }
+  getEnabled(modIndex, childIndex) {
+    return this.modList[modIndex].enabled[childIndex];
+  }
   moveDownLoadOrder() {
-    if (this.activeLoadOrderIndex !== this.loadOrder.length - 1) {
+    if (this.activeLoadOrderIndex !== this.loadOrder.length - 1 && this.loadOrder.length !== 0) {
       this.store.dispatch(new ModManagerActions.ShiftDownModOfLoadOrder(this.loadOrder[this.activeLoadOrderIndex]));
       this.activeLoadOrderIndex += 1;
     }
   }
   moveUpLoadOrder() {
-    if (this.activeLoadOrderIndex !== 0) {
+    if (this.activeLoadOrderIndex !== 0 && this.loadOrder.length !== 0) {
       this.activeLoadOrderIndex -= 1;
       this.store.dispatch(new ModManagerActions.ShiftDownModOfLoadOrder(this.loadOrder[this.activeLoadOrderIndex]));
     }
+  }
+  removeFromLoadOrder() {
+    if (this.loadOrder.length !== 0) {
+      this.store.dispatch(new ModManagerActions.RemoveModFromLoadOrder(this.loadOrder[this.activeLoadOrderIndex]));
+    }
+    // console.log(this.loadOrder);
   }
 }
