@@ -284,6 +284,11 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 ...state
             };
         }
+        case ModManagerActions.REMOVE_MOD_FROM_MOD_LIST : {
+            return {
+                ...state
+            };
+        }
         case ModManagerActions.ADD_MOD_DETAIL_FROM_DOWNLOAD : {
             const modDetail = action.payload[1];
             modDetail['modArchiveName'] = action.payload[0];
@@ -351,15 +356,34 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     for (let i = 0; i < state.loadOrder.length; i++) {
                         newLoadOrder.push(state.loadOrder[i]);
                     }
+                    const newModList = state.modList.map(item => item);
+                    newModList[action.payload[0]].enabled[action.payload[1]] = true;
+                    return {
+                        ...state,
+                        loadOrder: newLoadOrder,
+                        modList: newModList
+                    };
+                } else {
+                    const newLoadOrder = [action.payload];
+                    for (let i = 0; i < state.loadOrder.length; i++) {
+                        if (action.payload[0] !== state.loadOrder[i][0] && action.payload[1] !== state.loadOrder[i][1]) {
+                            newLoadOrder.push(state.loadOrder[i]);
+                        }
+                    }
                     return {
                         ...state,
                         loadOrder: newLoadOrder
                     };
                 }
+
             }
             return {
                 ...state,
             };
+        }
+        case ModManagerActions.UPDATE_LOAD_ORDER_AND_APPEND_NEW_MOD_INDEXES : {
+            const oldLoadOrder = state.loadOrder;
+            break;
         }
         case ModManagerActions.SHIFT_UP_MOD_OF_LOAD_ORDER : {
             const newLoadOrder = state.loadOrder;
@@ -403,17 +427,21 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
         }
         case ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER : {
             const newLoadOrder = [];
-            for (let i = 0; i < state.loadOrder[i].length; i++) {
+            for (let i = 0; i < state.loadOrder.length; i++) {
                 if (action.payload[0] !== state.loadOrder[i][0] && action.payload[1] !== state.loadOrder[i][1]) {
                     newLoadOrder.push(state.loadOrder[i]);
                     break;
                 }
             }
+            const newModList = state.modList.map(item => item);
+            newModList[action.payload[0]].enabled[action.payload[1]] = false;
             return {
                 ...state,
-                loadOrder: newLoadOrder
+                loadOrder: newLoadOrder,
+                modList: newModList
             };
         }
+
         case ModManagerActions.FILTER_MOD_MAP : {
             const mod: Mod = action.tree.payload.mod;
             const modIndexes = action.tree.payload.modIndexes;
@@ -439,7 +467,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             for (let i = 0; i < OwnershipPaths.length; i++) {
                 const filteredOwners = state.ownedPathDict[OwnershipPaths[i]]
                     .filter(path => {
-                    if (path.modIndex[0] !== payload[0] && path.modIndex[1] !== payload[1]) {
+                    if (path.modIndexes[0] !== payload[0] && path.modIndexes[1] !== payload[1]) {
                         return true;
                     } else {
                         return false;

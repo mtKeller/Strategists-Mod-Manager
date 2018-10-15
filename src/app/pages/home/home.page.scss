@@ -272,7 +272,7 @@
                 h3 {
                     position: relative;
                     letter-spacing: 1px;
-                    background: linear-gradient(180deg, darken(darkgrey,15%), darken(darkgrey,25%), darken(darkgrey,25%), lighten(black, 10%));
+                    background: linear-gradient(180deg, lighten(#042C56,5%), lighten(#042C56,10%), lighten(#042C56,10%), lighten(black, 10%));
                     text-shadow: 0px 3px 3px black;
                     border-top-left-radius: 0px;
                     border-top-right-radius: 0px;
@@ -291,10 +291,10 @@
                 }
                 h3:hover {
                     cursor: pointer;
-                    background: linear-gradient(180deg,darken(darkgrey,5%), darken(darkgrey,21%),darken(darkgrey,21%), lighten(black, 5%));
+                    background: linear-gradient(180deg,lighten(#042C56,15%), lighten(#042C56,25%),lighten(#042C56,25%), lighten(black, 5%));
                 }
                 h3.active:hover {
-                    background: linear-gradient(180deg, rgb(0,255,185), lighten(#10dc60, 5%), lighten(#10dc60, 5%), lighten(black, 10%));
+                    background: linear-gradient(180deg, rgb(0,255,185), lighten(#10dc60, 15%), lighten(#10dc60, 15%), lighten(black, 10%));
                 }
                 h3.blink {
                     background: linear-gradient(180deg, rgb(0,255,185),cyan, cyan, lighten(black, 10%)) !important;
@@ -364,16 +364,16 @@
                         overflow: hidden;
                         height: 44px;
                         font-size: 13px;
-                        padding: 0;
+                        padding: 8px;
                         margin: 2px 0 0 2px;
                     }
                     ul {
-                        display: inline-block;
                         list-style-type: none;
                         margin: 0;
                         -webkit-padding-start: 8px;
                         margin-left: 8px;
                         font-size: 12px;
+                        float: right;
                     }
                     li {
                         padding: 0 4px 0 4px;
@@ -572,8 +572,10 @@
                 }
                 .trash {
                     background: #8017b5;
-                    width: 26px;
+                }
+                .short {
                     margin-left: 8px;
+                    width: 26px;
                 }
                 .trash:hover {
                     background: lighten(#8017b5, 10%);
@@ -616,7 +618,7 @@
             vertical-align: top;
             height: 100%;
             width: 601px;
-            margin-left: 280px;
+            margin-left: 272px;
             display: inline-block;
             // background: black;
             .bottom {
@@ -632,7 +634,7 @@
         .mod-load-item{
             display: inline-block;
             height: auto;
-            width: auto;
+            width: 613px;
             font-size: 14px;
             // background: white;
             color: white;
@@ -676,7 +678,7 @@
             .status {
                 text-align: center;
                 font-size: 14px;
-                width: 81px;
+                width: 93px;
                 padding-left: 8px;
                 
             }

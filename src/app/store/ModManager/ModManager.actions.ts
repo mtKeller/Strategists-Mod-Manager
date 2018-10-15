@@ -163,6 +163,13 @@ export class RemoveModFromOwnershipDict implements Action {
     constructor(public tree: ActionTree = null) { }
 }
 
+export const REMOVE_MOD_FROM_MOD_LIST = '[ModManager] REMOVE_MOD_FROM_MOD_LIST';
+
+export class RemoveModFromModList implements Action {
+    readonly type = REMOVE_MOD_FROM_MOD_LIST;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const PREP_DEPENDENCIES = '[ModManager] PREP_DEPENDENCIES';
 
 export class PrepDependencies implements Action {
@@ -175,6 +182,13 @@ export const FILTER_UNPACKED_DEPENDENCIES = '[ModManager] FILTER_UNPACKED_DEPEND
 export class FilterUnpackedDependencies implements Action {
     readonly type = FILTER_UNPACKED_DEPENDENCIES;
     constructor(public tree: ActionTree = null) { }
+}
+
+export const UPDATE_LOAD_ORDER_AND_APPEND_NEW_MOD_INDEXES = '[ModManager] UPDATE_LOAD_ORDER_AND_APPEND_NEW_MOD_INDEXES';
+
+export class UpdateLoadOrderAndAppendNewModIndexes implements Action {
+    readonly type = UPDATE_LOAD_ORDER_AND_APPEND_NEW_MOD_INDEXES;
+    constructor(public tree: ActionTree) { }
 }
 
 export const BEGIN_INSTALLATION = '[ModManager] BEGIN_INSTALLATION';
@@ -238,4 +252,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
     AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict |
-    DeleteTemp;
+    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList;
