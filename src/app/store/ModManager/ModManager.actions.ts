@@ -191,6 +191,20 @@ export class UpdateLoadOrderAndAppendNewModIndexes implements Action {
     constructor(public tree: ActionTree) { }
 }
 
+export const PREP_DELETION = '[ModManager] PREP_DELETION';
+
+export class PrepDeletion implements Action {
+    readonly type = PREP_DELETION;
+    constructor(public tree: ActionTree = null) { }
+}
+
+export const CONTINUE_DELETION_CASCADE = '[ModManagerActions] CONTINUE_DELETION_CASCADE';
+
+export class ContinueDeletionCascade implements Action {
+    readonly type = CONTINUE_DELETION_CASCADE;
+    constructor(public tree: ActionTree = null) { }
+}
+
 export const BEGIN_INSTALLATION = '[ModManager] BEGIN_INSTALLATION';
 
 export class BeginInstallation implements Action {
@@ -252,4 +266,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
     AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict |
-    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList;
+    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList | PrepDeletion | ContinueDeletionCascade;

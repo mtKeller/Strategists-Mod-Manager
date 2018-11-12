@@ -2,15 +2,6 @@ import {InitializeMainState} from './Main.state';
 import * as MainActions from './Main.actions';
 import {Action} from '@ngrx/store';
 
-interface Main {
-    loading: boolean;
-    mhwDirectory: string;
-    nexusUser: string;
-    nexusSecret: string;
-    mhwDirectoryMap: any;
-    chokidarObserver: any;
-}
-
 export function MainReducer(state = InitializeMainState(), action: Action) {
     switch (action.type) {
         case MainActions.INIT_APP: {
@@ -67,6 +58,12 @@ export function MainReducer(state = InitializeMainState(), action: Action) {
                 ...state,
                 loading: false,
                 mhwDirectoryMap: action.tree.payload
+            };
+        }
+        case MainActions.INIT_DIR_WATCH: {
+            return {
+                ...state,
+                watchingMhwDir: true
             };
         }
         case MainActions.INIT_MOD_MANAGER: {

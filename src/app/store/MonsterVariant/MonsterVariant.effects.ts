@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import '../../helpers/rxjs-operators';
 
 import * as MonsterVariantActions from './MonsterVariant.actions';
 

@@ -1,11 +1,13 @@
 import { Action } from '@ngrx/store';
 
-export interface Main {
+export interface MainState {
     loading: boolean;
     mhwDirectoryPath: string;
     mhwDirectoryMap: any;
+    watchingMhwDir: boolean;
     haltedAction: Action;
     ready: boolean;
+    ipcActive: boolean;
 }
 
 export function InitializeMainState() {
@@ -13,7 +15,9 @@ export function InitializeMainState() {
         loading: false,
         mhwDirectoryPath: null,
         mhwDirectoryMap: [],
+        watchingMhwDir: false,
         haltedAction: null,
-        ready: false
+        ready: false,
+        ipcActive: true
     };
 }

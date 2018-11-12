@@ -27,6 +27,7 @@ export interface ModManagerState {
     installationTarget: any;
     modProcessing: boolean;
     downloadedModDetail: Array<any>;
+    modQueController: boolean;
 }
 
 export function InitializeModManagerState() {
@@ -42,6 +43,7 @@ export function InitializeModManagerState() {
         processingTarget: null,
         installationTarget: null,
         modProcessing: false,
-        downloadedModDetail: []
+        downloadedModDetail: [],
+        modQueController: true
     };
 }
