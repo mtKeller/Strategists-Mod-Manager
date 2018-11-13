@@ -1,8 +1,11 @@
 import { Component, Input, ChangeDetectorRef, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as MainActions from '../../store/Main/Main.actions';
+import * as MainSelectors from '../../store/Main/Main.selectors';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
 import * as ModManagerActions from '../../store/ModManager/ModManager.actions';
+import * as ModManagerSelectors from '../../store/ModManager/ModManager.selectors';
+import * as DownloadManagerSelectors from '../../store/DownloadManager/DownloadManager.selectors';
 import { ActionTree, ActionTreeParams, ActionNode } from '../../model/ActionTree.class';
 import { PopoverController } from '@ionic/angular';
 
@@ -21,7 +24,7 @@ export class HomePage implements OnInit {
 
   processingQue: any = [];
   installationQue: any = [];
-  modProcessing: false;
+  modProcessing: boolean;
 
   modList: any = [];
   modListChildExpand: any = [];
@@ -76,26 +79,39 @@ export class HomePage implements OnInit {
     ) {
   }
   ngOnInit(): void {
-    this.store.select(state => state.MainState.ready).subscribe(val => {
+    this.store.pipe(
+      select(MainSelectors.selectReady)
+    ).subscribe(val => {
       this.ready = val;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.MainState.haltedAction).subscribe(val => {
+    this.store.pipe(
+      select(MainSelectors.selectHaltedAction)
+    ).subscribe(val => {
       this.haltedAction = val;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.MainState.mhwDirectoryPath).subscribe(val => {
+    this.store.pipe(
+      select(MainSelectors.selectMhwDirectoryPath)
+    ).subscribe(val => {
       this.mhwDirectoryPath = val;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.MainState.mhwDirectoryMap).subscribe(val => {
+    this.store.pipe(
+      select(MainSelectors.selectMhwDirectoryMap)
+    ).subscribe(val => {
       this.mhwDirectoryMap = val;
+      this.cdr.detectChanges();
     });
-    this.store.select(state => state.DownloadManagerState.currentFiles).subscribe(val => {
+    this.store.pipe(
+      select(DownloadManagerSelectors.selectCurrentFiles)
+    ).subscribe(val => {
       this.downloadManagerItems = val;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.ModManagerState.modList).subscribe(val => {
+    this.store.pipe(
+      select(ModManagerSelectors.selectModList)
+    ).subscribe(val => {
       const newChildExpand = [];
       this.modList = val;
       for (let i = 0; i < val.length; i++) {
@@ -104,20 +120,27 @@ export class HomePage implements OnInit {
       this.modListChildExpand = newChildExpand;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.ModManagerState.loadOrder).subscribe(val => {
+    this.store.pipe(
+      select(ModManagerSelectors.selectLoadOrder)
+    ).subscribe(val => {
       this.loadOrder = val;
       this.cdr.detectChanges();
     });
-
-    this.store.select(state => state.ModManagerState.installationQue).subscribe(val => {
+    this.store.pipe(
+      select(ModManagerSelectors.selectInstallationQue)
+    ).subscribe(val => {
       this.installationQue = val;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.ModManagerState.processingQue).subscribe(val => {
+    this.store.pipe(
+      select(ModManagerSelectors.selectProcessingQue)
+    ).subscribe(val => {
       this.processingQue = val;
       this.cdr.detectChanges();
     });
-    this.store.select(state => state.ModManagerState.modProcessing).subscribe(val => {
+    this.store.pipe(
+      select(ModManagerSelectors.selectModProcessing)
+    ).subscribe(val => {
       this.modProcessing = val;
       this.cdr.detectChanges();
     });

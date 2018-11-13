@@ -8,7 +8,6 @@ export const selectModFolderMap = createSelector(
     (state: ModManagerState) => state.modFolderMap
 );
 
-
 export const selectDownloadedModDetail = createSelector(
     selectModManager,
     (state: ModManagerState) => state.downloadedModDetail
@@ -17,6 +16,11 @@ export const selectDownloadedModDetail = createSelector(
 export const selectModList = createSelector(
     selectModManager,
     (state: ModManagerState) => state.modList
+);
+
+export const selectLoadOrder = createSelector(
+    selectModManager,
+    (state: ModManagerState) => state.loadOrder
 );
 
 export const selectProcessingQue = createSelector(

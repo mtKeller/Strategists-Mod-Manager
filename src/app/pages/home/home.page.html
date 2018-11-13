@@ -1,6 +1,5 @@
 <ion-content>
   <div class="title-bar">
-    Testing
     <button>
       <ion-icon name="close" (click)='this.closeWindow()'></ion-icon>
     </button>
@@ -42,7 +41,7 @@
             [ngClass]="{'active': this.currentManagerTab === 'LOAD_ORDER', 'blink': this.loadOrderBlink}"
             (click)="this.setTab($event, 'load-order-tab', 'LOAD_ORDER')"
           >
-            LOAD ORDER
+            INSTALLED
           </h3>
           <h3 id="mod-list-tab" class="ripple"
             [ngClass]="{'active': this.currentManagerTab === 'MOD_LIST'}" 

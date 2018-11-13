@@ -8,6 +8,11 @@ export const selectMhwDirectoryPath = createSelector(
     (state: MainState) => state.mhwDirectoryPath
 );
 
+export const selectMhwDirectoryMap = createSelector(
+    selectMainState,
+    (state: MainState) => state.mhwDirectoryMap
+);
+
 export const selectAppState = state => state;
 
 export const selectWatchingMhwDirectory = createSelector(
@@ -19,3 +24,14 @@ export const selectIpcActive = createSelector(
     selectMainState,
     (state: MainState) => state.ipcActive
 );
+
+export const selectReady = createSelector(
+    selectMainState,
+    (state: MainState) => state.ready
+);
+
+export const selectHaltedAction = createSelector(
+    selectMainState,
+    (state: MainState) => state.haltedAction
+);
+
