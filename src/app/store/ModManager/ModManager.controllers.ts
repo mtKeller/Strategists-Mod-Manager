@@ -10,7 +10,7 @@ export function InitializeModQueController(store: Store<any>) {
         (obs) => {
             let processingQue;
             let installationQue;
-            let modProcessing;
+            let modProcessing = false;
             store.pipe(
                 select(ModManagerSelectors.selectProcessingQue)
             ).subscribe(val => {
@@ -28,11 +28,12 @@ export function InitializeModQueController(store: Store<any>) {
             store.pipe(
                 select(ModManagerSelectors.selectModProcessing)
             ).subscribe(val => {
-                if (val) {
+                if (val !== undefined) {
                     modProcessing = val;
                 }
             });
             interval(1000).subscribe(() => {
+                console.log('test', modProcessing, processingQue, installationQue);
                 if (!modProcessing && processingQue.length !== 0
                     ) {
                     obs.next(processingQue[0]);
@@ -45,8 +46,6 @@ export function InitializeModQueController(store: Store<any>) {
         }
     );
 
-    return ModQueController$.subscribe(val => {
-        store.dispatch(val.action.tree.success());
-    });
+    return ModQueController$;
 }
 

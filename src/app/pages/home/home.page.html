@@ -184,13 +184,13 @@
         >
           <ion-icon class="subtract" name="add"></ion-icon>
           <ion-icon name="add"></ion-icon>
-          <span>Load Order</span>
+          <span>Install</span>
         </button>
         <ng-template #removeFromLoadOrder>
-          <button class="mod-func trash ripple" id="lo-add-{{indexOfMod}}{{indexOfChild}}" (click)="this.addToLoadOrder($event, [indexOfMod, indexOfChild], 'lo-add-', indexOfMod, indexOfChild)">
+          <button class="mod-func trash ripple" id="lo-add-{{indexOfMod}}{{indexOfChild}}" (click)="this.uninstallMod($event, 'lo-add-', indexOfMod, indexOfChild)">
             <ion-icon class="subtract" name="remove"></ion-icon>
             <ion-icon name="remove"></ion-icon>
-            <span>Load Order</span>
+            <span>Uninstall</span>
           </button>
         </ng-template>
         <span class="mod-child-title">{{this.parseModChildTitle(modChild)}}</span>

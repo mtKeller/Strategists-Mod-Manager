@@ -1,3 +1,5 @@
+
+
 ACTION TREE Prep Deletion flow
 ==============================
     Add to processing que
@@ -8,7 +10,8 @@ ACTION TREE Prep Deletion flow
         If Modlist mod is deleted due to lack of children
         Remove mod from modlist and append new mod indexes to payload
         Then update dictionary
-    
+IMPLEMENT DYNAMIC ENTITY
+<!-- REFACTOR APPLICATION FOR RXJS6 and NGRX7     -->
 <!-- Handle installation -->
 <!-- TEST OWNERSHIP DICT -->
 <!-- THEN ADD CHANGE OF OWNERSHIP IF MOD IS PUSHED BACK IN OWNERSHIP QUE -->

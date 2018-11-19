@@ -348,4 +348,16 @@ export class HomePage implements OnInit {
     }
     // console.log(this.loadOrder);
   }
+  uninstallMod($event, idStr, modIndex, indexOfChild) {
+    const elem = this.el.nativeElement.querySelector('#' + idStr + modIndex + indexOfChild);
+    // console.log(elem);
+    // console.log(document.getElementById(idStr + modIndex + indexOfChild));
+    this.ripple($event, elem, idStr + modIndex + indexOfChild);
+    this.blinkLoadOrder();
+    this.loadOrder.map(item => {
+      if (item[0] === modIndex && item[1] === indexOfChild) {
+        this.store.dispatch(new ModManagerActions.RemoveModFromLoadOrder([modIndex, indexOfChild]));
+      }
+    });
+  }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { ActionTree,
     ActionNode,
@@ -90,18 +90,21 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                 this.installationQue = val;
             }
         });
-        ModManagerControllers.InitializeModQueController(this.store);
+        ModManagerControllers.InitializeModQueController(this.store).subscribe(val => {
+            console.log('testing', val);
+            store.dispatch(val.action.tree.success());
+        });
     }
     @Effect()
         ModManagerBeginProcessingMod$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.BEGIN_MOD_PROCESSING),
+                ofType(ModManagerActions.BEGIN_MOD_PROCESSING),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerProcessMod$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.PROCESS_MOD),
+                ofType(ModManagerActions.PROCESS_MOD),
                 map(action => {
                     const payload = action.payload;
                     if (payload.modArchiveName.indexOf('.rar') > -1) {
@@ -118,13 +121,13 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerUpdateProcessingProgress$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.UPDATE_PROCESSING_PROGRESS),
+                ofType(ModManagerActions.UPDATE_PROCESSING_PROGRESS),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerProcessModByName$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.PROCESS_MOD_BY_NAME),
+                ofType(ModManagerActions.PROCESS_MOD_BY_NAME),
                 map(action => {
                     let payload = null;
                     for (let i = 0; i < this.downloadedModDetail.length; i++) {
@@ -148,7 +151,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerProcessRarMod$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.PROCESS_RAR_MOD),
+                ofType(ModManagerActions.PROCESS_RAR_MOD),
                 map(action => {
                     const ActionTreeProcessRarMod = ProcessRarMod(this.store, action, this.mhwDIR);
                     return ActionTreeProcessRarMod.begin();
@@ -157,13 +160,13 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModMangerAddModToModList$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.ADD_MOD_TO_MOD_LIST),
+                ofType(ModManagerActions.ADD_MOD_TO_MOD_LIST),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerRemoveModDetail$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.REMOVE_MOD_DETAIL),
+                ofType(ModManagerActions.REMOVE_MOD_DETAIL),
                 map(action => {
                     this.store.dispatch(SaveStateTree(this.store).begin());
                     if (action.tree) {
@@ -176,7 +179,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerProcessZipMod$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.PROCESS_ZIP_MOD),
+                ofType(ModManagerActions.PROCESS_ZIP_MOD),
                 map(action => {
                     const ActionTreeProcessZipMod = ProcessZipMod(this.store, action);
                     return ActionTreeProcessZipMod.begin();
@@ -185,7 +188,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerProcess7ZipMod$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.PROCESS_7_ZIP_MOD),
+                ofType(ModManagerActions.PROCESS_7_ZIP_MOD),
                 map(action => {
                     const ActionTreeProcess7ZipMod = Process7ZipMod(this.store, action);
                     return ActionTreeProcess7ZipMod;
@@ -194,20 +197,20 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerSetNativePcMap$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.SET_NATIVE_PC_MAP),
+                ofType(ModManagerActions.SET_NATIVE_PC_MAP),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerSetModFolderMap$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.SET_MOD_FOLDER_MAP),
+                ofType(ModManagerActions.SET_MOD_FOLDER_MAP),
                 map(action => {
                     if (!this.modProcessing) {
                         let payload;
                         if (action.payload) {
-                            payload = action.payload.filter(path => path.indexOf('/temp/') > -1);
+                            payload = action.payload.filter(path => path.indexOf('/temp/') === -1 && path.indexOf('/modFolder/') > -1);
                         } else {
-                            payload = action.tree.payload.filter(path => path.indexOf('/temp/') === -1);
+                            payload = action.tree.payload.filter(path => path.indexOf('/temp/') === -1 && path.indexOf('/modFolder/') > -1);
                         }
                         // console.log('CHECK PAYLOAD', payload);
                         let modExists = false;
@@ -230,20 +233,22 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                                 }
                             }
                             if (!modExists) {
-                                // console.log('CHECK PAYLOAD INDEX', payload[i]);
-                                const date = new Date();
-                                this.store.dispatch( new ModManagerActions.ProcessMod({
-                                    authorLink: null,
-                                    authorName: 'Anonymous',
-                                    modArchiveName: payload[i].split('/modFolder/')[1],
-                                    modArchivePath: payload[i],
-                                    modPictures: [],
-                                    modPublishDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
-                                    modThumbs: [],
-                                    modTitle: payload[i].split('/modFolder/')[1].split('.')[0],
-                                    modUpdateDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
-                                    modUrl: null
-                                }));
+                                if (payload[i].split('/modFolder/')[1].length !== 0) {
+                                    // console.log('CHECK PAYLOAD INDEX', payload[i]);
+                                    const date = new Date();
+                                    this.store.dispatch( new ModManagerActions.ProcessMod({
+                                        authorLink: null,
+                                        authorName: 'Anonymous',
+                                        modArchiveName: payload[i].split('/modFolder/')[1],
+                                        modArchivePath: payload[i],
+                                        modPictures: [],
+                                        modPublishDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
+                                        modThumbs: [],
+                                        modTitle: payload[i].split('/modFolder/')[1].split('.')[0],
+                                        modUpdateDate: `${date.getUTCDay()} ${date.getUTCMonth()} ${date.getUTCFullYear()}`,
+                                        modUrl: null
+                                    }));
+                                }
                             }
                         }
                         // console.log('HIT OUTSIDE LOOP');
@@ -262,7 +267,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerPrepDependencies$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.PREP_DEPENDENCIES),
+                ofType(ModManagerActions.PREP_DEPENDENCIES),
                 map(action => {
                     function onlyUnique(value, index, self) {
                         return self.indexOf(value) === index;
@@ -289,7 +294,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerInsertToFrontOfLoadOrder$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.INSERT_TO_FRONT_OF_LOAD_ORDER),
+                ofType(ModManagerActions.INSERT_TO_FRONT_OF_LOAD_ORDER),
                 map(action => {
                     console.log('INSERT TO FRONT', action.payload, this.modList);
                     const preppedInstallationTree = PrepInstallation(
@@ -305,7 +310,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerShiftUpLoadOrder$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.SHIFT_UP_MOD_OF_LOAD_ORDER),
+                ofType(ModManagerActions.SHIFT_UP_MOD_OF_LOAD_ORDER),
                 map(action => {
                     console.log('SHIFT UP', action.payload, this.modList);
                 const preppedInstallationTree = PrepInstallation(
@@ -321,7 +326,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerShiftDownLoadOrder$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.SHIFT_DOWN_MOD_OF_LOAD_ORDER),
+                ofType(ModManagerActions.SHIFT_DOWN_MOD_OF_LOAD_ORDER),
                 map(action => {
                     console.log('SHIFT DOWN', action.payload, this.modList);
                     const preppedInstallationTree = PrepInstallation(
@@ -337,7 +342,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerRemoveModFromLoadOrder$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER),
+                ofType(ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER),
                 map(action => {
                     console.log('REMOVE FROM LOAD ORDER', action.payload, this.modList);
                     const preppedRemovalTree = PrepRemoval(
@@ -352,7 +357,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerFilterUnpackedDependencies$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.FILTER_UNPACKED_DEPENDENCIES),
+                ofType(ModManagerActions.FILTER_UNPACKED_DEPENDENCIES),
                 map(action => {
                     const archiveNames = action.tree.payload.archiveNames;
                     const modMap = action.tree.payload.modMap;
@@ -391,7 +396,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerDeleteTemp = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.DELETE_TEMP),
+                ofType(ModManagerActions.DELETE_TEMP),
                 map(action => {
                     const ActionNodeCreateModdingDirectories: ActionNode = {
                         initAction: new FileSystemActions.CreateModdingDirectories(),
@@ -413,43 +418,55 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerRemoveFromPathOwnershipDict$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER),
-                map(action => action.tree.success())
+                ofType(ModManagerActions.REMOVE_MOD_FROM_LOAD_ORDER),
+                map(action => {
+                    if (action.payload) {
+                        return new ModManagerActions.ModManagerSuccess();
+                    } else {
+                        return action.tree.success();
+                    }
+                })
             );
     @Effect()
         ModManagerFilterModMaps$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.FILTER_MOD_MAP),
+                ofType(ModManagerActions.FILTER_MOD_MAP),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerVerifyAgainstOwnershipDict$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT),
+                ofType(ModManagerActions.VERIFY_AGAINST_OWNERSHIP_DICT),
+                map(action => action.tree.success())
+            );
+    @Effect()
+        ModManagerRemoveFromOwnershipDict$: Observable<any> = this.actions$
+            .pipe(
+                ofType(ModManagerActions.REMOVE_MOD_FROM_OWNERSHIP_DICT),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerRemoveModFromModList$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.REMOVE_MOD_FROM_MOD_LIST),
+                ofType(ModManagerActions.REMOVE_MOD_FROM_MOD_LIST),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerBeginInstallation$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.BEGIN_INSTALLATION),
+                ofType(ModManagerActions.BEGIN_INSTALLATION),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerAddToInstallationQue$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.ADD_TO_INSTALL_QUE),
+                ofType(ModManagerActions.ADD_TO_INSTALL_QUE),
                 map(action => action.tree.success())
             );
     @Effect()
         ModManagerEndInstallation$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.END_INSTALLATION),
+                ofType(ModManagerActions.END_INSTALLATION),
                 map(action => {
                     const SaveState = SaveStateTree(this.store);
                     SaveState.init();
@@ -459,7 +476,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
     @Effect()
         ModManagerSetState$: Observable<any> = this.actions$
             .pipe(
-                filter(action => action.type === ModManagerActions.SET_STATE),
+                ofType(ModManagerActions.SET_STATE),
                 map(action => action.tree.success())
             );
 }
