@@ -42,3 +42,13 @@ export const selectModQueController = createSelector(
     selectModManager,
     (state: ModManagerState) => state.modQueController
 );
+
+export const selectGalleryOpen = createSelector(
+    selectModManager,
+    (state: ModManagerState) => state.galleryOpen
+);
+
+export const selectGalleryContent = createSelector(
+    selectModManager,
+    (state: ModManagerState) => state.galleryContent
+);

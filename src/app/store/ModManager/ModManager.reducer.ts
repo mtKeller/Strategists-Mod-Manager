@@ -625,6 +625,20 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 loadOrder: action.tree.payload.ModManagerState.loadOrder
             };
         }
+        case ModManagerActions.OPEN_GALLERY: {
+            return {
+                ...state,
+                galleryOpen: true,
+                galleryContent: action.payload
+            };
+        }
+        case ModManagerActions.CLOSE_GALLERY: {
+            return {
+                ...state,
+                galleryOpen: false,
+                galleryContent: []
+            };
+        }
         default: {
             return {
                 ...state

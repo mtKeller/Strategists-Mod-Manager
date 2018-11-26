@@ -260,6 +260,19 @@ export class ModManagerSuccess implements Action {
     readonly type = MOD_MANAGER_SUCCESS;
 }
 
+export const OPEN_GALLERY = '[ModManager] OPEN_GALLERY';
+
+export class OpenGallery implements Action {
+    readonly type = OPEN_GALLERY;
+    constructor(public payload: Array<string>) { }
+}
+
+export const CLOSE_GALLERY = '[ModManager] CLOSE_GALLERY';
+
+export class CloseGallery implements Action {
+    readonly type = CLOSE_GALLERY;
+}
+
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |

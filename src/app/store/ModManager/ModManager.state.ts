@@ -30,6 +30,8 @@ export interface ModManagerState {
     modProcessing: boolean;
     downloadedModDetail: Array<any>;
     modQueController: boolean;
+    galleryOpen: boolean;
+    galleryContent: Array<string>;
 }
 
 export function InitializeModManagerState() {
@@ -46,6 +48,8 @@ export function InitializeModManagerState() {
         installationTarget: null,
         modProcessing: false,
         downloadedModDetail: [],
-        modQueController: true
+        modQueController: true,
+        galleryOpen: false,
+        galleryContent: []
     };
 }
