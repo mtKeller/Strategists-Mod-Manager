@@ -15,11 +15,12 @@ import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerSelectors from '../DownloadManager/DownloadManager.selectors';
 import { SaveStateTree } from '../Main/Main.tree';
 import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepRemoval, Process7ZipMod } from './ModManager.tree';
+import { DynamicEntity } from '../../model/DynamicEntity.class';
 
 @Injectable()
   export class ModManagerEffects {
     modFolderMap: Array<string>;
-    modList: Array<any>;
+    modList: DynamicEntity;
     downloadManagerCurrentFiles: Array<any>;
     downloadedModDetail: Array<any>;
     mhwDIR: string;
@@ -223,9 +224,9 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                                     break;
                                 }
                             }
-                            for (let j = 0; j < this.modList.length; j++) {
-                                for (let k = 0; k < this.modList[j].archiveNames.length; k++) {
-                                    if (payload[i].indexOf(this.modList[j].archiveNames[k]) > -1) {
+                            for (let j = 0; j < this.modList.keys().length; j++) {
+                                for (let k = 0; k < this.modList.entity[j].archiveNames.length; k++) {
+                                    if (payload[i].indexOf(this.modList.entity[j].archiveNames[k]) > -1) {
                                         // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD LIST');
                                         modExists = true;
                                         break;

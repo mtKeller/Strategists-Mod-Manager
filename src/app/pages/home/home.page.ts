@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectorRef, OnInit, ViewChild, Renderer2, ElementRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { ripple } from '../../helpers/funcLib';
 import * as MainActions from '../../store/Main/Main.actions';
 import * as MainSelectors from '../../store/Main/Main.selectors';
 import * as FileSystemActions from '../../store/FileSystem/FileSystem.actions';
@@ -32,12 +33,7 @@ export class HomePage implements OnInit {
   loadOrder: any = [];
   loadOrderBlink = false;
 
-  currentManagerTab = 'LOAD_ORDER';
   downloading = false;
-
-  galleryContent: any = null;
-  galleryContentIndex = 0;
-  galleryOpen = false;
 
   activeLoadOrderItem = null;
   activeLoadOrderIndex = 0;
@@ -112,13 +108,16 @@ export class HomePage implements OnInit {
     this.store.pipe(
       select(ModManagerSelectors.selectModList)
     ).subscribe(val => {
-      const newChildExpand = [];
-      this.modList = val;
-      for (let i = 0; i < val.length; i++) {
-        newChildExpand.push(false);
+      if (val) {
+        console.log('CHECK MODLIST', val.keys());
+        const newChildExpand = [];
+        this.modList = val;
+        for (let i = 0; i < val.length; i++) {
+          newChildExpand.push(false);
+        }
+        this.modListChildExpand = newChildExpand;
+        this.cdr.detectChanges();
       }
-      this.modListChildExpand = newChildExpand;
-      this.cdr.detectChanges();
     });
     this.store.pipe(
       select(ModManagerSelectors.selectLoadOrder)
@@ -145,82 +144,27 @@ export class HomePage implements OnInit {
       this.cdr.detectChanges();
     });
   }
-  minimizeWindow() {
-    this.store.dispatch(new MainActions.MinimizeWindow());
-  }
-  closeWindow() {
-    this.store.dispatch(new MainActions.CloseWindow());
-  }
-  ripple($event, elem, id) {
-    console.log(elem, id);
-    const pageX = $event.clientX;
-    const pageY = $event.clientY;
-    // const buttonY = pageY - elem.offsetTop;
-    // const buttonX = pageX - elem.offsetLeft;
-    const buttonY = elem.getBoundingClientRect().top;
-    const buttonX = elem.getBoundingClientRect().left;
-    const eleRef = document.getElementById(id);
-    // console.log(elem.getBoundingClientRect().left,
-    // elem.getBoundingClientRect().top, $event.clientX, $event.clientY);
-    const ripplePlay = this.renderer.createElement('div');
-    this.renderer.addClass(ripplePlay, 'ripple-effect');
-    this.renderer.setStyle(ripplePlay, 'height', `${40}px`);
-    this.renderer.setStyle(ripplePlay, 'width', `${40}px`);
-    this.renderer.setStyle(ripplePlay, 'top', `${pageY - buttonY - 20}px`);
-    this.renderer.setStyle(ripplePlay, 'left', `${pageX - buttonX - 20}px`);
-    this.renderer.setStyle(ripplePlay, 'background', 'cyan');
-    this.renderer.appendChild(eleRef, ripplePlay);
 
-    setTimeout(() => {
-      // console.log(document.getElementsByClassName('ripple-effect'));
-      this.renderer.setStyle(ripplePlay, 'background', 'none');
-      this.renderer.removeChild(eleRef, ripplePlay);
-    }, 1000);
-  }
   getMhwDirPath($event) {
     if (this.haltedAction !== null) {
-      this.ripple($event, this.ExplorerButton, 'find-dir');
+      ripple($event, this.ExplorerButton, 'find-dir', this.renderer);
       this.store.dispatch(this.haltedAction.tree.success());
       console.log(this.haltedAction);
     }
   }
   play($event) {
-    this.ripple($event, this.PlayButton, 'play-button');
+    ripple($event, this.PlayButton, 'play-button', this.renderer);
     this.store.dispatch(new MainActions.Play());
-    console.log(this.galleryOpen);
-  }
-  launchWideScreenFix() {
-    const ExecWideScreenFix: ActionNode = {
-      initAction: new FileSystemActions.ExecProcess(),
-      successNode: null,
-      failureNode: null
-    };
-    const actionTreeParams: ActionTreeParams = {
-      payload: 'C:\\Users\\Micah\\Downloads\\Lazy_Aspect_Fix_For_The_Patch_That_Finally_Fixed_Something.exe',
-      actionNode: ExecWideScreenFix,
-      store: this.store,
-    };
-    const execTree: ActionTree = new ActionTree(actionTreeParams);
-    execTree.init();
   }
   openMhwDir($event) {
     if (this.mhwDirectoryPath !== null) {
-      this.ripple($event, this.OpenDirButton, 'open-dir');
+      ripple($event, this.OpenDirButton, 'open-dir', this.renderer);
       this.store.dispatch(new MainActions.OpenMhwDirectory());
     }
   }
   openModNexus($event) {
-    this.ripple($event, this.OpenNexusButton, 'open-nexus');
+    ripple($event, this.OpenNexusButton, 'open-nexus', this.renderer);
     this.store.dispatch(new MainActions.OpenModNexus);
-  }
-  testUnrar() {
-    this.store.dispatch(new FileSystemActions.UnrarFile());
-  }
-  setTab($event, id , target) {
-    const elem = this.el.nativeElement.querySelector('#' + id);
-    this.ripple($event, elem, id);
-    this.currentManagerTab = target;
-    this.cdr.detectChanges();
   }
   toggleChildExpand($event, index, idStr) {
     const elem = this.el.nativeElement.querySelector('#' + idStr + index);
@@ -261,39 +205,6 @@ export class HomePage implements OnInit {
     newStr = replaceAll(newStr, '.', '');
     return newStr;
   }
-  openGallery(content) {
-    this.galleryContent = content;
-    this.galleryOpen = true;
-    this.galleryContentIndex = 0;
-  }
-  closeGallery($event) {
-    $event.stopPropagation();
-    this.galleryContent = null;
-    this.galleryOpen = false;
-  }
-  incrementGallery($event) {
-    $event.stopPropagation();
-    if (this.galleryContentIndex + 1 !== this.galleryContent.pictures.length) {
-      this.galleryContentIndex += 1;
-    } else {
-      this.galleryContentIndex = 0;
-    }
-  }
-  isGalleryOpen () {
-    // console.log(this.galleryOpen);
-    return this.galleryOpen;
-  }
-  blinkLoadOrder() {
-    this.loadOrderBlink = true;
-    this.cdr.detectChanges();
-    setTimeout(() => {
-      this.loadOrderBlink = false;
-      this.cdr.detectChanges();
-    }, 50);
-  }
-  log(element) {
-    console.log(element);
-  }
   getAcronym(str) {
     const first = str.substring(0, 1);
     const splitString = str.split(' ');
@@ -327,8 +238,8 @@ export class HomePage implements OnInit {
       return this.modList[0].pictures[0];
     }
   }
-  getEnabled(modIndex, childIndex) {
-    return this.modList[modIndex].enabled[childIndex];
+  getEnabled(mod, childIndex) {
+    return this.modList.entity[mod.index].enabled[childIndex];
   }
   moveDownLoadOrder() {
     if (this.activeLoadOrderIndex !== this.loadOrder.length - 1 && this.loadOrder.length !== 0) {
@@ -359,5 +270,8 @@ export class HomePage implements OnInit {
         this.store.dispatch(new ModManagerActions.RemoveModFromLoadOrder([modIndex, indexOfChild]));
       }
     });
+  }
+  getIndexes(mod, childIndex): Array<any> {
+    return [mod.index, childIndex];
   }
 }

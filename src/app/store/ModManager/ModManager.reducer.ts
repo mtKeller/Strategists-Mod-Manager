@@ -1,6 +1,7 @@
 import { InitializeModManagerState, Mod } from './ModManager.state';
 import * as ModManagerActions from './ModManager.actions';
 import {Action} from '@ngrx/store';
+import { DynamicEntity } from '../../model/DynamicEntity.class';
 
 function bubbleSortByLoadOrderPos(arr) {
     console.log('bubble', arr);
@@ -36,7 +37,7 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             });
             console.log('CHECK FILTERED LIST', zipMods);
             let needsProcessing;
-            if (state.modList.length === 0) {
+            if (state.modList.keys().length === 0) {
                 needsProcessing = zipMods;
             }
             return {
@@ -189,17 +190,19 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 MOD = action.tree.payload;
             }
             let modExists = false;
-            for (let i = 0; i < state.modList.length; i++) {
-                if (MOD.modTitle === state.modList[i].name) {
+            const modKeys = state.modList.keys();
+            for (let li = 0; li < modKeys.length; li++) {
+                const i = modKeys[li];
+                if (MOD.modTitle === state.modList.entity[i].name) {
                     let modPathExists;
-                    for (let j = 0; j < state.modList[i].archivePaths.length; j++) {
-                        if (state.modList[i].archiveNames[j] === MOD.modArchiveName) {
+                    for (let j = 0; j < state.modList.entity[i].archivePaths.length; j++) {
+                        if (state.modList.entity[i].archiveNames[j] === MOD.modArchiveName) {
                             modPathExists = true;
                             break;
                         }
                     }
                     if (!modPathExists) {
-                        const archiveNames = state.modList[i].archiveNames.map(item => item);
+                        const archiveNames = state.modList.entity[i].archiveNames.map(item => item);
                         archiveNames.push(MOD.modArchiveName);
                         if (MOD.modArchiveName.indexOf('.rar') > -1) {
                             MOD.modMap = MOD.modMap.map(path => {
@@ -207,41 +210,38 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                                     .split(`D:\\SteamLibrary\\SteamApps\\common\\Monster Hunter World\\modFolder\\temp\\${MOD.name}\\`)[1];
                             });
                         }
-                        const archivePaths = state.modList[i].archivePaths.map(item => item);
+                        const archivePaths = state.modList.entity[i].archivePaths.map(item => item);
                         archivePaths.push(MOD.modArchivePath);
 
-                        const archiveMaps = state.modList[i].archiveMaps.map(item => item);
+                        const archiveMaps = state.modList.entity[i].archiveMaps.map(item => item);
                         archiveMaps.push(MOD.modMap);
 
-                        const enabled = state.modList[i].enabled.map(item => item);
+                        const enabled = state.modList.entity[i].enabled.map(item => item);
                         enabled.push(false);
 
                         const mutatedMOD: Mod = {
-                            name: state.modList[i].name,
-                            authorLink: state.modList[i].authorLink,
-                            authorName: state.modList[i].authorName,
-                            url: state.modList[i].url,
-                            publishDate: state.modList[i].publishDate,
-                            updateDate: state.modList[i].updateDate,
-                            description: state.modList[i].description,
+                            name: state.modList.entity[i].name,
+                            authorLink: state.modList.entity[i].authorLink,
+                            authorName: state.modList.entity[i].authorName,
+                            url: state.modList.entity[i].url,
+                            publishDate: state.modList.entity[i].publishDate,
+                            updateDate: state.modList.entity[i].updateDate,
+                            description: state.modList.entity[i].description,
                             archiveNames: archiveNames,
                             archivePaths: archivePaths,
                             archiveMaps: archiveMaps,
-                            pictures: state.modList[i].pictures,
-                            thumbs: state.modList[i].thumbs,
+                            pictures: state.modList.entity[i].pictures,
+                            thumbs: state.modList.entity[i].thumbs,
                             enabled: enabled,
                         };
-                        const newModList = [];
-                        for (let j = 0; j < state.modList.length; j++) {
-                            if (mutatedMOD.name === state.modList[j].name) {
-                                newModList.push(mutatedMOD);
-                            } else {
-                                newModList.push(state.modList[j]);
+                        for (let j = 0; j < modKeys.length; j++) {
+                            if (mutatedMOD.name === state.modList.entity[modKeys[j]].name) {
+                                state.modList.swapIndexed(modKeys[j], mutatedMOD);
                             }
                         }
                         return {
                             ...state,
-                            modList : newModList
+                            modList : state.modList
                         };
                     }
                     modExists = true;
@@ -356,8 +356,8 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     for (let i = 0; i < state.loadOrder.length; i++) {
                         newLoadOrder.push(state.loadOrder[i]);
                     }
-                    const newModList = state.modList.map(item => item);
-                    newModList[action.payload[0]].enabled[action.payload[1]] = true;
+                    const newModList = state.modList;
+                    newModList.entity[action.payload[0]].enabled[action.payload[1]] = true;
                     return {
                         ...state,
                         loadOrder: newLoadOrder,
@@ -433,8 +433,8 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                     break;
                 }
             }
-            const newModList = state.modList.map(item => item);
-            newModList[action.payload[0]].enabled[action.payload[1]] = false;
+            const newModList = state.modList;
+            newModList.entity[action.payload[0]].enabled[action.payload[1]] = false;
             return {
                 ...state,
                 loadOrder: newLoadOrder,
@@ -612,9 +612,13 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
             };
         }
         case ModManagerActions.SET_STATE: {
+            const newModList = new DynamicEntity();
+            newModList.entity = action.tree.payload.ModManagerState.modList.entity;
+            newModList.length = action.tree.payload.ModManagerState.modList.length;
+            newModList.currentIndex = action.tree.payload.ModManagerState.modList.currentIndex;
             return {
                 ...state,
-                modList: action.tree.payload.ModManagerState.modList,
+                modList: newModList,
                 nativePcMap: action.tree.payload.ModManagerState.nativePcMap,
                 modFolderMap: action.tree.payload.ModManagerState.modFolderMap,
                 ownedPathDict: action.tree.payload.ModManagerState.ownedPathDict,

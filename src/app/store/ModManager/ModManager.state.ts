@@ -1,3 +1,5 @@
+import { DynamicEntity } from '../../model/DynamicEntity.class';
+
 export interface Mod {
     name: string;
     authorLink: string;
@@ -16,7 +18,7 @@ export interface Mod {
 
 export interface ModManagerState {
     loading: boolean;
-    modList: Array<Mod>;
+    modList: DynamicEntity;
     loadOrder: Array<Array<number>>;
     nativePcMap: Array<any>;
     modFolderMap: Array<any>;
@@ -33,7 +35,7 @@ export interface ModManagerState {
 export function InitializeModManagerState() {
     return{
         loading: false,
-        modList: [],
+        modList: new DynamicEntity(),
         loadOrder: [],
         nativePcMap: [],
         modFolderMap: [],

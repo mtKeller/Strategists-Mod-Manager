@@ -1,0 +1,38 @@
+<div class='mod-manager-header'>
+    <h2>
+        MOD MANAGER
+    </h2>
+    <div class="mod-manager-tabs">
+        <h3 id="load-order-tab" class="ripple" [ngClass]="{'active': this.currentManagerTab === 'LOAD_ORDER', 'blink': this.loadOrderBlink}"
+            (click)="this.setTab($event, 'load-order-tab', 'LOAD_ORDER')">
+            INSTALLED
+        </h3>
+        <h3 id="mod-list-tab" class="ripple" [ngClass]="{'active': this.currentManagerTab === 'MOD_LIST'}" (click)="this.setTab($event, 'mod-list-tab', 'MOD_LIST')">
+            MOD LIST
+        </h3>
+        <h3 id="catagories-tab" class="ripple" [ngClass]="{'active': this.currentManagerTab === 'CATAGORIES'}" (click)="this.setTab($event,'catagories-tab' ,'CATAGORIES')">
+            CATAGORIES
+        </h3>
+    </div>
+</div>
+<ion-list [ngClass]="{
+'load-order-list': this.currentManagerTab === 'LOAD_ORDER',
+'mod-list': this.currentManagerTab === 'MOD_LIST',
+'catagories-list': this.currentManagerTab === 'CATAGORIES'
+}">
+    <div *ngIf="this.currentManagerTab === 'LOAD_ORDER'; then loadOrderTemplate"></div>
+    <div *ngIf="this.currentManagerTab === 'MOD_LIST'; then modListTemplate"></div>
+    <div *ngIf="this.currentManagerTab === 'CATAGORIES'; then catagoriesTemplate"></div>
+</ion-list>
+
+<ng-template #modListTemplate>
+  <app-mod-list></app-mod-list>
+</ng-template>
+
+<ng-template #loadOrderTemplate>
+  <app-load-order></app-load-order>
+</ng-template>
+
+<ng-template #catagoriesTemplate>
+  Under Construction
+</ng-template>
