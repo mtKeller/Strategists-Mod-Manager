@@ -1,28 +1,4 @@
-.ripple{
-    overflow: hidden;
-}
-  
-.ripple-effect{
-    position: absolute;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    background: white;
 
-    animation: ripple-animation 1.1s;
-}
-
-
-@keyframes ripple-animation {
-    from {
-    transform: scale(1);
-    opacity: 0.4;
-    }
-    to {
-    transform: scale(5);
-    opacity: 0;
-    }
-}
 
 .no-game-dir {
     background: rgba(20,20,20,0.8);

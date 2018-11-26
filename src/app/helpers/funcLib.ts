@@ -1,4 +1,6 @@
 import { Renderer2 } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { OpenGallery } from '../store/ModManager/ModManager.actions';
 
 export function ripple($event, elem, id, rndr: Renderer2) {
     console.log(elem, id);
@@ -25,4 +27,8 @@ export function ripple($event, elem, id, rndr: Renderer2) {
         rndr.setStyle(ripplePlay, 'background', 'none');
         rndr.removeChild(eleRef, ripplePlay);
     }, 1000);
+}
+
+export function openGallery(store: Store<any>, content: Array<string>): void {
+    this.store.dispatch(new OpenGallery(content));
 }

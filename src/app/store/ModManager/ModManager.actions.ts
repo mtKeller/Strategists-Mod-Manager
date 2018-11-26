@@ -279,4 +279,5 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
     AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict |
-    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList | PrepDeletion | ContinueDeletionCascade;
+    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList | PrepDeletion | ContinueDeletionCascade |
+    OpenGallery | CloseGallery;

@@ -15,15 +15,9 @@
         </h3>
     </div>
 </div>
-<ion-list [ngClass]="{
-'load-order-list': this.currentManagerTab === 'LOAD_ORDER',
-'mod-list': this.currentManagerTab === 'MOD_LIST',
-'catagories-list': this.currentManagerTab === 'CATAGORIES'
-}">
-    <div *ngIf="this.currentManagerTab === 'LOAD_ORDER'; then loadOrderTemplate"></div>
-    <div *ngIf="this.currentManagerTab === 'MOD_LIST'; then modListTemplate"></div>
-    <div *ngIf="this.currentManagerTab === 'CATAGORIES'; then catagoriesTemplate"></div>
-</ion-list>
+<div *ngIf="this.currentManagerTab === 'LOAD_ORDER'; then loadOrderTemplate"></div>
+<div *ngIf="this.currentManagerTab === 'MOD_LIST'; then modListTemplate"></div>
+<div *ngIf="this.currentManagerTab === 'CATAGORIES'; then catagoriesTemplate"></div>
 
 <ng-template #modListTemplate>
   <app-mod-list></app-mod-list>

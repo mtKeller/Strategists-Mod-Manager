@@ -1,4 +1,5 @@
-<div class="no-mods" [ngClass]="{'hidden' : this.modList.length !== 0}">
+<ion-list class="mod-list">
+  <div class="no-mods" [ngClass]="{'hidden' : this.modList.length !== 0}">
     <ion-icon name="bonfire"></ion-icon>
   </div>
   <div class="mod" *ngFor='let mod of this.modList.toArray();'>
@@ -88,3 +89,4 @@
     </div>
     -->
   </div>
+</ion-list>
