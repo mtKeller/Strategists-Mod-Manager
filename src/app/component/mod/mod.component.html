@@ -1,3 +1,84 @@
-<p>
-  mod works!
-</p>
+<div class="mod">
+  <div class='img-container'>
+    <img (click)="this.openGallery(mod)" *ngIf='mod.thumbs.length > 0; else question' src="{{mod.thumbs[0]}}" alt="">
+    <ng-template #question>
+      <div class="question">
+        <ion-icon name="help"></ion-icon>
+      </div>
+    </ng-template>
+  </div>
+  <div class="mod-main">
+    <div class="mod-header">
+      <h3>
+        <a href="{{mod.url}}">{{mod.name}}</a>
+      </h3>
+      <span>MOD FILES: {{mod.archivePaths.length}}</span>
+    </div>
+    <div class='mod-info'>
+      <p>
+        {{mod.description}}
+      </p>
+      <ul>
+        <li>
+          Author <a href="{{mod.authorLink}}">{{mod.authorName}}</a>
+        </li>
+        <li>
+          Published: <span>{{mod.publishDate}}</span>
+        </li>
+        <li>
+          Updated: <span>{{mod.updateDate}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="mod-functions ripple" id="expand-{{modPos}}" (click)="this.toggleChildExpand($event, modPos, 'expand-')">
+    <ul>
+      <li>
+        <button>
+          <ion-icon class="black" name="arrow-dropup"></ion-icon>
+        </button>
+      </li>
+      <li>
+        <button>
+          <ion-icon class="add" name="more"></ion-icon>
+        </button>
+      </li>
+      <li>
+        <button>
+          <ion-icon class="black" name="arrow-dropdown"></ion-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="mod-child" [ngClass]="{'hidden-child': !getExpandToggle(mod)}" *ngFor="let modChild of mod.archiveNames; let childIndex = index;">
+    <span class="mod-child-content">
+      <button class="mod-func trash short ripple" id="lo-trash-{{modPos}}{{childIndex}}" (click)="this.addToLoadOrder($event, childIndex, 'lo-trash-')">
+        <ion-icon class="subtract" name="trash"></ion-icon>
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <button class="mod-func dark ripple" id="lo-contents-{{modPos}}{{childIndex}}" (click)="this.addToLoadOrder($event, childIndex, 'lo-contents-')">
+          <ion-icon class="subtract" name="open"></ion-icon>
+        <ion-icon name="open"></ion-icon>
+        <span>Contents</span>
+      </button>
+      <button
+        class="mod-func ripple"
+        id="lo-add-{{this.modPos}}{{childIndex}}"
+        (click)="this.addToLoadOrder($event, childIndex, 'lo-add-')"
+        *ngIf="this.getEnabled(childIndex) === false; else removeFromLoadOrder"
+      >
+        <ion-icon class="subtract" name="add"></ion-icon>
+        <ion-icon name="add"></ion-icon>
+        <span>Install</span>
+      </button>
+      <ng-template #removeFromLoadOrder>
+        <button class="mod-func trash ripple" id="lo-add-{{this.modPos}}{{childIndex}}" (click)="this.uninstallMod($event, childIndex,'lo-add-')">
+          <ion-icon class="subtract" name="remove"></ion-icon>
+          <ion-icon name="remove"></ion-icon>
+          <span>Uninstall</span>
+        </button>
+      </ng-template>
+      <span class="mod-child-title">{{this.parseModChildTitle(modChild)}}</span>
+    </span>
+  </div>
+</div>

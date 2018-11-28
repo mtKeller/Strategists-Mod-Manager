@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { ActionTree,
@@ -15,17 +15,19 @@ import * as FileSystemActions from '../FileSystem/FileSystem.actions';
 import * as DownloadManagerSelectors from '../DownloadManager/DownloadManager.selectors';
 import { SaveStateTree } from '../Main/Main.tree';
 import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepRemoval, Process7ZipMod } from './ModManager.tree';
+import { DynamicEntity } from '../../model/DynamicEntity.class';
 
 @Injectable()
   export class ModManagerEffects {
     modFolderMap: Array<string>;
-    modList: Array<any>;
+    modList: DynamicEntity;
     downloadManagerCurrentFiles: Array<any>;
     downloadedModDetail: Array<any>;
     mhwDIR: string;
     processingQue: Array<any>;
     installationQue: Array<any>;
     modProcessing: boolean;
+    BLINK_TIMER = 75;
     constructor(private actions$: Actions, private store: Store<any> ) {
         this.store.pipe(
             select(ModManagerSelectors.selectModFolderMap)
@@ -223,9 +225,9 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                                     break;
                                 }
                             }
-                            for (let j = 0; j < this.modList.length; j++) {
-                                for (let k = 0; k < this.modList[j].archiveNames.length; k++) {
-                                    if (payload[i].indexOf(this.modList[j].archiveNames[k]) > -1) {
+                            for (let j = 0; j < this.modList.keys().length; j++) {
+                                for (let k = 0; k < this.modList.entity[j].archiveNames.length; k++) {
+                                    if (payload[i].indexOf(this.modList.entity[j].archiveNames[k]) > -1) {
                                         // console.log('BROKE INSIDE ARCHIVE NAMES AT MOD LIST');
                                         modExists = true;
                                         break;
@@ -299,7 +301,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                     console.log('INSERT TO FRONT', action.payload, this.modList);
                     const preppedInstallationTree = PrepInstallation(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                         0
                     );
@@ -315,7 +317,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                     console.log('SHIFT UP', action.payload, this.modList);
                 const preppedInstallationTree = PrepInstallation(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                         0
                     );
@@ -331,7 +333,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                     console.log('SHIFT DOWN', action.payload, this.modList);
                     const preppedInstallationTree = PrepInstallation(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                         0
                     );
@@ -347,7 +349,7 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
                     console.log('REMOVE FROM LOAD ORDER', action.payload, this.modList);
                     const preppedRemovalTree = PrepRemoval(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                     );
                     console.log(preppedRemovalTree);
@@ -478,5 +480,12 @@ import { ProcessRarMod, ProcessZipMod, PrepInstallation, PrepDependencies, PrepR
             .pipe(
                 ofType(ModManagerActions.SET_STATE),
                 map(action => action.tree.success())
+            );
+    @Effect()
+        ModManagerBlinkInstalledOn$: Observable<any> = this.actions$
+            .pipe(
+                ofType(ModManagerActions.BLINK_INSTALLED_ON),
+                delay(this.BLINK_TIMER),
+                map(() => new ModManagerActions.BlinkInstalledOff)
             );
 }

@@ -260,10 +260,36 @@ export class ModManagerSuccess implements Action {
     readonly type = MOD_MANAGER_SUCCESS;
 }
 
+export const OPEN_GALLERY = '[ModManager] OPEN_GALLERY';
+
+export class OpenGallery implements Action {
+    readonly type = OPEN_GALLERY;
+    constructor(public payload: Array<string>) { }
+}
+
+export const BLINK_INSTALLED_ON = '[ModMnager] BLINK_INSTALLED_ON';
+
+export class BlinkInstalledOn implements Action {
+    readonly type = BLINK_INSTALLED_ON;
+}
+
+export const BLINK_INSTALLED_OFF = '[ModMnager] BLINK_INSTALLED_OFF';
+
+export class BlinkInstalledOff implements Action {
+    readonly type = BLINK_INSTALLED_OFF;
+}
+
+export const CLOSE_GALLERY = '[ModManager] CLOSE_GALLERY';
+
+export class CloseGallery implements Action {
+    readonly type = CLOSE_GALLERY;
+}
+
 export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFolderMap | SetState |
     ProcessMod | AddModFromProcessing | ModManagerSuccess | AddModDetailFromDownload | ProcessRarMod |
     Process7ZipMod | RemoveModDetail | AddModToModList | ProcessModByName | ModProcessed |
     AddModToProcessingQue | InsertToFrontOfLoadOrder | ShiftUpModOfLoadOrder | ShiftDownModOfLoadOrder |
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
     AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict |
-    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList | PrepDeletion | ContinueDeletionCascade;
+    DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList | PrepDeletion | ContinueDeletionCascade |
+    OpenGallery | CloseGallery | BlinkInstalledOn | BlinkInstalledOff;

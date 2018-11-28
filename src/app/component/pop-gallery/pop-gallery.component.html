@@ -1,0 +1,14 @@
+<div (click)="this.closeGallery($event)" class="gallery-container" [ngClass]="{'gallery-hidden': this.isGalleryOpen() === false}">
+    <div class="gallery" *ngIf="this.galleryContent !== null">
+        <h2>
+        {{this.galleryContent.name}}
+        <span>
+        <h3>
+            {{this.galleryContent.authorName}}
+            </h3>
+        </span>
+        </h2>
+        <img (click)="this.incrementGallery($event)" src="{{this.galleryContent.pictures[this.galleryContentIndex]}}" alt="?">
+        <h4>{{(this.galleryContentIndex + 1) + ' / ' + this.galleryContent.pictures.length}}</h4>
+    </div>
+</div>

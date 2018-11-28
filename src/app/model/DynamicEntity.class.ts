@@ -1,19 +1,25 @@
 export class DynamicEntity {
     currentIndex = 0;
     entity = {};
+    length = 0;
     constructor(item?: any, list?: Array<any>) {
         if (item) {
             this.entity = {
                 0 : item
             };
+            this.length = 1;
         } else if (list) {
             const tempDict = {};
             list.map(li => {
                 tempDict[this.currentIndex] = li;
                 this.currentIndex++;
+                this.length = this.length + 1;
             });
             this.entity = tempDict;
         }
+    }
+    swapIndexed(indx, data) {
+        this.entity[indx] = data;
     }
     push(item) {
         this.entity = {
@@ -21,6 +27,7 @@ export class DynamicEntity {
             [this.currentIndex]: item
         };
         this.currentIndex = this.currentIndex + 1;
+        this.length = this.length + 1;
     }
     removeIndex(indx) {
         const keys = this.keys();
@@ -31,11 +38,12 @@ export class DynamicEntity {
             }
         }
         this.entity = newEntity;
+        this.length = this.length - 1;
     }
     keys() {
         return Object.keys(this.entity);
     }
-    toArray() {
+    toArray(): Array<[number, any]> {
         const keyChain = this.keys();
         const newArray = [];
         for (let i = 0; i < keyChain.length; i++) {

@@ -1,0 +1,8 @@
+<ion-list class="mod-list">
+  <div class="no-mods" [ngClass]="{'hidden' : this.getModListStatus()}">
+    <ion-icon name="bonfire"></ion-icon>
+  </div>
+  <div *ngIf="this.getModListStatus()">
+    <app-mod *ngFor='let modEntity of this.modEntities' [modEntity]="modEntity"></app-mod>
+  </div>
+</ion-list>

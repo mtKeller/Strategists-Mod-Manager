@@ -1,0 +1,64 @@
+<ion-list class="load-order">
+  <div class="load-order-detail">
+    <div class="load-order-image">
+      <!--<img src="{{this.getLoadOrderPicture()}}" alt="">-->
+    </div>
+    <div class="load-order-functions">
+      <ul>
+        <li>
+          <button (click)="this.moveUpLoadOrder()">
+            <ion-icon name="arrow-dropup"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button (click)="this.removeFromLoadOrder()">
+            <ion-icon class="remove" name="remove"></ion-icon>
+          </button>
+        </li>
+        <li>
+          <button (click)="this.moveDownLoadOrder()">
+            <ion-icon name="arrow-dropdown"></ion-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+    <div class="load-order-details">
+
+    </div>
+  </div>
+  <div class="load-order-item">
+    <div class="mod-load-item">
+      <div class="position bottom">
+        #
+      </div>
+      <div class="title bottom">
+        TITLE
+      </div>
+      <div class="update bottom top">
+        UPDATED
+      </div>
+      <div class="status bottom top">
+        STATUS
+      </div>
+    </div>
+    <div 
+      class="mod-load-item" 
+      [ngClass]="{'active': position === this.activeLoadOrderIndex}" 
+      *ngFor='let modIndex of this.loadOrder; let position = index'
+      (click)='this.setLoadOrderItemIndex(position)'
+    >
+      <div class="position">
+        {{position + 1}}
+      </div>
+      <div class="title">
+        {{this.getAcronym(this.modList.entity[modIndex[0]].name)}} - {{this.limitChar(this.modList.entity[modIndex[0]].archiveNames[modIndex[1]])}}
+      </div>
+      <div class="update">
+        {{this.modList.entity[modIndex[0]].updateDate}}
+      </div>
+      <div class="status">
+        {{this.getStatus(this.modList.entity[modIndex[0]].enabled[modIndex[1]])}}
+      </div>
+    </div>
+  </div>
+</ion-list>

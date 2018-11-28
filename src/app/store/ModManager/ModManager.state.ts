@@ -1,3 +1,5 @@
+import { DynamicEntity } from '../../model/DynamicEntity.class';
+
 export interface Mod {
     name: string;
     authorLink: string;
@@ -16,7 +18,7 @@ export interface Mod {
 
 export interface ModManagerState {
     loading: boolean;
-    modList: Array<Mod>;
+    modList: DynamicEntity;
     loadOrder: Array<Array<number>>;
     nativePcMap: Array<any>;
     modFolderMap: Array<any>;
@@ -28,12 +30,15 @@ export interface ModManagerState {
     modProcessing: boolean;
     downloadedModDetail: Array<any>;
     modQueController: boolean;
+    galleryOpen: boolean;
+    galleryContent: Array<string>;
+    blinkInstalled: boolean;
 }
 
 export function InitializeModManagerState() {
     return{
         loading: false,
-        modList: [],
+        modList: new DynamicEntity(),
         loadOrder: [],
         nativePcMap: [],
         modFolderMap: [],
@@ -44,6 +49,9 @@ export function InitializeModManagerState() {
         installationTarget: null,
         modProcessing: false,
         downloadedModDetail: [],
-        modQueController: true
+        modQueController: true,
+        galleryOpen: false,
+        galleryContent: null,
+        blinkInstalled: false
     };
 }

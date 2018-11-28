@@ -1,0 +1,16 @@
+.title-bar {
+    width: 100%;
+    height: 25px;
+    position: fixed;
+    top: 0;
+    background: black;
+    -webkit-app-region: drag;
+    button {
+        padding: 3px;
+        float: right;
+        font-size: 18px;
+        background: none;
+        color: white;
+        -webkit-app-region: no-drag;
+    }
+}
