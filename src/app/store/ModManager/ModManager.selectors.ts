@@ -52,3 +52,8 @@ export const selectGalleryContent = createSelector(
     selectModManager,
     (state: ModManagerState) => state.galleryContent
 );
+
+export const selectBlinkInstalled = createSelector(
+    selectModManager,
+    (state: ModManagerState) => state.blinkInstalled
+);

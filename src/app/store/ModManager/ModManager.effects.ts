@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, delay } from 'rxjs/operators';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { ActionTree,
@@ -27,6 +27,7 @@ import { DynamicEntity } from '../../model/DynamicEntity.class';
     processingQue: Array<any>;
     installationQue: Array<any>;
     modProcessing: boolean;
+    BLINK_TIMER = 75;
     constructor(private actions$: Actions, private store: Store<any> ) {
         this.store.pipe(
             select(ModManagerSelectors.selectModFolderMap)
@@ -300,7 +301,7 @@ import { DynamicEntity } from '../../model/DynamicEntity.class';
                     console.log('INSERT TO FRONT', action.payload, this.modList);
                     const preppedInstallationTree = PrepInstallation(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                         0
                     );
@@ -316,7 +317,7 @@ import { DynamicEntity } from '../../model/DynamicEntity.class';
                     console.log('SHIFT UP', action.payload, this.modList);
                 const preppedInstallationTree = PrepInstallation(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                         0
                     );
@@ -332,7 +333,7 @@ import { DynamicEntity } from '../../model/DynamicEntity.class';
                     console.log('SHIFT DOWN', action.payload, this.modList);
                     const preppedInstallationTree = PrepInstallation(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                         0
                     );
@@ -348,7 +349,7 @@ import { DynamicEntity } from '../../model/DynamicEntity.class';
                     console.log('REMOVE FROM LOAD ORDER', action.payload, this.modList);
                     const preppedRemovalTree = PrepRemoval(
                         this.store,
-                        this.modList[action.payload[0]],
+                        this.modList.entity[action.payload[0]],
                         action.payload,
                     );
                     console.log(preppedRemovalTree);
@@ -479,5 +480,12 @@ import { DynamicEntity } from '../../model/DynamicEntity.class';
             .pipe(
                 ofType(ModManagerActions.SET_STATE),
                 map(action => action.tree.success())
+            );
+    @Effect()
+        ModManagerBlinkInstalledOn$: Observable<any> = this.actions$
+            .pipe(
+                ofType(ModManagerActions.BLINK_INSTALLED_ON),
+                delay(this.BLINK_TIMER),
+                map(() => new ModManagerActions.BlinkInstalledOff)
             );
 }

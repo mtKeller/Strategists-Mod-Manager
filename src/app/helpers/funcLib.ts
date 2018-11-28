@@ -13,7 +13,7 @@ export function ripple($event, elem, id, rndr: Renderer2) {
     const eleRef = document.getElementById(id);
     // console.log(elem.getBoundingClientRect().left,
     // elem.getBoundingClientRect().top, $event.clientX, $event.clientY);
-    const ripplePlay = this.renderer.createElement('div');
+    const ripplePlay = rndr.createElement('div');
     rndr.addClass(ripplePlay, 'ripple-effect');
     rndr.setStyle(ripplePlay, 'height', `${40}px`);
     rndr.setStyle(ripplePlay, 'width', `${40}px`);
@@ -31,4 +31,9 @@ export function ripple($event, elem, id, rndr: Renderer2) {
 
 export function openGallery(store: Store<any>, content: Array<string>): void {
     this.store.dispatch(new OpenGallery(content));
+}
+
+export function replaceAll(st , search, replacement) {
+    const target = st;
+    return target.split(search).join(replacement);
 }

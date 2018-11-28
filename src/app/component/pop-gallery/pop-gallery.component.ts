@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./pop-gallery.component.scss']
 })
 export class PopGalleryComponent implements OnInit, OnDestroy {
-  private subs: Array<Subscription>;
+  private subs: Array<Subscription> = [];
   galleryContent: any = null;
   galleryContentIndex = 0;
   galleryOpen = false;

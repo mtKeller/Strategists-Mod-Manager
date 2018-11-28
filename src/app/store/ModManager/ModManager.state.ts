@@ -32,6 +32,7 @@ export interface ModManagerState {
     modQueController: boolean;
     galleryOpen: boolean;
     galleryContent: Array<string>;
+    blinkInstalled: boolean;
 }
 
 export function InitializeModManagerState() {
@@ -50,6 +51,7 @@ export function InitializeModManagerState() {
         downloadedModDetail: [],
         modQueController: true,
         galleryOpen: false,
-        galleryContent: []
+        galleryContent: null,
+        blinkInstalled: false
     };
 }

@@ -43,7 +43,7 @@ export class DynamicEntity {
     keys() {
         return Object.keys(this.entity);
     }
-    toArray() {
+    toArray(): Array<[number, any]> {
         const keyChain = this.keys();
         const newArray = [];
         for (let i = 0; i < keyChain.length; i++) {

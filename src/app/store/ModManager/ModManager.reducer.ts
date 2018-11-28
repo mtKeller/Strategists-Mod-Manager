@@ -639,6 +639,18 @@ export function ModManagerReducer(state = InitializeModManagerState(), action: A
                 galleryContent: []
             };
         }
+        case ModManagerActions.BLINK_INSTALLED_ON: {
+            return {
+                ...state,
+                blinkInstalled: true
+            };
+        }
+        case ModManagerActions.BLINK_INSTALLED_OFF: {
+            return {
+                ...state,
+                blinkInstalled: false
+            };
+        }
         default: {
             return {
                 ...state

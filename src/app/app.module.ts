@@ -40,12 +40,13 @@ declare global {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [
+  ],
   imports: [
-    ComponentsModule,
-    BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
+    ComponentsModule,
+    BrowserModule,
     StoreModule.forRoot({
       FileSystemState: FileSystemReducer,
       MainState: MainReducer,

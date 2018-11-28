@@ -10,6 +10,7 @@ import { TabsPage } from './tabs.page';
 import { ToolsPageModule } from '../pages/tools/tools.module';
 import { AboutPageModule } from '../pages/about/about.module';
 import { HomePageModule } from '../pages/home/home.module';
+import { ComponentsModule } from '../component/components.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { HomePageModule } from '../pages/home/home.module';
     TabsPageRoutingModule,
     HomePageModule,
     AboutPageModule,
-    ToolsPageModule
+    ToolsPageModule,
+    ComponentsModule
   ],
   declarations: [TabsPage]
 })

@@ -267,6 +267,18 @@ export class OpenGallery implements Action {
     constructor(public payload: Array<string>) { }
 }
 
+export const BLINK_INSTALLED_ON = '[ModMnager] BLINK_INSTALLED_ON';
+
+export class BlinkInstalledOn implements Action {
+    readonly type = BLINK_INSTALLED_ON;
+}
+
+export const BLINK_INSTALLED_OFF = '[ModMnager] BLINK_INSTALLED_OFF';
+
+export class BlinkInstalledOff implements Action {
+    readonly type = BLINK_INSTALLED_OFF;
+}
+
 export const CLOSE_GALLERY = '[ModManager] CLOSE_GALLERY';
 
 export class CloseGallery implements Action {
@@ -280,4 +292,4 @@ export type All = VerifyMods | PackMod | UnpackMod | SetNativePcMap | SetModFold
     RemoveModFromLoadOrder | FilterModMap | VerifyAgainstOwnershipDict | UpdateProcessingProgress | PrepDependencies |
     AddToInstallQue | FilterUnpackedDependencies | BeginInstallation | EndInstallation | RemoveModFromOwnershipDict |
     DeleteTemp | UpdateLoadOrderAndAppendNewModIndexes | RemoveModFromModList | PrepDeletion | ContinueDeletionCascade |
-    OpenGallery | CloseGallery;
+    OpenGallery | CloseGallery | BlinkInstalledOn | BlinkInstalledOff;
